@@ -11,12 +11,9 @@ app = Flask(__name__)
 def hello_world():
     return 'Hello World!'
 
-@app.route('/gmat_question_pack')
+@app.route('/question_pack')
 def get_gmat_question_pack():
     question_list = Question.objects
-    # print(len(question_list))
-    # print(from_questions_to_json_string(question_list))
-    # print(from_questions_to_json_string(question_list))
     return from_questions_to_json_string(question_list)
 
 if __name__ == '__main__':
