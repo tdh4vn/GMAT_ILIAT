@@ -20,4 +20,4 @@ def get_gmat_question_pack():
     return from_questions_to_json_string(question_list)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=6969)
