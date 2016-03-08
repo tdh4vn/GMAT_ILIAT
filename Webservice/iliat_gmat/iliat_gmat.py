@@ -6,7 +6,6 @@ import mongoengine
 mongoengine.connect("gmat", host='103.1.209.92', port=27017)
 app = Flask(__name__)
 
-
 @app.route('/')
 def hello_world():
     return 'Hello World!'
