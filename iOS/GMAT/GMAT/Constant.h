@@ -10,4 +10,16 @@
 #define Constant_h
 
 
+
+//MARK: API
+
+#define kGmatAPIExploreUrl                              @"https://dl.dropboxusercontent.com/s/2n4caiktrfoxbqf/GmatJson.txt?dl=1"
+
+
+//MARK: Image
+
+
+#define kLoginBackGroundImage                           @"LoginBackground"
+
+
 #endif /* Constant_h */
