@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "GmatAPI.h"
+#import "Question.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +19,22 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
+    [sGmatAPI exploreQuestionWithCompletionBlock:^(NSArray *questions) {
+        
+        NSMutableArray *questionArray = [[NSMutableArray alloc]init];
+        
+        for (NSDictionary *jsonDict in questions) {
+            Question *newQuestion = [[Question alloc]initWithJson:jsonDict];
+            [questionArray addObject:newQuestion];
+        }
+        
+        NSLog(@"%@",questionArray);
+        
+        
+    }];
+    
     return YES;
 }
 
