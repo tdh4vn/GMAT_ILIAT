@@ -1,5 +1,8 @@
 package org.iliat.gmat.activity;
 
+import android.content.Intent;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,13 +11,18 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import org.iliat.gmat.R;
 
+
 public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private TextInputLayout inputLayoutEmail, inputLayoutPassword;
+    private Button btnLogin;
+    private CoordinatorLayout coordinatorLayout;
+    private LoginActivity loginActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +37,24 @@ public class LoginActivity extends AppCompatActivity {
         inputPassword = (EditText)this.findViewById(R.id.input_password);
         inputEmail.addTextChangedListener(new MyTextWatcher(inputEmail));
         inputPassword.addTextChangedListener(new MyTextWatcher(inputPassword));
+        btnLogin = (Button) findViewById(R.id.button_login);
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
+        loginActivity = this;
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Snackbar snackbar = Snackbar
+//                        .make(coordinatorLayout, getString(R.string.login), Snackbar.LENGTH_LONG);
+//
+//                snackbar.show();
+                goToMainActivity();
+            }
+        });
+    }
+    private void goToMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
     }
     private boolean validateEmail() {
         String email = inputEmail.getText().toString().trim();
