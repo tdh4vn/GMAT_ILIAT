@@ -6,21 +6,21 @@ import java.util.List;
  * Created by hungtran on 3/13/16.
  */
 public class QuestionSCModel {
-    private ID _id;
-    private List<String> answer_choices;
-    private String explanation;
-    private int right_answer;
-    private String stem;
-    private String stimulus;
-    private String sub_type;
-    private String type;
 
+    private id _id;
+    private String type;
+    private String sub_type;
+    private String stimulus;
+    private String stem;
+    private List<String> answer_choices;
+    private int right_answer;
+    private String explanation;
 
     public QuestionSCModel() {
     }
 
-    public QuestionSCModel(ID _id, List<String> answer_choices, String explanation, int right_answer, String stem, String stimulus, String sub_type, String type) {
-        this._id = _id;
+    public QuestionSCModel(id id, List<String> answer_choices, String explanation, int right_answer, String stem, String stimulus, String sub_type, String type) {
+        this._id = id;
         this.answer_choices = answer_choices;
         this.explanation = explanation;
         this.right_answer = right_answer;
@@ -30,12 +30,12 @@ public class QuestionSCModel {
         this.type = type;
     }
 
-    public ID get_id() {
+    public id getId() {
         return _id;
     }
 
-    public void set_id(ID _id) {
-        this._id = _id;
+    public void setId(id id) {
+        this._id = id;
     }
 
     public List<String> getAnswer_choices() {
