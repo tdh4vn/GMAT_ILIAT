@@ -19,8 +19,7 @@ class Question(Document):
 def from_questions_to_json_string(question_list):
     json_encoder = JSONEncoder()
     json_list = [question.to_json(sort_keys=True, indent= 4 * "&nbsp", separators=(',', ': ')) for question in question_list]
-    # print(json_list)
-    return (",<br>".join(json_list)).replace("\n", "<br>")
+    return '[<br>' + (",<br>".join(json_list)).replace("\n", "<br>") + '<br>]'
         # .replace(" ", "&nbsp")
 
 # def from_json_to_string(json_object):
