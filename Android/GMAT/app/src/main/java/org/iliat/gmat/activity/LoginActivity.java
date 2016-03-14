@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -76,7 +77,13 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 //                        .make(coordinatorLayout, getString(R.string.login), Snackbar.LENGTH_LONG);
 //
 //                snackbar.show();
-                checkAndDownloadData();
+                if(true) {
+                        Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.login), Snackbar.LENGTH_LONG);
+
+                snackbar.show();
+                    checkAndDownloadData();
+                }
+
 //                goToMainActivity();
             }
         });
@@ -147,6 +154,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
             case DOWNLOAD_QUESTION_TAG:
                 Questions questions = (new Gson()).fromJson(inputStreamReader,
                         Questions.class);
+                questions.save();
                 Log.d("onDownload", tag + " " + String.valueOf(questions.getQuestions().size()) );
                 Log.d("onDownload", tag + " version " + questions.getVersion());
                 break;
@@ -154,6 +162,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
             case DOWNLOAD_QUESTION_PACK_TAG:
                 QuestionPacks questionPacks = (new Gson()).fromJson(inputStreamReader,
                         QuestionPacks.class);
+                questionPacks.save();
                 Log.d("onDownload", tag + " " + String.valueOf(questionPacks.getQuestion_packs().size()) );
                 break;
         }
@@ -165,16 +174,14 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         switch(tag) {
             case DOWNLOAD_QUESTION_TAG:
                 mQuestionDownloadCompleted = true;
-                if(mQuestionPackDownloadCompleted) {
-                    goToMainActivity();
-                }
                 break;
             case DOWNLOAD_QUESTION_PACK_TAG:
                 mQuestionPackDownloadCompleted = true;
-                if(mQuestionDownloadCompleted) {
-                    goToMainActivity();
-                }
                 break;
+        }
+
+        if( mQuestionDownloadCompleted & mQuestionPackDownloadCompleted) {
+            goToMainActivity();
         }
     }
 

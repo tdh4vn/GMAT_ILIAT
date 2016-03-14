@@ -1,5 +1,8 @@
 package org.iliat.gmat.enitity;
 
+import android.text.style.QuoteSpan;
+import android.util.Log;
+
 import java.util.List;
 
 /**
@@ -16,4 +19,18 @@ public class QuestionPacks {
     public List<QuestionPack> getTodayQuestionPacks() {
         return question_packs;
     }
+
+    public void save() {
+        inst = this;
+    }
+
+    private static QuestionPacks inst;
+
+    public static QuestionPacks getInst() {
+        if(inst == null) {
+            Log.d("getInst", "inst == null");
+        }
+        return inst;
+    }
+
 }

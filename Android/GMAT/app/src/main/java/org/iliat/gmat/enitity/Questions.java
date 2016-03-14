@@ -1,5 +1,7 @@
 package org.iliat.gmat.enitity;
 
+import android.util.Log;
+
 import java.util.List;
 
 /**
@@ -36,5 +38,18 @@ public class Questions {
 
     public void setQuestions(List<QuestionCRModel> questions) {
         this.questions = questions;
+    }
+
+    public void save() {
+        inst = this;
+    }
+
+    private static Questions inst;
+
+    public static Questions getInst() {
+        if(inst == null) {
+            Log.d("getInst", "inst == null");
+        }
+        return inst;
     }
 }
