@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by hungtran on 3/13/16.
  */
-public class QuestionSCModel {
+public class QuestionCRModel {
 
     private id _id;
     private String type;
@@ -16,10 +16,44 @@ public class QuestionSCModel {
     private int right_answer;
     private String explanation;
 
-    public QuestionSCModel() {
+    /* COLUMN NAMES */
+    public static final String COLUMN_ID = "id";
+    public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_PAYMENT = "payment";
+    public static final String COLUMN_COLOR = "color";
+    public static final String COLUMN_STATUS = "status";
+
+    /*====================================== DATABASE CONFIGS  ==================================*/
+    public static final String TABLE_NAME = "question";
+
+    public static final String[] COLUMN_NAMES = new String[] {
+            COLUMN_ID,
+            COLUMN_NAME,
+            COLUMN_PAYMENT,
+            COLUMN_COLOR,
+            COLUMN_STATUS
+    };
+
+    /* QUERIES */
+    public static final String SQL_CREATE_TABLE = String.format (
+            "CREATE TABLE %s(" +
+                    "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "%s TEXT NOT NULL," +
+                    "%s REAL NOT NULL," +
+                    "%s TEXT," +
+                    "%s INTEGER NOT NULL" +
+                    ");",
+            TABLE_NAME,
+            COLUMN_ID,
+            COLUMN_NAME,
+            COLUMN_PAYMENT,
+            COLUMN_COLOR,
+            COLUMN_STATUS);
+
+    public QuestionCRModel() {
     }
 
-    public QuestionSCModel(id id, List<String> answer_choices, String explanation, int right_answer, String stem, String stimulus, String sub_type, String type) {
+    public QuestionCRModel(id id, List<String> answer_choices, String explanation, int right_answer, String stem, String stimulus, String sub_type, String type) {
         this._id = id;
         this.answer_choices = answer_choices;
         this.explanation = explanation;

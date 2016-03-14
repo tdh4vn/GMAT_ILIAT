@@ -1,4 +1,4 @@
-package org.iliat.gmat.activity;
+    package org.iliat.gmat.activity;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -22,29 +22,29 @@ import org.iliat.gmat.frangment.MainFragment;
 import org.iliat.gmat.interf.ScreenManager;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,ScreenManager {
+        implements NavigationView.OnNavigationItemSelectedListener, ScreenManager {
     //properties
     FragmentManager mFragmentManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
 
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getIntances();
-        openFragment(new MainFragment(),true);
+
+        openFragment(new MainFragment(), true);
     }
 
     @Override

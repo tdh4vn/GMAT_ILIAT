@@ -22,6 +22,7 @@ def remove_dollar_sign(s):
 def hello_world():
     return "Iliat GMATers, don't panic!"
 
+
 @app.route('/question_collection')
 @app.route('/questions')
 def get_gmat_question_collection():

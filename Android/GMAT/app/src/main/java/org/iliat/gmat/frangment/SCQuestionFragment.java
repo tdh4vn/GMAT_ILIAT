@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -19,22 +18,13 @@ import com.google.gson.Gson;
 import org.iliat.gmat.R;
 import org.iliat.gmat.adapter.ListAnswerAdapter;
 import org.iliat.gmat.dao.GMATAPI;
-import org.iliat.gmat.enitity.QuestionSCModel;
 import org.iliat.gmat.enitity.Questions;
-import org.iliat.gmat.interf.GitHubService;
-import org.iliat.gmat.utils.QuestionPackAPI;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Retrofit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -106,12 +96,12 @@ public class SCQuestionFragment extends BaseFragment {
         mAnswers = (ListView) view.findViewById(R.id.list_answers);
 
 //        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(GMATAPI.QUESTION_PACK_API)
+//                .baseUrl(GMATAPI.QUESTIONS_API)
 //                .build();
 //        GitHubService service = retrofit.create(GitHubService.class);
 //        Log.e("TASK",service.listRepos("user"));
-        DownloadTask downloadTask = new DownloadTask(listQuestion);
-        downloadTask.execute();
+        /*DownloadTask downloadTask = new DownloadTask(listQuestion);
+        downloadTask.execute();*/
 
     }
 
@@ -154,69 +144,6 @@ public class SCQuestionFragment extends BaseFragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    private class DownloadTask extends AsyncTask<Void,Questions,Questions> {
-        private Questions rs;
-        public DownloadTask(Questions rs){
-            this.rs = rs;
 
-        }
-        @Override
-
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-        @Override
-        protected Questions doInBackground(Void... params) {
-            try {
-               URL url = new URL(GMATAPI.QUESTION_PACK_API);
-//                InputStream inputStream = url.getInputStream();
-//                Questions result = (new Gson()).fromJson(new InputStreamReader(inputStream), Questions.class);
-//                return result;
-////              return
-                InputStreamReader reader = new InputStreamReader(url.openStream(), "UTF-8");
-                Log.d("doInBackground", "get reader");
-                Questions questions = new Gson().fromJson(reader, Questions.class);
-                Log.d("doInBackground", questions.getVersion());
-                return questions;
-
-//                BufferedReader bufferedReader;
-//                if (responseCode == HttpURLConnection.HTTP_OK) {
-//                    StringBuffer response = new StringBuffer();
-//                    bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-//                    String line;
-//                    while ((line = bufferedReader.readLine()) != null) {
-//                        response.append(line);
-//                        Log.e("asdasd",line);
-//                    }
-//                    Log.e("asdasd",response.toString());
-////                    Questions result = (new Gson()).fromJson(reader, Questions.class);
-////                    reader.close();
-//                    return null;
-//                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-
-        }
-        @Override
-        protected void onProgressUpdate(Questions... values) {
-            super.onProgressUpdate(values[0]);
-            adapter = new ListAnswerAdapter((Activity)getScreenManager(),R.layout.item_answer
-                ,(ArrayList<String>)rs.getQuestions().get(0).getAnswer_choices());
-            mAnswers.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
-
-        }
-
-        @Override
-        protected void onPostExecute(Questions questions) {
-            super.onPostExecute(questions);
-        }
-
-    }
 
 }
