@@ -37,17 +37,17 @@ public class QuestionCRModel {
         this.type = type;
     }
 
-    public id getId() {
+    /*public id getId() {
         return _id;
-    }
+    }*/
 
     public String getOid() {
         return _id.getOid();
     }
 
-    public void setId(id id) {
+/*    public void setId(id id) {
         this._id = id;
-    }
+    }*/
 
     public List<String> getAnswer_choices() {
         return answer_choices;

@@ -11,12 +11,12 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.adapter.ListAnswerAdapter;
+import org.iliat.gmat.adapter.ListAnswerChoiceAdapter;
 import org.iliat.gmat.enitity.QuestionCRModel;
 import org.iliat.gmat.enitity.QuestionPack;
-import org.iliat.gmat.enitity.QuestionPacks;
 import org.iliat.gmat.enitity.Questions;
 
 /**
@@ -32,9 +32,9 @@ public class SCQuestionFragment extends BaseFragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private ListView mAnswers;
-    private WebView mWvQuestionStem;
-    private WebView mWvStimulus;
+    private ListView mAnswerChoices;
+    private TextView mWvQuestionStem;
+    private TextView mWvStimulus;
     private Button btnSubmit;
 
     private QuestionPack mQuestionPack;
@@ -42,7 +42,7 @@ public class SCQuestionFragment extends BaseFragment {
     private QuestionCRModel mQuestionCRModel;
 
     /*Questions listQuestion;*/
-    ListAnswerAdapter adapter;
+    ListAnswerChoiceAdapter adapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -99,34 +99,53 @@ public class SCQuestionFragment extends BaseFragment {
     }
 
     private void initLayout(View view) {
-        mWvStimulus = (WebView)view.findViewById(R.id.web_view_stimulus);
-        mWvQuestionStem = (WebView)view.findViewById(R.id.web_view_stem);
-        mAnswers = (ListView) view.findViewById(R.id.list_answer_choices);
+        mWvStimulus = (TextView)view.findViewById(R.id.wv_stimulus);
+        mWvQuestionStem = (TextView)view.findViewById(R.id.wv_stem);
+        mAnswerChoices = (ListView) view.findViewById(R.id.list_answer_choices);
         btnSubmit = (Button)view.findViewById(R.id.btnSubmit);
+
 
         if(mQuestionCRModel == null) { /* The first Question fragment */
             Log.d("initLayout - oid", mQuestionPack.getFirstQuestionId());
             mQuestionCRModel = Questions.getQuestion(mQuestionPack.getFirstQuestionId());
         }
 
-        mWvStimulus.loadData(mQuestionCRModel.getStimulus(), "text/html", "utf-8");
-        mWvQuestionStem.loadData(mQuestionCRModel.getStem(), "text/html", "utf-8");
+        /*mWvStimulus.loadData(mQuestionCRModel.getStimulus(),"text/html", "utf-8");
+        mWvQuestionStem.loadData(mQuestionCRModel.getStem(),"text/html", "utf-8");*/
 
+        mWvStimulus.setText(mQuestionCRModel.getStimulus());
+        mWvQuestionStem.setText(mQuestionCRModel.getStem());
+
+        mAnswerChoices.setAdapter(new ListAnswerChoiceAdapter(getActivity().getLayoutInflater(),
+                mQuestionCRModel));
+
+        if(isLastQuestion()) {
+            btnSubmit.setText(getString(R.string.submit_question_pack));
+        }
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoNextQuestion();
+                if(isLastQuestion()) {
+                    /* Go to last screen */
+                }
+                else {
+                    gotoNextQuestion();
+                }
             }
         });
     }
 
+    private  boolean isLastQuestion() {
+        return mQuestionPack.isLastQuestion(mQuestionCRModel);
+    }
+
     private void gotoNextQuestion() {
-        String nextQuestionId = mQuestionPack.getNextQuestionId(mQuestionCRModel.getOid());
-        if(nextQuestionId != null) {
-            Log.d("gotoNextQuestion", nextQuestionId);
+        QuestionCRModel nextQuestion = mQuestionPack.getNextQuestion(mQuestionCRModel);
+        if(nextQuestion != null) {
+            Log.d("gotoNextQuestion", nextQuestion.getOid());
             getScreenManager().openFragment(create(mQuestionPack,
-                    Questions.getQuestion(nextQuestionId)), true);
+                    nextQuestion), true);
         }
     }
 
