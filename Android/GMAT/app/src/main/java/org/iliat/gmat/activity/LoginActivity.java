@@ -49,6 +49,9 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
     private final String DOWNLOAD_QUESTION_TAG = "Download question";
     private final String DOWNLOAD_QUESTION_PACK_TAG = "Download question pack";
 
+    private boolean mQuestionDownloadCompleted = false;
+    private boolean mQuestionPackDownloadCompleted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 
     private void checkAndDownloadData() {
         try {
-            DownloadJSONTask downloadQuestionTask = new DownloadJSONTask(null, this, null,
+            DownloadJSONTask downloadQuestionTask = new DownloadJSONTask(null, this, this,
                     DOWNLOAD_QUESTION_TAG);
             downloadQuestionTask.execute(new URL(GMATAPI.QUESTIONS_API));
         } catch (MalformedURLException e) {
@@ -89,7 +92,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         }
 
         try {
-            DownloadJSONTask downloadQuestionPackTask = new DownloadJSONTask(null, this, null,
+            DownloadJSONTask downloadQuestionPackTask = new DownloadJSONTask(null, this, this,
                     DOWNLOAD_QUESTION_PACK_TAG);
             downloadQuestionPackTask.execute(new URL(GMATAPI.QUESTION_PACKS_API));
         } catch (MalformedURLException e) {
@@ -130,6 +133,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
     private static boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
@@ -157,8 +161,20 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 
     @Override
     public void onPostDownload(JSONObject jsonObject, String tag) {
-        switch (tag) {
 
+        switch(tag) {
+            case DOWNLOAD_QUESTION_TAG:
+                mQuestionDownloadCompleted = true;
+                if(mQuestionPackDownloadCompleted) {
+                    goToMainActivity();
+                }
+                break;
+            case DOWNLOAD_QUESTION_PACK_TAG:
+                mQuestionPackDownloadCompleted = true;
+                if(mQuestionDownloadCompleted) {
+                    goToMainActivity();
+                }
+                break;
         }
     }
 
