@@ -4,14 +4,19 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.adapter.ListAnswerAdapter;
+import org.iliat.gmat.enitity.QuestionCRModel;
+import org.iliat.gmat.enitity.QuestionPack;
+import org.iliat.gmat.enitity.QuestionPacks;
 import org.iliat.gmat.enitity.Questions;
 
 /**
@@ -28,8 +33,15 @@ public class SCQuestionFragment extends BaseFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private ListView mAnswers;
-    private WebView mQuestion;
-    Questions listQuestion;
+    private WebView mWvQuestionStem;
+    private WebView mWvStimulus;
+    private Button btnSubmit;
+
+    private QuestionPack mQuestionPack;
+
+    private QuestionCRModel mQuestionCRModel;
+
+    /*Questions listQuestion;*/
     ListAnswerAdapter adapter;
 
     // TODO: Rename and change types of parameters
@@ -40,6 +52,14 @@ public class SCQuestionFragment extends BaseFragment {
 
     public SCQuestionFragment() {
         // Required empty public constructor
+    }
+
+    public void setQuestionPack(QuestionPack questionPack) {
+        mQuestionPack = questionPack;
+    }
+
+    public void setQuestion(QuestionCRModel question) {
+        mQuestionCRModel = question;
     }
 
     /**
@@ -68,37 +88,54 @@ public class SCQuestionFragment extends BaseFragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-    private void loadData(){
 
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_singlequestion, container, false);
-        connectView(view);
+        View view = inflater.inflate(R.layout.fragment_single_question, container, false);
+        initLayout(view);
         return view;
     }
 
-    private void connectView(View view){
-        mAnswers = (ListView) view.findViewById(R.id.list_answers);
+    private void initLayout(View view) {
+        mWvStimulus = (WebView)view.findViewById(R.id.web_view_stimulus);
+        mWvQuestionStem = (WebView)view.findViewById(R.id.web_view_stem);
+        mAnswers = (ListView) view.findViewById(R.id.list_answer_choices);
+        btnSubmit = (Button)view.findViewById(R.id.btnSubmit);
 
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(GMATAPI.QUESTIONS_API)
-//                .build();
-//        GitHubService service = retrofit.create(GitHubService.class);
-//        Log.e("TASK",service.listRepos("user"));
-        /*DownloadTask downloadTask = new DownloadTask(listQuestion);
-        downloadTask.execute();*/
+        if(mQuestionCRModel == null) { /* The first Question fragment */
+            Log.d("initLayout - oid", mQuestionPack.getFirstQuestionId());
+            mQuestionCRModel = Questions.getQuestion(mQuestionPack.getFirstQuestionId());
+        }
 
+        mWvStimulus.loadData(mQuestionCRModel.getStimulus(), "text/html", "utf-8");
+        mWvQuestionStem.loadData(mQuestionCRModel.getStem(), "text/html", "utf-8");
+
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoNextQuestion();
+            }
+        });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    private void gotoNextQuestion() {
+        String nextQuestionId = mQuestionPack.getNextQuestionId(mQuestionCRModel.getOid());
+        if(nextQuestionId != null) {
+            Log.d("gotoNextQuestion", nextQuestionId);
+            getScreenManager().openFragment(create(mQuestionPack,
+                    Questions.getQuestion(nextQuestionId)), true);
+        }
+    }
+
+/*    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
@@ -132,6 +169,10 @@ public class SCQuestionFragment extends BaseFragment {
         void onFragmentInteraction(Uri uri);
     }
 
-
-
+    public static SCQuestionFragment create(QuestionPack questionPack, QuestionCRModel questionCRModel) {
+        SCQuestionFragment fragment = new SCQuestionFragment();
+        fragment.setQuestionPack(questionPack);
+        fragment.setQuestion(questionCRModel);
+        return fragment;
+    }
 }

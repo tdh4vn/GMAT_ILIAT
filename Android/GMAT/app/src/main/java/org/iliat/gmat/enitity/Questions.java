@@ -44,6 +44,17 @@ public class Questions {
         inst = this;
     }
 
+    public static QuestionCRModel getQuestion(String oid) {
+        Log.d("getQuestion - match", oid);
+        for(QuestionCRModel questionCRModel : inst.getQuestions()) {
+            Log.d("getQuestion", questionCRModel.getId().getOid());
+            if(questionCRModel.getId().getOid().equals(oid)) {
+                return questionCRModel;
+            }
+        }
+        return null;
+    }
+
     private static Questions inst;
 
     public static Questions getInst() {

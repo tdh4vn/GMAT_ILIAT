@@ -23,33 +23,6 @@ public class QuestionCRModel {
     public static final String COLUMN_COLOR = "color";
     public static final String COLUMN_STATUS = "status";
 
-    /*====================================== DATABASE CONFIGS  ==================================*/
-    public static final String TABLE_NAME = "question";
-
-    public static final String[] COLUMN_NAMES = new String[] {
-            COLUMN_ID,
-            COLUMN_NAME,
-            COLUMN_PAYMENT,
-            COLUMN_COLOR,
-            COLUMN_STATUS
-    };
-
-    /* QUERIES */
-    public static final String SQL_CREATE_TABLE = String.format (
-            "CREATE TABLE %s(" +
-                    "%s INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "%s TEXT NOT NULL," +
-                    "%s REAL NOT NULL," +
-                    "%s TEXT," +
-                    "%s INTEGER NOT NULL" +
-                    ");",
-            TABLE_NAME,
-            COLUMN_ID,
-            COLUMN_NAME,
-            COLUMN_PAYMENT,
-            COLUMN_COLOR,
-            COLUMN_STATUS);
-
     public QuestionCRModel() {
     }
 
@@ -66,6 +39,10 @@ public class QuestionCRModel {
 
     public id getId() {
         return _id;
+    }
+
+    public String getOid() {
+        return _id.getOid();
     }
 
     public void setId(id id) {

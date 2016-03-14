@@ -18,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.iliat.gmat.R;
+import org.iliat.gmat.enitity.QuestionPacks;
 import org.iliat.gmat.frangment.MainFragment;
+import org.iliat.gmat.frangment.SCQuestionFragment;
 import org.iliat.gmat.interf.ScreenManager;
 
 public class MainActivity extends AppCompatActivity
@@ -44,7 +46,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         getIntances();
 
-        openFragment(new MainFragment(), true);
+        /*openFragment(new MainFragment(), true);*/
+        SCQuestionFragment fragment = new SCQuestionFragment();
+        fragment.setQuestionPack(QuestionPacks.getInst().getQuestion_packs().get(0));
+        openFragment(fragment, true);
     }
 
     @Override

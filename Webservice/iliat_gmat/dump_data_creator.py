@@ -23,6 +23,7 @@ from iliat_gmat import remove_dollar_sign
 
 from question_packs import QuestionPack, QuestionPackCollection
 from questions import QuestionCollection, Question
+from question_packs import QuestionPack
 
 import mongoengine
 
@@ -55,8 +56,15 @@ db = mongoengine.connect("gmat",
 # v.save()
 
 questions = Question.objects
-version = Version.objects[0]
-question_collection = QuestionCollection(version=version.value, questions=[q for q in questions])
-remove_dollar_sign(str(question_collection.to_json()))
+question_pack = QuestionPack(available_time="2016-03-14",
+                             question_ids = [str(question.id) for question in questions ])
+# version = Version.objects[0]
+# question_collection = QuestionCollection(version=version.value, questions=[q for q in questions])
+# remove_dollar_sign(str(question_collection.to_json()))
+# question_pack.save()
+
+# print(question_pack.to_json())
+
+question_pack.save()
 
 db.close()

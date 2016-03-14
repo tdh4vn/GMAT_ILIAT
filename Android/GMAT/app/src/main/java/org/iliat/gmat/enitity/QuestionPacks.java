@@ -32,5 +32,4 @@ public class QuestionPacks {
         }
         return inst;
     }
-
 }
