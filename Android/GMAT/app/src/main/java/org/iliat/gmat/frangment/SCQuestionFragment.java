@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import org.iliat.gmat.adapter.ListAnswerChoiceAdapter;
 import org.iliat.gmat.enitity.QuestionCRModel;
 import org.iliat.gmat.enitity.QuestionPack;
 import org.iliat.gmat.enitity.Questions;
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,7 +29,7 @@ import org.iliat.gmat.enitity.Questions;
  * Use the {@link SCQuestionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SCQuestionFragment extends BaseFragment {
+public class SCQuestionFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -104,7 +106,6 @@ public class SCQuestionFragment extends BaseFragment {
         mAnswerChoices = (ListView) view.findViewById(R.id.list_answer_choices);
         btnSubmit = (Button)view.findViewById(R.id.btnSubmit);
 
-
         if(mQuestionCRModel == null) { /* The first Question fragment */
             Log.d("initLayout - oid", mQuestionPack.getFirstQuestionId());
             mQuestionCRModel = Questions.getQuestion(mQuestionPack.getFirstQuestionId());
@@ -116,8 +117,11 @@ public class SCQuestionFragment extends BaseFragment {
         mWvStimulus.setText(mQuestionCRModel.getStimulus());
         mWvQuestionStem.setText(mQuestionCRModel.getStem());
 
+        mAnswerChoices.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        mAnswerChoices.setOnItemSelectedListener(this);
         mAnswerChoices.setAdapter(new ListAnswerChoiceAdapter(getActivity().getLayoutInflater(),
                 mQuestionCRModel));
+
 
         if(isLastQuestion()) {
             btnSubmit.setText(getString(R.string.submit_question_pack));
@@ -171,6 +175,17 @@ public class SCQuestionFragment extends BaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        TextView txvItem = (TextView)view.findViewById(R.id.txv_answer_choice);
+        txvItem.setTextColor(0X3F51B5);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     /**
