@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.iliat.gmat.frangment.MainFragment">
+    tools:context="org.iliat.gmat.fragment.MainFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ScrollView

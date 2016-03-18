@@ -1,4 +1,4 @@
-package org.iliat.gmat.frangment;
+package org.iliat.gmat.fragment;
 
 import android.app.Fragment;
 import android.content.Context;

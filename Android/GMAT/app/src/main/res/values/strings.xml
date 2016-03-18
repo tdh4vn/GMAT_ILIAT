@@ -18,4 +18,12 @@
 
     <string name="next_question_text">Next</string>
     <string name="submit_question_pack">Submit</string>
+
+    <string name="answer_a_label">A.</string>
+    <string name="answer_b_label">B.</string>
+    <string name="answer_c_label">C.</string>
+    <string name="answer_d_label">D.</string>
+    <string name="answer_e_label">E.</string>
+
+
 </resources>
