@@ -7,4 +7,7 @@
     <color name="color_white">#FFFFFF</color>
     <color name="color_orange_main">#FF5722</color>
     <color name="color_orange_500">#FFEBEE</color>
+
+    <color name="color_selected_answer">#303F9F</color>
+    <color name="color_normal_answer">#000000</color>
 </resources>

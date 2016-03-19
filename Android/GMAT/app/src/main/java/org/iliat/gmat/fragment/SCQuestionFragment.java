@@ -16,9 +16,13 @@ import android.widget.TextView;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.adapter.ListAnswerChoiceAdapter;
+import org.iliat.gmat.adapter.QuestionAdapter;
 import org.iliat.gmat.enitity.QuestionCRModel;
 import org.iliat.gmat.enitity.QuestionPack;
 import org.iliat.gmat.enitity.Questions;
+import org.iliat.gmat.enitity.UserChoice;
+import org.iliat.gmat.utils.UIUtils;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -39,15 +43,18 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     private final int ANSWER_CHOICE_NUM = 5;
 
 //    private ListView mAnswerChoices;
-    private TextView mWvQuestionStem;
-    private TextView mWvStimulus;
+//    private TextView mWvQuestionStem;
+//    private TextView mWvStimulus;
+
+    private ListView ltvQuestion;
     private Button btnSubmit;
 
     private QuestionPack mQuestionPack;
 
     private QuestionCRModel mQuestionCRModel;
 
-    private TextView[] tvAnswers;
+//    private TextView[] tvAnswers;
+//    private ViewHolder[] viewHolders;
 
     /*Questions listQuestion;*/
     ListAnswerChoiceAdapter adapter;
@@ -107,56 +114,92 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     }
 
     private void initLayout(View view) {
-        mWvStimulus = (TextView)view.findViewById(R.id.tv_stimulus);
-        mWvQuestionStem = (TextView)view.findViewById(R.id.tv_stem);
-//        mAnswerChoices = (ListView) view.findViewById(R.id.list_answer_choices);
-        btnSubmit = (Button)view.findViewById(R.id.btnSubmit);
-        tvAnswers = new TextView[]{
-                (TextView)view.findViewById(R.id.tv_answer_a),
-                (TextView)view.findViewById(R.id.tv_answer_b),
-                (TextView)view.findViewById(R.id.tv_answer_c),
-                (TextView)view.findViewById(R.id.tv_answer_d),
-                (TextView)view.findViewById(R.id.tv_answer_e)
-        };
 
         if(mQuestionCRModel == null) { /* The first Question fragment */
-            Log.d("initLayout - oid", mQuestionPack.getFirstQuestionId());
             mQuestionCRModel = Questions.getQuestion(mQuestionPack.getFirstQuestionId());
         }
 
-        /*mWvStimulus.loadData(mQuestionCRModel.getStimulus(),"text/html", "utf-8");
-        mWvQuestionStem.loadData(mQuestionCRModel.getStem(),"text/html", "utf-8");*/
+        ltvQuestion = (ListView) view.findViewById(R.id.ltv_question);
+        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
 
-        mWvStimulus.setText(mQuestionCRModel.getStimulus());
-        mWvQuestionStem.setText(mQuestionCRModel.getStem());
-//
-        List<String> answerChoices = mQuestionCRModel.getAnswer_choices();
-        for(int idx = 0; idx < answerChoices.size(); idx++ ){
-            tvAnswers[idx].setText(answerChoices.get(idx));
-        }
-
-//        mAnswerChoices.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-//        mAnswerChoices.setOnItemSelectedListener(this);
-//
-//        mAnswerChoices.setAdapter(new ListAnswerChoiceAdapter(getActivity().getLayoutInflater(),
-//                mQuestionCRModel));
-//        setListViewHeightBasedOnChildren(mAnswerChoices);
-
-        if(isLastQuestion()) {
-            btnSubmit.setText(getString(R.string.submit_question_pack));
-        }
+        UserChoice userChoice = new UserChoice();
+        userChoice.setChoice(0);
+        ltvQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        ltvQuestion.setAdapter(new QuestionAdapter(mQuestionCRModel, userChoice, getActivity().getLayoutInflater()));
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isLastQuestion()) {
+                if (isLastQuestion()) {
                     /* Go to last screen */
-                }
-                else {
+                } else {
                     gotoNextQuestion();
                 }
             }
         });
+
+//        mWvStimulus = (TextView)view.findViewById(R.id.tv_stimulus);
+//        mWvQuestionStem = (TextView)view.findViewById(R.id.tv_stem);
+//        mAnswerChoices = (ListView) view.findViewById(R.id.list_answer_choices);
+//        btnSubmit = (Button)view.findViewById(R.id.btnSubmit);
+
+//        viewHolders = new ViewHolder[] {
+//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_a),
+//                        (TextView)view.findViewById(R.id.tv_label_a), 0),
+//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_b),
+//                        (TextView)view.findViewById(R.id.tv_label_b), 1),
+//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_c),
+//                        (TextView)view.findViewById(R.id.tv_label_c), 2),
+//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_d),
+//                        (TextView)view.findViewById(R.id.tv_label_d), 3),
+//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_e),
+//                        (TextView)view.findViewById(R.id.tv_label_e), 4)
+//        };
+//        tvAnswers = new TextView[]{
+//                (TextView)view.findViewById(R.id.tv_answer_a),
+//                (TextView)view.findViewById(R.id.tv_answer_b),
+//                (TextView)view.findViewById(R.id.tv_answer_c),
+//                (TextView)view.findViewById(R.id.tv_answer_d),
+//                (TextView)view.findViewById(R.id.tv_answer_e)
+//        };
+
+
+        /*mWvStimulus.loadData(mQuestionCRModel.getStimulus(),"text/html", "utf-8");
+        mWvQuestionStem.loadData(mQuestionCRModel.getStem(),"text/html", "utf-8");*/
+
+//        mWvStimulus.setText(mQuestionCRModel.getStimulus());
+//        mWvQuestionStem.setText(mQuestionCRModel.getStem());
+//
+//        List<String> answerChoices = mQuestionCRModel.getAnswer_choices();
+//        for(int idx = 0; idx < answerChoices.size(); idx++ ){
+//            tvAnswers[idx].setText(answerChoices.get(idx));
+//        }
+
+//        mAnswerChoices.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+//        mAnswerChoices.setOnItemSelectedListener(this);
+//
+//        mAnswerChoices.setAdapter(
+//                new ListAnswerChoiceAdapter(getActivity().getLayoutInflater(),
+//                mQuestionCRModel));
+//        UIUtils.setListViewHeightBasedOnChildren(mAnswerChoices);
+//
+////        setListViewHeightBasedOnChildren(mAnswerChoices);
+//
+//        if(isLastQuestion()) {
+//            btnSubmit.setText(getString(R.string.submit_question_pack));
+//        }
+//
+//        btnSubmit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(isLastQuestion()) {
+//                    /* Go to last screen */
+//                }
+//                else {
+//                    gotoNextQuestion();
+//                }
+//            }
+//        });
     }
 
     private  boolean isLastQuestion() {
@@ -252,4 +295,20 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
+
+    private class ViewHolder {
+        TextView tvLabel;
+        TextView tvContent;
+        int index;
+
+        public ViewHolder(TextView tvLabel, TextView tvContent, int index) {
+            this.tvLabel = tvLabel;
+            this.tvContent = tvContent;
+            this.index = index;
+        }
+    }
+
+
 }
+
+

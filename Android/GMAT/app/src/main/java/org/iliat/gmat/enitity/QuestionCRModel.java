@@ -41,6 +41,12 @@ public class QuestionCRModel {
         return _id;
     }*/
 
+    private final int FIXED_ITEMS_COUNT = 2;
+
+    public int getTotalItemsCount() {
+        return FIXED_ITEMS_COUNT + answer_choices.size();
+    }
+
     public String getOid() {
         return _id.getOid();
     }
@@ -55,6 +61,12 @@ public class QuestionCRModel {
 
     public void setAnswer_choices(List<String> answer_choices) {
         this.answer_choices = answer_choices;
+    }
+
+    public String getAnswerChoice(int idx) {
+        if(idx < answer_choices.size())
+            return answer_choices.get(idx);
+        return null;
     }
 
     public String getExplanation() {

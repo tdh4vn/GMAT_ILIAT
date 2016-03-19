@@ -17,7 +17,7 @@
     <dimen name="space_per_card_view">4dp</dimen>
     <dimen name="web_answers_margin">40dp</dimen>
 
-    <dimen name="question_text_size">18dp</dimen>
+    <dimen name="question_text_size">16dp</dimen>
 
     <dimen name="answer_choice_margin">8dp</dimen>
 
