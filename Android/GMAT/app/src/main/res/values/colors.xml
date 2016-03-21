@@ -6,4 +6,5 @@
     <color name="colorMain">#FF5722</color>
     <color name="color_white">#FFFFFF</color>
     <color name="color_orange_main">#FF5722</color>
+    <color name="color_orange_500">#FFEBEE</color>
 </resources>

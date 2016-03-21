@@ -1,5 +1,9 @@
-package org.iliat.gmat.activity;
+    package org.iliat.gmat.activity;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,17 +18,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.iliat.gmat.R;
+import org.iliat.gmat.enitity.QuestionPacks;
+import org.iliat.gmat.frangment.MainFragment;
+import org.iliat.gmat.frangment.SCQuestionFragment;
+import org.iliat.gmat.interf.ScreenManager;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ScreenManager {
+    //properties
+    FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -34,6 +44,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        getIntances();
+
+        /*openFragment(new MainFragment(), true);*/
+        SCQuestionFragment fragment = new SCQuestionFragment();
+        fragment.setQuestionPack(QuestionPacks.getInst().getQuestion_packs().get(0));
+        openFragment(fragment, true);
     }
 
     @Override
@@ -61,11 +77,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getIntances() {
+        mFragmentManager = getFragmentManager();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -74,7 +92,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_general) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -91,5 +109,37 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void openFragment(Fragment fragment, boolean addToBackStack) {
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.trans_left_in, R.anim.trans_left_out);
+        fragmentTransaction.replace(R.id.view_fragment, fragment)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(fragment.getClass().getName());
+        }
+        fragmentTransaction.commit();
+    }
+
+    @Override
+    public void showDialogFragment(DialogFragment dialogFragment, String tag) {
+        dialogFragment.show(mFragmentManager, tag);
+    }
+
+    @Override
+    public boolean back() {
+        if (mFragmentManager.getBackStackEntryCount() > 1) {
+            mFragmentManager.popBackStack();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void setTitleOfActionBar(String titles) {
+
     }
 }
