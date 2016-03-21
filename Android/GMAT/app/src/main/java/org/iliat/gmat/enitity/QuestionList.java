@@ -7,22 +7,14 @@ import java.util.List;
 /**
  * Created by hungtran on 3/13/16.
  */
-public class Questions {
+public class QuestionList {
 
     /*private id _id;*/
     private String version;
-    private List<QuestionCRModel> questions;
+    private List<QuestionCRModel> list;
 
-    public Questions() {
+    public QuestionList() {
     }
-
-    /*public id get_id() {
-        return _id;
-    }
-
-    public void set_id(id _id) {
-        this._id = _id;
-    }*/
 
     public String getVersion() {
         return version;
@@ -32,12 +24,8 @@ public class Questions {
         this.version = version;
     }
 
-    public List<QuestionCRModel> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<QuestionCRModel> questions) {
-        this.questions = questions;
+    public List<QuestionCRModel> getList() {
+        return list;
     }
 
     public void save() {
@@ -46,7 +34,7 @@ public class Questions {
 
     public static QuestionCRModel getQuestion(String oid) {
         Log.d("getQuestion - match", oid);
-        for(QuestionCRModel questionCRModel : inst.getQuestions()) {
+        for(QuestionCRModel questionCRModel : inst.getList()) {
             Log.d("getQuestion", questionCRModel.getOid());
             if(questionCRModel.getOid().equals(oid)) {
                 return questionCRModel;
@@ -55,9 +43,9 @@ public class Questions {
         return null;
     }
 
-    private static Questions inst;
+    private static QuestionList inst;
 
-    public static Questions getInst() {
+    public static QuestionList getInst() {
         if(inst == null) {
             Log.d("getInst", "inst == null");
         }

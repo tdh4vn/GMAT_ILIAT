@@ -4,6 +4,7 @@ package org.iliat.gmat.enitity;
  * Created by qhuydtvt on 3/19/2016.
  */
 public class UserChoice {
+
     private String questionid;
     private int choice = -1;
 

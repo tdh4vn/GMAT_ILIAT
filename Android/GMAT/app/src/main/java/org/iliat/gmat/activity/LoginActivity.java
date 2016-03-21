@@ -25,8 +25,8 @@ import org.iliat.gmat.enitity.DownloadJSONTask;
 import org.iliat.gmat.enitity.JSONDownloadHandler;
 import org.iliat.gmat.enitity.JSONPostDownloadHandler;
 import org.iliat.gmat.enitity.JSONPreDownloadHandler;
-import org.iliat.gmat.enitity.QuestionPacks;
-import org.iliat.gmat.enitity.Questions;
+import org.iliat.gmat.enitity.QuestionList;
+import org.iliat.gmat.enitity.QuestionPackList;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -152,18 +152,18 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         switch (tag) {
 
             case DOWNLOAD_QUESTION_TAG:
-                Questions questions = (new Gson()).fromJson(inputStreamReader,
-                        Questions.class);
+                QuestionList questions = (new Gson()).fromJson(inputStreamReader,
+                        QuestionList.class);
                 questions.save();
-                Log.d("onDownload", tag + " " + String.valueOf(questions.getQuestions().size()) );
+                Log.d("onDownload", tag + " " + String.valueOf(questions.getList().size()) );
                 Log.d("onDownload", tag + " version " + questions.getVersion());
                 break;
 
             case DOWNLOAD_QUESTION_PACK_TAG:
-                QuestionPacks questionPacks = (new Gson()).fromJson(inputStreamReader,
-                        QuestionPacks.class);
+                QuestionPackList questionPacks = (new Gson()).fromJson(inputStreamReader,
+                        QuestionPackList.class);
                 questionPacks.save();
-                Log.d("onDownload", tag + " " + String.valueOf(questionPacks.getQuestion_packs().size()) );
+                Log.d("onDownload", tag + " " + String.valueOf(questionPacks.getList().size()) );
                 break;
         }
     }
@@ -223,9 +223,9 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         }
     }
 
-    private class DownloadTask extends AsyncTask<Void,Questions,Questions> {
-        private Questions rs;
-        public DownloadTask(Questions rs){
+    private class DownloadTask extends AsyncTask<Void,QuestionList,QuestionList> {
+        private QuestionList rs;
+        public DownloadTask(QuestionList rs){
             this.rs = rs;
 
         }
@@ -237,17 +237,17 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         }
 
         @Override
-        protected Questions doInBackground(Void... params) {
+        protected QuestionList doInBackground(Void... params) {
             try {
                 URL url = new URL(GMATAPI.QUESTIONS_API);
 //                InputStream inputStream = url.getInputStream();
-//                Questions result = (new Gson()).fromJson(new InputStreamReader(inputStream), Questions.class);
+//                QuestionList result = (new Gson()).fromJson(new InputStreamReader(inputStream), QuestionList.class);
 //                return result;
 ////              return
                 InputStreamReader reader = new InputStreamReader(url.openStream(), "UTF-8");
                 Log.d("doInBackground", "get reader");
-                Questions questions = new Gson().fromJson(reader, Questions.class);
-                Log.d("doInBackground", String.valueOf(questions.getQuestions().size()));
+                QuestionList questions = new Gson().fromJson(reader, QuestionList.class);
+                Log.d("doInBackground", String.valueOf(questions.getList().size()));
                 return questions;
 
 //                BufferedReader bufferedReader;
@@ -260,7 +260,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 //                        Log.e("asdasd",line);
 //                    }
 //                    Log.e("asdasd",response.toString());
-////                    Questions result = (new Gson()).fromJson(reader, Questions.class);
+////                    QuestionList result = (new Gson()).fromJson(reader, QuestionList.class);
 ////                    reader.close();
 //                    return null;
 //                }
@@ -275,7 +275,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 
 
         @Override
-        protected void onPostExecute(Questions questions) {
+        protected void onPostExecute(QuestionList questions) {
             super.onPostExecute(questions);
         }
 

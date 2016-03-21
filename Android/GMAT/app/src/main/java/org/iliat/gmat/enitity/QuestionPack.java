@@ -43,7 +43,7 @@ public class QuestionPack {
         if(currentIdx >= 0) {
             int nextIdx = currentIdx + 1;
             if (nextIdx < question_ids.size()) {
-                return Questions.getQuestion(question_ids.get(nextIdx));
+                return QuestionList.getQuestion(question_ids.get(nextIdx));
             }
         }
         return null;

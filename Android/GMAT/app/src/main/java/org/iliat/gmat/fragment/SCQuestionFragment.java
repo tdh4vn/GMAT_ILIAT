@@ -19,12 +19,8 @@ import org.iliat.gmat.adapter.ListAnswerChoiceAdapter;
 import org.iliat.gmat.adapter.QuestionAdapter;
 import org.iliat.gmat.enitity.QuestionCRModel;
 import org.iliat.gmat.enitity.QuestionPack;
-import org.iliat.gmat.enitity.Questions;
+import org.iliat.gmat.enitity.QuestionList;
 import org.iliat.gmat.enitity.UserChoice;
-import org.iliat.gmat.utils.UIUtils;
-import org.w3c.dom.Text;
-
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,7 +52,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 //    private TextView[] tvAnswers;
 //    private ViewHolder[] viewHolders;
 
-    /*Questions listQuestion;*/
+    /*QuestionList listQuestion;*/
     ListAnswerChoiceAdapter adapter;
 
     // TODO: Rename and change types of parameters
@@ -116,7 +112,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     private void initLayout(View view) {
 
         if(mQuestionCRModel == null) { /* The first Question fragment */
-            mQuestionCRModel = Questions.getQuestion(mQuestionPack.getFirstQuestionId());
+            mQuestionCRModel = QuestionList.getQuestion(mQuestionPack.getFirstQuestionId());
         }
 
         ltvQuestion = (ListView) view.findViewById(R.id.ltv_question);
@@ -126,6 +122,12 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         userChoice.setChoice(0);
         ltvQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         ltvQuestion.setAdapter(new QuestionAdapter(mQuestionCRModel, userChoice, getActivity().getLayoutInflater()));
+
+        if(isLastQuestion()) {
+            btnSubmit.setText(getString(R.string.submit_question_pack));
+        } else {
+            btnSubmit.setText(getString(R.string.next_question));
+        }
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

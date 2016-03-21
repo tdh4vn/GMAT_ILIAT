@@ -5,7 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.iliat.gmat.dao.GMATAPI;
-import org.iliat.gmat.enitity.Questions;
+import org.iliat.gmat.enitity.QuestionList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,8 +18,7 @@ import java.net.URL;
  * Created by hungtran on 3/13/16.
  */
 public class QuestionPackAPI {
-    public static Questions getQuestion(){
-
+    public static QuestionList getQuestion(){
         try {
             HttpURLConnection url = (HttpURLConnection) (new URL(GMATAPI.QUESTIONS_API)).openConnection();
             InputStreamReader reader = new InputStreamReader(url.getInputStream(), "UTF-8");
@@ -33,7 +32,7 @@ public class QuestionPackAPI {
                     response.append(line);
                 }
                 Log.e("asdasd",response.toString());
-                Questions result = (new Gson()).fromJson(reader, Questions.class);
+                QuestionList result = (new Gson()).fromJson(reader, QuestionList.class);
                 reader.close();
                 return result;
             }
@@ -43,6 +42,5 @@ public class QuestionPackAPI {
             e.printStackTrace();
         }
         return null;
-
     }
 }
