@@ -58,13 +58,13 @@
 {
     
     
-    NSURLSessionDataTask *dataTask = [_httpSessionManager GET:kGmatAPIExploreUrl
+    NSURLSessionDataTask *dataTask = [_httpSessionManager GET:kGmatAPIExploreQuestionUrl
                                                    parameters:nil
                                                      progress:nil
                                                       success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                                           
                                                           if (completion && responseObject) {
-                                                              completion(responseObject);
+                                                              completion(responseObject[@"questions"]);
                                                           }
                                                         
                                                       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -74,7 +74,32 @@
                                                           }
                                                           
                                                       }];
-//
+
+    [dataTask resume];
+    
+}
+
+
+- (void)exploreQuestionPackWithCompletionBlock:(void(^)(NSArray *questionPacks))completion;
+{
+    
+    NSURLSessionDataTask *dataTask = [_httpSessionManager GET:kGmatAPIExploreQuestionPackUrl
+                                                   parameters:nil
+                                                     progress:nil
+                                                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                                                          
+                                                          if (completion && responseObject) {
+                                                              completion(responseObject[@"question_packs"]);
+                                                          }
+                                                          
+                                                      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                                          
+                                                          if (error) {
+                                                              NSLog(@"error: %@",error);
+                                                          }
+                                                          
+                                                      }];
+    
     [dataTask resume];
     
 }

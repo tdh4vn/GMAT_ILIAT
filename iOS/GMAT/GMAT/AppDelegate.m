@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "GmatAPI.h"
 #import "Question.h"
+#import "MagicalRecord/MagicalRecord.h"
+#import "Constant.h"
 
 @interface AppDelegate ()
 
@@ -21,19 +23,9 @@
     // Override point for customization after application launch.
     
     
-    [sGmatAPI exploreQuestionWithCompletionBlock:^(NSArray *questions) {
-        
-        NSMutableArray *questionArray = [[NSMutableArray alloc]init];
-        
-        for (NSDictionary *jsonDict in questions) {
-            Question *newQuestion = [[Question alloc]initWithJson:jsonDict];
-            [questionArray addObject:newQuestion];
-        }
-        
-        NSLog(@"%@",questionArray);
-        
-        
-    }];
+    self.window.tintColor = [UIColor redColor];
+    
+    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:kDatabaseName];
     
     return YES;
 }
