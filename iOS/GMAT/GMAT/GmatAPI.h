@@ -16,4 +16,6 @@
 
 - (void)exploreQuestionWithCompletionBlock:(void(^)(NSArray *questions))completion;
 
+- (void)exploreQuestionPackWithCompletionBlock:(void(^)(NSArray *questionPacks))completion;
+
 @end

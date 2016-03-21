@@ -13,13 +13,25 @@
 
 //MARK: API
 
-#define kGmatAPIExploreUrl                              @"https://dl.dropboxusercontent.com/s/2n4caiktrfoxbqf/GmatJson.txt?dl=1"
+#define kGmatAPIExploreQuestionUrl                      @"http://103.1.209.92:6969/question_collection"
+
+#define kGmatAPIExploreQuestionPackUrl                  @"http://103.1.209.92:6969/question_pack_collection"
 
 
 //MARK: Image
 
 
 #define kLoginBackGroundImage                           @"LoginBackground"
+
+#define kLoginAreaBackgroundImage                       @"LoginAreaBackground"
+
+#define kLogoImage                                      @"iliatLogo"
+
+#define kBtnLoginBackgroundImage                        @"Background Login"
+
+//MARK: Database
+
+#define kDatabaseName                                   @"GMATDatabase"
 
 
 #endif /* Constant_h */
