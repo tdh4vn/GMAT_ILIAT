@@ -1,18 +1,15 @@
 __author__ = 'qhuydtvt'
 
 from mongoengine import *
-
-
+from answer_choices import AnswerChoice
 
 class Question(Document):
     type = StringField()
     sub_type = StringField()
     stimulus = StringField()
     stem = StringField()
-    answer_choices = ListField(StringField())
+    answer_choices = ListField(EmbeddedDocumentField('AnswerChoice'))
     right_answer = IntField()
-    explanation = StringField()
-
 
     @classmethod
     def to_formatted_json(cls, question_list):
