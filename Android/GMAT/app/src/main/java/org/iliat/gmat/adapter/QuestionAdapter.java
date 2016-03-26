@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,6 +54,17 @@ public class QuestionAdapter extends BaseAdapter {
         return position;
     }
 
+    private int getAnswerLabelImvId (int answerChoice) {
+        switch (answerChoice) {
+            case 0: return R.drawable.a;
+            case 1: return R.drawable.b;
+            case 2: return R.drawable.c;
+            case 3: return R.drawable.d;
+            case 4: return R.drawable.e;
+        }
+        return -1;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
@@ -74,10 +86,13 @@ public class QuestionAdapter extends BaseAdapter {
         } else {
             TextView textView = (TextView)convertView.findViewById(R.id.wv_content);
             textView.setText(content);
+
+            ImageView imvLabel= (ImageView)convertView.findViewById(R.id.iv_answer_label);
+            int imgId = getAnswerLabelImvId(position - FIXED_ITEMS_CNT);
+            if(imgId != -1) {
+                imvLabel.setImageResource(imgId);
+            }
         }
-
-
-
 
 
 //        if(position >= FIXED_ITEMS_CNT ) {

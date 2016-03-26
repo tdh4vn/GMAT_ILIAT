@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.enitity.QuestionPack;
-import org.iliat.gmat.enitity.QuestionPacks;
+import org.iliat.gmat.enitity.QuestionPackList;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
 public class ListQuestionPackAdapter extends RecyclerView.Adapter<ListQuestionPackAdapter.QuestionPackViewHolder> {
     private List<QuestionPack> mListQuestionPack;
     public ListQuestionPackAdapter(){
-        mListQuestionPack = QuestionPacks.getInst().getTodayQuestionPacks();
+        mListQuestionPack = QuestionPackList.getInst().getTodayQuestionPacks();
     }
     @Override
     public QuestionPackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

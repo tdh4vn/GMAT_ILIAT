@@ -2,6 +2,10 @@ package org.iliat.gmat.enitity;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -9,6 +13,7 @@ import java.util.List;
  */
 public class QuestionPackList {
 
+    @SerializedName("question_packs")
     private List<QuestionPack> list;
 
     public List<QuestionPack> getList() {
@@ -19,10 +24,6 @@ public class QuestionPackList {
         return list;
     }
 
-    public void save() {
-        inst = this;
-    }
-
     private static QuestionPackList inst;
 
     public static QuestionPackList getInst() {
@@ -30,5 +31,9 @@ public class QuestionPackList {
             Log.d("getInst", "inst == null");
         }
         return inst;
+    }
+
+    public static void loadFromJson(InputStreamReader reader) {
+        inst = (new Gson()).fromJson(reader, QuestionPackList.class);
     }
 }

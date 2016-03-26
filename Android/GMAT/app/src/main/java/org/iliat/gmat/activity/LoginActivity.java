@@ -152,18 +152,21 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         switch (tag) {
 
             case DOWNLOAD_QUESTION_TAG:
-                QuestionList questions = (new Gson()).fromJson(inputStreamReader,
-                        QuestionList.class);
-                questions.save();
-                Log.d("onDownload", tag + " " + String.valueOf(questions.getList().size()) );
-                Log.d("onDownload", tag + " version " + questions.getVersion());
+                QuestionList.loadQuestionList(inputStreamReader);
+//                QuestionList questions = (new Gson()).fromJson(inputStreamReader,
+//                        QuestionList.class);
+//                questions.save();
+                Log.d("onDownload", tag + " " + String.valueOf(QuestionList.getInst().getList().size()));
+                Log.d("onDownload", tag + " version " + QuestionList.getInst().getVersion());
                 break;
 
             case DOWNLOAD_QUESTION_PACK_TAG:
-                QuestionPackList questionPacks = (new Gson()).fromJson(inputStreamReader,
-                        QuestionPackList.class);
-                questionPacks.save();
-                Log.d("onDownload", tag + " " + String.valueOf(questionPacks.getList().size()) );
+//                QuestionPackList questionPacks = (new Gson()).fromJson(inputStreamReader,
+//                        QuestionPackList.class);
+//                questionPacks.save();
+
+                QuestionPackList.loadFromJson(inputStreamReader);
+                Log.d("onDownload", tag + " " + String.valueOf(QuestionPackList.getInst().getList().size()));
                 break;
         }
     }
