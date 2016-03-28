@@ -1,4 +1,4 @@
-package org.iliat.gmat.fragment;
+package org.iliat.gmat.fragment.answer_question;
 
 import android.content.Context;
 import android.net.Uri;
@@ -21,6 +21,7 @@ import org.iliat.gmat.enitity.QuestionCRModel;
 import org.iliat.gmat.enitity.QuestionPack;
 import org.iliat.gmat.enitity.QuestionList;
 import org.iliat.gmat.enitity.UserChoice;
+import org.iliat.gmat.fragment.BaseFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -134,7 +135,6 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
             public void onClick(View v) {
                 if (isLastQuestion()) {
                     /* Go to last screen */
-                } else {
                     gotoNextQuestion();
                 }
             }

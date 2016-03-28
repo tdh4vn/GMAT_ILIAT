@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,15 +16,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.QuestionPackList;
-import org.iliat.gmat.fragment.MainFragment;
-import org.iliat.gmat.fragment.SCQuestionFragment;
+import org.iliat.gmat.fragment.main.MainFragment;
 import org.iliat.gmat.interf.ScreenManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ScreenManager {
     //properties
     FragmentManager mFragmentManager;
+
+
+    /**
+     * Hàm này để chuyển activity mới
+     * @param activityClass Class của activity mới.
+     * @example AnswerQuestionAcivity.
+     */
+    public void goToActivity(Class activityClass){
+        Intent intent = new Intent(this, activityClass);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

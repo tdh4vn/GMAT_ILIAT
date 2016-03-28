@@ -81,10 +81,11 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
                         Snackbar snackbar = Snackbar.make(coordinatorLayout, getString(R.string.login), Snackbar.LENGTH_LONG);
 
                 snackbar.show();
-                    checkAndDownloadData();
+                    //checkAndDownloadData();
+                    goToMainActivity();
                 }
 
-//                goToMainActivity();
+
             }
         });
     }

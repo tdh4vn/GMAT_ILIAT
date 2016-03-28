@@ -1,4 +1,4 @@
-package org.iliat.gmat.fragment;
+package org.iliat.gmat.fragment.main;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.iliat.gmat.R;
+import org.iliat.gmat.activity.AnswerQuestionActivity;
+import org.iliat.gmat.activity.ScoreActivity;
+import org.iliat.gmat.fragment.BaseFragment;
+import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,7 +47,10 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Log.i("CARD_VIEW_SC", "Click");
-                getScreenManager().openFragment(new SCQuestionFragment(), true);
+                //Tam thoi comment cho fix server. Hien gio bam vao nhay thang sang fragment ben kia
+                //getScreenManager().openFragment(new SCQuestionFragment(), true);
+                //getScreenManager().goToActivity(AnswerQuestionActivity.class);
+                getScreenManager().goToActivity(ScoreActivity.class);
             }
         });
     }

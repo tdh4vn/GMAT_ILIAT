@@ -11,4 +11,10 @@ public interface ScreenManager {
     void showDialogFragment(DialogFragment dialogFragment, String tag);
     boolean back();
     void setTitleOfActionBar(String titles);
+    /**
+     * Hàm này để chuyển activity mới
+     * @param activityClass Class của activity mới.
+     * @example AnswerQuestionAcivity.
+     */
+    void goToActivity(Class activityClass);
 }
