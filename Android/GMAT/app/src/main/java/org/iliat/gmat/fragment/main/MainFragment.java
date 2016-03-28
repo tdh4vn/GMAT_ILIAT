@@ -49,8 +49,8 @@ public class MainFragment extends BaseFragment {
                 Log.i("CARD_VIEW_SC", "Click");
                 //Tam thoi comment cho fix server. Hien gio bam vao nhay thang sang fragment ben kia
                 //getScreenManager().openFragment(new SCQuestionFragment(), true);
-                //getScreenManager().goToActivity(AnswerQuestionActivity.class);
-                getScreenManager().goToActivity(ScoreActivity.class);
+                getScreenManager().goToActivity(AnswerQuestionActivity.class);
+                //getScreenManager().goToActivity(ScoreActivity.class);
             }
         });
     }

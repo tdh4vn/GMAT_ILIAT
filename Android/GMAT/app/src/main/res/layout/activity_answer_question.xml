@@ -42,7 +42,7 @@
             android:id="@+id/textView_count_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16:10"
+            android:text="00:00"
             android:textColor="@color/color_white"
             android:textSize="16sp"
             android:layout_marginTop="15dp"
