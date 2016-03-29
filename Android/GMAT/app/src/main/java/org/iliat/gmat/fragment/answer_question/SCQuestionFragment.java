@@ -31,7 +31,7 @@ import org.iliat.gmat.fragment.BaseFragment;
  * Use the {@link SCQuestionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SCQuestionFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
+public class SCQuestionFragment extends BaseFragment implements AdapterView.OnItemSelectedListener,View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -249,6 +249,16 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+
+    /**
+     * Hàm này nhận sự kiện ấn nut NEXT từ thằng Activity gọi vào
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
 
     }
 

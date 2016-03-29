@@ -19,14 +19,17 @@
         android:layout_height="0dp"
         android:layout_weight="1.2"
         android:background="@color/color_orange_main">
-        <android.support.v4.widget.ContentLoadingProgressBar
+        <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
             android:id="@+id/doing_progressBar"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginTop="55dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:background="@color/color_white" />
+            android:max="100"
+            android:progress="80"
+            android:progressDrawable="@drawable/progress_bar_question_activity_background"/>
         <TextView
             android:id="@+id/text_progress"
             android:layout_width="wrap_content"
@@ -50,11 +53,33 @@
             android:layout_marginLeft="10dp"/>
 
     </RelativeLayout>
-    <FrameLayout
-        android:background="@color/color_white"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8.8"
-        android:id="@+id/fragment_view_of_answer_question">
-    </FrameLayout>
+        android:background="@color/color_white"
+        android:layout_weight="8.8">
+        <FrameLayout
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:id="@+id/fragment_view_of_answer_question">
+        </FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color_orange_main"
+            android:alpha="0.4">
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NEXT"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="150dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
 </LinearLayout>

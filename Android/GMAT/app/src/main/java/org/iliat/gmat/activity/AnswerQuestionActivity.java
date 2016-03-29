@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -24,6 +25,13 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     TextView progressText;
     ProgressBar progressBarDoing;
     FrameLayout fragmentView;
+    Button btnNext;
+    View.OnClickListener btnNextListennerOnFragment;
+
+    public void setBtnNextListennerOnFragment(View.OnClickListener btnNextListennerOnFragment) {
+        this.btnNextListennerOnFragment = btnNextListennerOnFragment;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +56,25 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
         progressText = (TextView)this.findViewById(R.id.text_progress);
         progressBarDoing = (ProgressBar)this.findViewById(R.id.doing_progressBar);
         fragmentView = (FrameLayout)this.findViewById(R.id.fragment_view_of_answer_question);
-
+        btnNext = (Button)this.findViewById(R.id.btn_next);
         progressBarDoing.setMax(maxQuestion);
+        addListener();
     }
+
+    /**
+     * Hàm này để add listener cho cái button NEXT, listener có 2 cái, 1 cái ở activity 1 cái ở fragment
+     */
+    private void addListener(){
+        btnNext.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //btnNextListennerOnFragment.onClick(v);//goi ham onClick o Fragment
+                countAnswer++;//tang so cau da tra loi len 1
+                fillData();
+            }
+        });
+    }
+
 
     /**
      * Ham nay de tao dong do dem gio
