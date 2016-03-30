@@ -66,7 +66,8 @@
                         android:text="1m 2s"
                         android:layout_marginLeft="5dp"
                         android:layout_toEndOf="@+id/imgTime"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtTime" />
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -85,7 +86,8 @@
                         android:text="3"
                         android:layout_marginLeft="5dp"
                         android:layout_toEndOf="@+id/imgStar"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtCountStar" />
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
@@ -110,7 +112,8 @@
                         android:text="0"
                         android:layout_marginLeft="5dp"
                         android:layout_toEndOf="@+id/imgGrey"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtCountGrey" />
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -129,7 +132,8 @@
                         android:text="0"
                         android:layout_marginLeft="5dp"
                         android:layout_toEndOf="@+id/imgGreen"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtCountGreen" />
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
@@ -153,7 +157,8 @@
                         android:text="0"
                         android:layout_marginLeft="5dp"
                         android:layout_toEndOf="@+id/imgYellow"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtCountYellow" />
                 </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -172,7 +177,8 @@
                         android:text="0"
                         android:layout_marginLeft="5dp"
                         android:layout_toEndOf="@+id/imgRed"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:id="@+id/txtCountRed" />
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
