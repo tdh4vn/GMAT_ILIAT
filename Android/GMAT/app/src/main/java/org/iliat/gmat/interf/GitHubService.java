@@ -1,6 +1,6 @@
 package org.iliat.gmat.interf;
 
-import org.iliat.gmat.enitity.QuestionList;
+import org.iliat.gmat.enitity.questions.QuestionList;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

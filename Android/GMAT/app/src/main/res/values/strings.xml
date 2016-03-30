@@ -24,6 +24,7 @@
     <string name="answer_c_label">C.</string>
     <string name="answer_d_label">D.</string>
     <string name="answer_e_label">E.</string>
+    <string name="title_activity_question_pack">QuestionPackActivity</string>
 
 
 </resources>

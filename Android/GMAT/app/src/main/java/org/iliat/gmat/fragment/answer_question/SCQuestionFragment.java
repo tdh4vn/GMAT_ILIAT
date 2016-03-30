@@ -15,11 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
+import org.iliat.gmat.activity.ScoreActivity;
 import org.iliat.gmat.adapter.ListAnswerChoiceAdapter;
 import org.iliat.gmat.adapter.QuestionAdapter;
-import org.iliat.gmat.enitity.QuestionCRModel;
-import org.iliat.gmat.enitity.QuestionPack;
-import org.iliat.gmat.enitity.QuestionList;
+import org.iliat.gmat.enitity.questions.QuestionCRModel;
+import org.iliat.gmat.enitity.questions.QuestionPack;
+import org.iliat.gmat.enitity.questions.QuestionList;
 import org.iliat.gmat.enitity.UserChoice;
 import org.iliat.gmat.fragment.BaseFragment;
 
@@ -133,36 +134,38 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isLastQuestion()) {
+                if (!isLastQuestion()) {
                     /* Go to last screen */
                     gotoNextQuestion();
+                }else {
+                    getScreenManager().goToActivity(ScoreActivity.class);
                 }
             }
         });
 
-//        mWvStimulus = (TextView)view.findViewById(R.id.tv_stimulus);
-//        mWvQuestionStem = (TextView)view.findViewById(R.id.tv_stem);
-//        mAnswerChoices = (ListView) view.findViewById(R.id.list_answer_choices);
-//        btnSubmit = (Button)view.findViewById(R.id.btnSubmit);
+//        mWvStimulus = (TextView)view.findViewById(R.ObjectID.tv_stimulus);
+//        mWvQuestionStem = (TextView)view.findViewById(R.ObjectID.tv_stem);
+//        mAnswerChoices = (ListView) view.findViewById(R.ObjectID.list_answer_choices);
+//        btnSubmit = (Button)view.findViewById(R.ObjectID.btnSubmit);
 
 //        viewHolders = new ViewHolder[] {
-//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_a),
-//                        (TextView)view.findViewById(R.id.tv_label_a), 0),
-//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_b),
-//                        (TextView)view.findViewById(R.id.tv_label_b), 1),
-//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_c),
-//                        (TextView)view.findViewById(R.id.tv_label_c), 2),
-//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_d),
-//                        (TextView)view.findViewById(R.id.tv_label_d), 3),
-//                new ViewHolder((TextView)view.findViewById(R.id.tv_answer_e),
-//                        (TextView)view.findViewById(R.id.tv_label_e), 4)
+//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_a),
+//                        (TextView)view.findViewById(R.ObjectID.tv_label_a), 0),
+//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_b),
+//                        (TextView)view.findViewById(R.ObjectID.tv_label_b), 1),
+//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_c),
+//                        (TextView)view.findViewById(R.ObjectID.tv_label_c), 2),
+//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_d),
+//                        (TextView)view.findViewById(R.ObjectID.tv_label_d), 3),
+//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_e),
+//                        (TextView)view.findViewById(R.ObjectID.tv_label_e), 4)
 //        };
 //        tvAnswers = new TextView[]{
-//                (TextView)view.findViewById(R.id.tv_answer_a),
-//                (TextView)view.findViewById(R.id.tv_answer_b),
-//                (TextView)view.findViewById(R.id.tv_answer_c),
-//                (TextView)view.findViewById(R.id.tv_answer_d),
-//                (TextView)view.findViewById(R.id.tv_answer_e)
+//                (TextView)view.findViewById(R.ObjectID.tv_answer_a),
+//                (TextView)view.findViewById(R.ObjectID.tv_answer_b),
+//                (TextView)view.findViewById(R.ObjectID.tv_answer_c),
+//                (TextView)view.findViewById(R.ObjectID.tv_answer_d),
+//                (TextView)view.findViewById(R.ObjectID.tv_answer_e)
 //        };
 
 
@@ -172,7 +175,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 //        mWvStimulus.setText(mQuestionCRModel.getStimulus());
 //        mWvQuestionStem.setText(mQuestionCRModel.getStem());
 //
-//        List<String> answerChoices = mQuestionCRModel.getAnswer_choices();
+//        List<String> answerChoices = mQuestionCRModel.getAnswerChoiceList();
 //        for(int idx = 0; idx < answerChoices.size(); idx++ ){
 //            tvAnswers[idx].setText(answerChoices.get(idx));
 //        }
@@ -211,7 +214,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     private void gotoNextQuestion() {
         QuestionCRModel nextQuestion = mQuestionPack.getNextQuestion(mQuestionCRModel);
         if(nextQuestion != null) {
-            Log.d("gotoNextQuestion", nextQuestion.getOid());
+            Log.d("gotoNextQuestion", nextQuestion.getId());
             getScreenManager().openFragment(create(mQuestionPack,
                     nextQuestion), true);
         }

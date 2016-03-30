@@ -4,7 +4,6 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -28,7 +27,7 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
         countDownTime = (TextView)this.findViewById(R.id.textView_count_down);
         progressText = (TextView)this.findViewById(R.id.text_progress);
         progressBarDoing = (ProgressBar)this.findViewById(R.id.doing_progressBar);
-        fragmentView = (FrameLayout)this.findViewById(R.id.fragment_view_of_answer_question);
+        fragmentView = (FrameLayout)this.findViewById(R.id.fl_view_of_answer_question);
     }
 
     @Override

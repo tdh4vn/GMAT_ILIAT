@@ -6,11 +6,10 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.QuestionCRModel;
+import org.iliat.gmat.enitity.questions.QuestionCRModel;
 import org.iliat.gmat.enitity.UserChoice;
 
 /**
@@ -31,23 +30,21 @@ public class QuestionAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return FIXED_ITEMS_CNT + mQuestionCRModel.getAnswer_choices().size();
+        return FIXED_ITEMS_CNT + mQuestionCRModel.getAnswerChoiceList().size();
     }
 
     @Override
     public Object getItem(int position) {
         switch (position) {
-            case 0: return mQuestionCRModel.getStimulus();
-            case 1: return "<b>" +  mQuestionCRModel.getStem() + "</b>";
+            case 0:
+                return mQuestionCRModel.getStimulus();
+            case 1:
+                return "<b>" + mQuestionCRModel.getStem() + "</b>";
             default:
                 int idx = position - FIXED_ITEMS_CNT;
-//                if(idx == mUserChoice.getChoice()){
-//                    return "<div style=\"color:red;\">" + mQuestionCRModel.getAnswerChoice(idx) + "</div>";
-//                }
-                return mQuestionCRModel.getAnswerChoice(idx);
+                return mQuestionCRModel.getAnswerChoice(idx).getChoice();
         }
     }
-
 
     @Override
     public long getItemId(int position) {
@@ -84,30 +81,15 @@ public class QuestionAdapter extends BaseAdapter {
             WebView wvContent = (WebView)convertView.findViewById(R.id.wv_content);
             wvContent.loadData(content, "text/html", "utf-8");
         } else {
-            TextView textView = (TextView)convertView.findViewById(R.id.wv_content);
+            TextView textView = (TextView) convertView.findViewById(R.id.wv_content);
             textView.setText(content);
 
-            ImageView imvLabel= (ImageView)convertView.findViewById(R.id.iv_answer_label);
+            ImageView imvLabel = (ImageView) convertView.findViewById(R.id.iv_answer_label);
             int imgId = getAnswerLabelImvId(position - FIXED_ITEMS_CNT);
-            if(imgId != -1) {
+            if (imgId != -1) {
                 imvLabel.setImageResource(imgId);
             }
         }
-
-
-//        if(position >= FIXED_ITEMS_CNT ) {
-//            int answerChoiceIdx = FIXED_ITEMS_CNT - position;
-//            wvContent.setTag(position - FIXED_ITEMS_CNT);
-//            convertView.setTag(position - FIXED_ITEMS_CNT);
-//            convertView.setTag(position - FIXED_ITEMS_CNT);
-//            convertView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    mUserChoice.setChoice((Integer)v.getTag());
-//                    notifyDataSetChanged();
-//                }
-//            });
-//        }
 
         return convertView;
     }

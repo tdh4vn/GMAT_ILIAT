@@ -3,13 +3,13 @@ package org.iliat.gmat.enitity;
 /**
  * Created by qhuydtvt on 3/14/2016.
  */
-public class AnswerChoice {
+public class AnswerChoiceVM {
     private String questionId;
     private int index;
     private String text;
     private boolean selected = false;
 
-    public AnswerChoice(String questionId, int index, String text) {
+    public AnswerChoiceVM(String questionId, int index, String text) {
         this.questionId = questionId;
         this.text = text;
         this.index = index;

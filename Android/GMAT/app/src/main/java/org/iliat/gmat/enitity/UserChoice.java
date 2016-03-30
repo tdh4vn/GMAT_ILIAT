@@ -5,15 +5,15 @@ package org.iliat.gmat.enitity;
  */
 public class UserChoice {
 
-    private String questionid;
+    private String questionId;
     private int choice = -1;
 
-    public String getQuestionid() {
-        return questionid;
+    public String getQuestionId() {
+        return questionId;
     }
 
-    public void setQuestionid(String questionid) {
-        this.questionid = questionid;
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
     }
 
     public int getChoice() {

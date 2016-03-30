@@ -55,6 +55,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8.8"
-        android:id="@+id/fragment_view_of_answer_question">
+        android:id="@+id/fl_view_of_answer_question">
     </FrameLayout>
 </LinearLayout>

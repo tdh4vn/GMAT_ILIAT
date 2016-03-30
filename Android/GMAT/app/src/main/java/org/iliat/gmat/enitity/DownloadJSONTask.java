@@ -3,16 +3,13 @@ package org.iliat.gmat.enitity;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.InputMismatchException;
 
 /**
  * Created by qhuydtvt on 3/9/2016.
@@ -24,23 +21,19 @@ public class DownloadJSONTask extends AsyncTask<URL, Integer, JSONObject>{
 
     private JSONPostDownloadHandler jsonPostDownloadHandler = null;
     private JSONPreDownloadHandler jsonPreDownloadHandler = null;
-    private JSONDownloadHandler jsonDownloadHandler = null;
+    private JSONParser jsonParser = null;
 
     private String mTag = null;
-
-    public void setJsonPostDownloadHandler(JSONPostDownloadHandler jsonPostDownloadHandler) {
-        this.jsonPostDownloadHandler = jsonPostDownloadHandler;
-    }
 
     public DownloadJSONTask() {
     }
 
     public DownloadJSONTask(JSONPreDownloadHandler preDownloadHandler,
-                            JSONDownloadHandler jsonDownloadHandler,
+                            JSONParser jsonParser,
                             JSONPostDownloadHandler jsonPostDownloadHandler,
                             String tag) {
         this.jsonPreDownloadHandler = preDownloadHandler;
-        this.jsonDownloadHandler = jsonDownloadHandler;
+        this.jsonParser = jsonParser;
         this.jsonPostDownloadHandler = jsonPostDownloadHandler;
         this.mTag = tag;
     }
@@ -64,8 +57,8 @@ public class DownloadJSONTask extends AsyncTask<URL, Integer, JSONObject>{
 
                 if (responseCode == HttpURLConnection.HTTP_OK) { /* Good! */
                     InputStreamReader reader = new InputStreamReader(url.openStream(), "UTF-8");
-                    if(jsonDownloadHandler != null) {
-                        jsonDownloadHandler.onDownload(reader, mTag);
+                    if(jsonParser != null) {
+                        jsonParser.onDownload(reader, mTag);
                     }
 
                     reader.close();
