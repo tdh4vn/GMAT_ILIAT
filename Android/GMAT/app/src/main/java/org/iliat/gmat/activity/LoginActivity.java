@@ -74,6 +74,8 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
                                     getString(R.string.login),
                                     Snackbar.LENGTH_LONG);
                     snackbar.show();
+                    mQuestionDownloadCompleted = false;
+                    mQuestionPackDownloadCompleted = false;
                     checkAndDownloadData();
                 }
             }
@@ -82,7 +84,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 
     private void checkAndDownloadData() {
         try {
-            DownloadJSONTask downloadQuestionTask = new DownloadJSONTask(null, this, this,
+            DownloadJSONTask downloadQuestionTask = new DownloadJSONTask(this, this, this,
                     DOWNLOAD_QUESTION_TAG);
             downloadQuestionTask.execute(new URL(GMATAPI.QUESTIONS_API));
             Log.d(TAG, "Questions download started");
@@ -91,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         }
 
         try {
-            DownloadJSONTask downloadQuestionPackTask = new DownloadJSONTask(null, this, this,
+            DownloadJSONTask downloadQuestionPackTask = new DownloadJSONTask(this, this, this,
                     DOWNLOAD_QUESTION_PACK_TAG);
             downloadQuestionPackTask.execute(new URL(GMATAPI.QUESTION_PACKS_API));
             Log.d(TAG, "Question packs download started");
