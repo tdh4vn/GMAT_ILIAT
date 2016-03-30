@@ -7,8 +7,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.AnswerChoice;
-import org.iliat.gmat.enitity.QuestionCRModel;
+import org.iliat.gmat.enitity.AnswerChoiceVM;
+import org.iliat.gmat.enitity.questions.AnswerChoice;
+import org.iliat.gmat.enitity.questions.QuestionCRModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,31 +20,31 @@ import java.util.List;
 public class ListAnswerChoiceAdapter extends BaseAdapter {
 
     private QuestionCRModel mQuestion;
-    private ArrayList<AnswerChoice> answerChoiceList;
+    private ArrayList<AnswerChoiceVM> answerChoiceVMList;
     private LayoutInflater mLayoutInflater;
 
     public ListAnswerChoiceAdapter(LayoutInflater layoutInflater, QuestionCRModel question) {
         this.mLayoutInflater = layoutInflater;
         this.mQuestion = question;
 
-        answerChoiceList = new ArrayList<>();
-        List<String> answer_choices = mQuestion.getAnswer_choices();
+        answerChoiceVMList = new ArrayList<>();
+        List<AnswerChoice> answer_choices = mQuestion.getAnswerChoiceList();
         for(int idx = 0; idx < answer_choices.size(); idx++) {
-            answerChoiceList.add(
-                    new AnswerChoice(mQuestion.getOid(),
+            answerChoiceVMList.add(
+                    new AnswerChoiceVM(mQuestion.getId(),
                     idx,
-                    answer_choices.get(idx) ));
+                    answer_choices.get(idx).getChoice() ));
         }
     }
 
     @Override
     public int getCount() {
-        return answerChoiceList.size();
+        return answerChoiceVMList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return answerChoiceList.get(position);
+        return answerChoiceVMList.get(position);
     }
 
     @Override
@@ -53,16 +54,16 @@ public class ListAnswerChoiceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        AnswerChoice answerChoice = answerChoiceList.get(position);
+        AnswerChoiceVM answerChoiceVM = answerChoiceVMList.get(position);
 
         if(convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.list_item_answer_choice, parent, false);
         }
 
         TextView txvAnswerChoice = (TextView)convertView.findViewById(R.id.txv_answer_choice);
-        txvAnswerChoice.setText(answerChoice.getText());
+        txvAnswerChoice.setText(answerChoiceVM.getText());
 
-        convertView.setTag(answerChoice);
+        convertView.setTag(answerChoiceVM);
 
         return convertView;
     }

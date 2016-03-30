@@ -5,7 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import org.iliat.gmat.dao.GMATAPI;
-import org.iliat.gmat.enitity.QuestionList;
+import org.iliat.gmat.enitity.questions.QuestionList;
 
 import java.io.BufferedReader;
 import java.io.IOException;

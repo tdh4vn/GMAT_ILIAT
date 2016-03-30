@@ -22,7 +22,7 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
         <activity android:name=".activity.AnswerQuestionActivity" />
-        <activity android:name=".activity.ScoreActivity"></activity>
+        <activity android:name=".activity.ScoreActivity" />
     </application>
 
 </manifest>

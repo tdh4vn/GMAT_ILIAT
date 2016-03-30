@@ -1,4 +1,4 @@
-package org.iliat.gmat.enitity;
+package org.iliat.gmat.enitity.questions;
 
 import android.util.Log;
 
@@ -13,10 +13,13 @@ import java.util.List;
  */
 public class QuestionList {
 
-    @SerializedName("version")
+    private static final String VERSION = "version";
+    private static final String QUESTTIONS= "questions";
+
+    @SerializedName(VERSION)
     private String version;
 
-    @SerializedName("questions")
+    @SerializedName(QUESTTIONS)
     private List<QuestionCRModel> list;
 
     public QuestionList() {
@@ -26,10 +29,6 @@ public class QuestionList {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
     public List<QuestionCRModel> getList() {
         return list;
     }
@@ -37,8 +36,8 @@ public class QuestionList {
     public static QuestionCRModel getQuestion(String oid) {
         Log.d("getQuestion - match", oid);
         for(QuestionCRModel questionCRModel : inst.getList()) {
-            Log.d("getQuestion", questionCRModel.getOid());
-            if(questionCRModel.getOid().equals(oid)) {
+            Log.d("getQuestion", questionCRModel.getId());
+            if(questionCRModel.getId().equals(oid)) {
                 return questionCRModel;
             }
         }
