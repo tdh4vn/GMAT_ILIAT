@@ -138,7 +138,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
                     /* Go to last screen */
                     gotoNextQuestion();
                 }else {
-                    getScreenManager().goToActivity(ScoreActivity.class);
+                    getScreenManager().goToActivity(ScoreActivity.class, null);
                 }
             }
         });

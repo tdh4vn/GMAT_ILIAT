@@ -4,6 +4,7 @@ package org.iliat.gmat.enitity;
  * Created by qhuydtvt on 3/14/2016.
  */
 public class AnswerChoiceVM {
+
     private String questionId;
     private int index;
     private String text;

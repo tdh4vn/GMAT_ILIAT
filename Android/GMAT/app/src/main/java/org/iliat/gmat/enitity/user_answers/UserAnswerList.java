@@ -10,13 +10,15 @@ import java.util.List;
  */
 public class UserAnswerList {
 
+    private String answerTime;
+
     private List<UserAnswer> list;
 
     public List<UserAnswer> getList() { return list; }
 
-    public  UserAnswerList(QuestionPack questionPack) {
+    public  UserAnswerList(List<String> questionIds) {
         list = new ArrayList<>();
-        for(String questionId : questionPack.getQuestionIds()) {
+        for(String questionId : questionIds) {
             list.add(new UserAnswer(questionId));
         }
     }

@@ -98,7 +98,7 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
     @Override
     public void onQuestionPackInteraction(QuestionPack item) {
         Log.d(TAG, "Item click " + item.getAvailableTime());
-        getScreenManager().goToActivity(AnswerQuestionActivity.class);
+        getScreenManager().goToActivity(AnswerQuestionActivity.class, null);
 //        SCQuestionFragment scQuestionFragment = new SCQuestionFragment();
 //        scQuestionFragment.setQuestionPack(item);
 //        getScreenManager().openFragment(scQuestionFragment, true);

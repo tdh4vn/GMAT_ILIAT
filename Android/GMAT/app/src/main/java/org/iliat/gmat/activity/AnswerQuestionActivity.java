@@ -123,7 +123,7 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     }
 
     @Override
-    public void goToActivity(Class activityClass) {
+    public void goToActivity(Class activityClass, Bundle bundle) {
 
     }
 }
