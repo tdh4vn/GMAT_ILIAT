@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.iliat.gmat.R;
+import org.iliat.gmat.activity.AnswerQuestionActivity;
 import org.iliat.gmat.adapter.ListQuestionPackAdapter;
 import org.iliat.gmat.enitity.questions.QuestionPack;
 import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
@@ -97,8 +98,10 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
     @Override
     public void onQuestionPackInteraction(QuestionPack item) {
         Log.d(TAG, "Item click " + item.getAvailableTime());
-        SCQuestionFragment scQuestionFragment = new SCQuestionFragment();
-        scQuestionFragment.setQuestionPack(item);
-        getScreenManager().openFragment(scQuestionFragment, true);
+        getScreenManager().goToActivity(AnswerQuestionActivity.class);
+//        SCQuestionFragment scQuestionFragment = new SCQuestionFragment();
+//        scQuestionFragment.setQuestionPack(item);
+//        getScreenManager().openFragment(scQuestionFragment, true);
+
     }
 }

@@ -2,6 +2,7 @@ package org.iliat.gmat.interf;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.os.Bundle;
 
 /**
  * Created by hungtran on 3/13/16.
@@ -16,5 +17,5 @@ public interface ScreenManager {
      * @param activityClass Class của activity mới.
      * @example AnswerQuestionAcivity.
      */
-    void goToActivity(Class activityClass);
+    void goToActivity(Class activityClass, Bundle bundle);
 }

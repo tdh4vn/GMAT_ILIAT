@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity
      * @param activityClass Class của activity mới.
      * @example AnswerQuestionAcivity.
      */
-    public void goToActivity(Class activityClass){
+    public void goToActivity(Class activityClass, Bundle bundle){
         Intent intent = new Intent(this, activityClass);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
