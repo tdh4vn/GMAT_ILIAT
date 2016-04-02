@@ -47,7 +47,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     private ListView ltvQuestion;
     private Button btnSubmit;
 
-    private QuestionPack mQuestionPack;
+//    private QuestionPack mQuestionPack;
 
     private QuestionCRModel mQuestionCRModel;
 
@@ -67,9 +67,9 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         // Required empty public constructor
     }
 
-    public void setQuestionPack(QuestionPack questionPack) {
-        mQuestionPack = questionPack;
-    }
+//    public void setQuestionPack(QuestionPack questionPack) {
+//        mQuestionPack = questionPack;
+//    }
 
     public void setQuestion(QuestionCRModel question) {
         mQuestionCRModel = question;
@@ -113,35 +113,35 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 
     private void initLayout(View view) {
 
-        if(mQuestionCRModel == null) { /* The first Question fragment */
-            mQuestionCRModel = QuestionList.getQuestion(mQuestionPack.getFirstQuestionId());
-        }
+//        if(mQuestionCRModel == null) { /* The first Question fragment */
+//            mQuestionCRModel = QuestionList.getQuestion(mQuestionPack.getFirstQuestionId());
+//        }
 
         ltvQuestion = (ListView) view.findViewById(R.id.ltv_question);
-        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
+//        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
 
         UserChoice userChoice = new UserChoice();
         userChoice.setChoice(0);
         ltvQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         ltvQuestion.setAdapter(new QuestionAdapter(mQuestionCRModel, userChoice, getActivity().getLayoutInflater()));
 
-        if(isLastQuestion()) {
-            btnSubmit.setText(getString(R.string.submit_question_pack));
-        } else {
-            btnSubmit.setText(getString(R.string.next_question));
-        }
+//        if(isLastQuestion()) {
+//            btnSubmit.setText(getString(R.string.submit_question_pack));
+//        } else {
+//            btnSubmit.setText(getString(R.string.next_question));
+//        }
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isLastQuestion()) {
-                    /* Go to last screen */
-                    gotoNextQuestion();
-                }else {
-                    getScreenManager().goToActivity(ScoreActivity.class, null);
-                }
-            }
-        });
+//        btnSubmit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!isLastQuestion()) {
+//                    /* Go to last screen */
+//                    gotoNextQuestion();
+//                }else {
+//                    getScreenManager().goToActivity(ScoreActivity.class, null);
+//                }
+//            }
+//        });
 
 //        mWvStimulus = (TextView)view.findViewById(R.ObjectID.tv_stimulus);
 //        mWvQuestionStem = (TextView)view.findViewById(R.ObjectID.tv_stem);
@@ -207,18 +207,18 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 //        });
     }
 
-    private  boolean isLastQuestion() {
-        return mQuestionPack.isLastQuestion(mQuestionCRModel);
-    }
+//    private  boolean isLastQuestion() {
+//        return mQuestionPack.isLastQuestion(mQuestionCRModel);
+//    }
 
-    private void gotoNextQuestion() {
-        QuestionCRModel nextQuestion = mQuestionPack.getNextQuestion(mQuestionCRModel);
-        if(nextQuestion != null) {
-            Log.d("gotoNextQuestion", nextQuestion.getId());
-            getScreenManager().openFragment(create(mQuestionPack,
-                    nextQuestion), true);
-        }
-    }
+//    private void gotoNextQuestion() {
+//        QuestionCRModel nextQuestion = mQuestionPack.getNextQuestion(mQuestionCRModel);
+//        if(nextQuestion != null) {
+//            Log.d("gotoNextQuestion", nextQuestion.getId());
+//            getScreenManager().openFragment(create(mQuestionPack,
+//                    nextQuestion), true);
+//        }
+//    }
 
 /*    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -280,12 +280,12 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         void onFragmentInteraction(Uri uri);
     }
 
-    public static SCQuestionFragment create(QuestionPack questionPack, QuestionCRModel questionCRModel) {
-        SCQuestionFragment fragment = new SCQuestionFragment();
-        fragment.setQuestionPack(questionPack);
-        fragment.setQuestion(questionCRModel);
-        return fragment;
-    }
+//    public static SCQuestionFragment create(QuestionPack questionPack, QuestionCRModel questionCRModel) {
+//        SCQuestionFragment fragment = new SCQuestionFragment();
+//        fragment.setQuestionPack(questionPack);
+//        fragment.setQuestion(questionCRModel);
+//        return fragment;
+//    }
 
     /**** Method for Setting the Height of the ListView dynamically.
      **** Hack to fix the issue of not showing all the items of the ListView
