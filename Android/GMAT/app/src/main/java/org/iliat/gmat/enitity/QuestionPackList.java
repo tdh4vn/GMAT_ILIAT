@@ -41,8 +41,4 @@ public class QuestionPackList {
     }
 
     private static List<QuestionPack> todayQuestionPack;
-
-//    private QuestionPack activeQuestionPack;
-//    public QuestionPack getActiveQuestionPack() {return activeQuestionPack; }
-//    public void setActiveQuestionPack(QuestionPack questionPack) { activeQuestionPack = questionPack; }
 }
