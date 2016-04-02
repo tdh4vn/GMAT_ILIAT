@@ -18,33 +18,13 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="56006915-a1c1-4e36-a850-b5f175bbcd31" name="Default" comment=".">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/answer_question/SCQuestionVM.java" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\appcompat_v7_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\cardview_v7_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\circleprogress_1_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\design_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\gridlayout_v7_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\gson_2_6_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\recyclerview_v7_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\retrofit_2_0_0_beta4.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\support_annotations_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\.idea\libraries\support_v4_23_1_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\app\src\main\java\org\iliat\gmat\fragment\answer_question\SCQuestionItem.java" afterPath="" />
-      <change type="MOVED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\app\src\main\java\org\iliat\gmat\adapter\QuestionAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/adapter/QuestionAnswerAdapter.java" />
-      <change type="MOVED" beforePath="C:\Users\qhuydtvt\Documents\GMAT_ILIAT\Android\GMAT\app\src\main\java\org\iliat\gmat\fragment\answer_question\AnswerChoiceItem.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/answer_question/AnswerChoiceVM.java" />
+    <list default="true" id="56006915-a1c1-4e36-a850-b5f175bbcd31" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.8/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/questions/AnswerChoice.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/questions/AnswerChoice.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/activity/AnswerQuestionActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/activity/AnswerQuestionActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/activity/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/activity/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/ObjectID.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/ObjectID.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/questions/QuestionList.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/questions/QuestionList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/questions/QuestionPack.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/questions/QuestionPack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/QuestionPackFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/QuestionPackFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/answer_question/SCQuestionFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/answer_question/SCQuestionFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/QuestionPackList.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/QuestionPackList.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswer.java" afterPath="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="GMAT.iws" />
@@ -95,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuestionPackList.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="QuestionPackList.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/QuestionPackList.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="46" column="31" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.34385964">
+              <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -110,16 +90,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AnswerChoice.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/questions/AnswerChoice.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="33" column="1" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -137,13 +107,32 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ObjectID.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ObjectID.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/ObjectID.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1491228">
+            <state vertical-scroll-proportion="0.0">
               <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserAnswer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+              <folding>
+                <element signature="e#453#454#0" expanded="true" />
+                <element signature="e#489#490#0" expanded="true" />
+                <element signature="e#671#672#0" expanded="true" />
+                <element signature="e#719#720#0" expanded="true" />
+                <element signature="e#750#751#0" expanded="true" />
+                <element signature="e#777#778#0" expanded="true" />
+                <element signature="e#817#818#0" expanded="true" />
+                <element signature="e#849#850#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1818,11 +1807,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/activity/LoginActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/interf/ScreenManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/AnswerChoiceVM.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswerList.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/activity/ScoreActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/main/MainFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/QuestionPackList.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/answer_question/AnswerChoiceItem.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_single_question.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/questions/QuestionList.java" />
@@ -1838,6 +1825,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/activity/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/fragment/QuestionPackFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/ObjectID.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswer.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/QuestionPackList.java" />
       </list>
     </option>
   </component>
@@ -2788,7 +2777,13 @@
       <option name="project" value="LOCAL" />
       <updated>1459572620973</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary=".">
+      <created>1459602227030</created>
+      <option name="number" value="00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1459602227030</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2811,7 +2806,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25340393" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23373677" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -3096,14 +3091,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswerList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3261,14 +3248,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/QuestionPackList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="46" column="31" selection-start-line="46" selection-start-column="16" selection-end-line="46" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/activity/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3334,11 +3313,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/ObjectID.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1491228">
+        <state vertical-scroll-proportion="0.0">
           <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/user_answers/UserAnswer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+          <folding>
+            <element signature="e#453#454#0" expanded="true" />
+            <element signature="e#489#490#0" expanded="true" />
+            <element signature="e#671#672#0" expanded="true" />
+            <element signature="e#719#720#0" expanded="true" />
+            <element signature="e#750#751#0" expanded="true" />
+            <element signature="e#777#778#0" expanded="true" />
+            <element signature="e#817#818#0" expanded="true" />
+            <element signature="e#849#850#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/iliat/gmat/enitity/QuestionPackList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.34385964">
+          <caret line="32" column="15" selection-start-line="32" selection-start-column="15" selection-end-line="32" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>

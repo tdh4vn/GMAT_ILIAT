@@ -9,6 +9,7 @@ public class UserAnswer {
 
     private String questionId;
     private int answerChoice;
+    private String note;
 
     private UserAnswer(String questionId, int answerChoice) {
         this.questionId = questionId;
@@ -27,5 +28,13 @@ public class UserAnswer {
 
     public void setAnswerChoice(int answerChoice) {
         this.answerChoice = answerChoice;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
