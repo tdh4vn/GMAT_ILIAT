@@ -26,9 +26,7 @@ public class AnswerChoice {
         return index;
     }
 
-    public String getChoice() {
-        return choice;
-    }
+    public String getChoice() { return choice; }
 
     public String getExplanation() {
         return explanation;

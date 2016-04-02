@@ -4,12 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import org.iliat.gmat.enitity.ObjectID;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by qhuydtvt on 3/14/2016.
  */
-public class QuestionPack {
+public class QuestionPack implements Serializable {
 
     private static final String ID = "_id";
     private static final String AVAILABLE_TIME = "available_time";
@@ -45,16 +46,22 @@ public class QuestionPack {
         return null;
     }
 
-    public String getNextQuestionId(String id) {
-        int currentIdx = questionIds.indexOf(id);
-        if(currentIdx >= 0) {
-            int nextIdx = currentIdx + 1;
-            if (nextIdx < questionIds.size()) {
-                return questionIds.get(nextIdx);
-            }
-        }
+    public QuestionCRModel getFirstQuestion() {
+        if(questionIds.size() > 0)
+            return QuestionList.getQuestion(questionIds.get(0));
         return null;
     }
+
+//    public String getNextQuestionId(String id) {
+//        int currentIdx = questionIds.indexOf(id);
+//        if(currentIdx >= 0) {
+//            int nextIdx = currentIdx + 1;
+//            if (nextIdx < questionIds.size()) {
+//                return questionIds.get(nextIdx);
+//            }
+//        }
+//        return null;
+//    }
 
     public QuestionCRModel getNextQuestion(QuestionCRModel questionCRModel) {
         int currentIdx = questionIds.indexOf(questionCRModel.getId());
