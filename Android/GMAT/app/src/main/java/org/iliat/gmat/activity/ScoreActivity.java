@@ -43,9 +43,6 @@ public class ScoreActivity extends AppCompatActivity {
         this.maxScore = maxScore;
     }
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

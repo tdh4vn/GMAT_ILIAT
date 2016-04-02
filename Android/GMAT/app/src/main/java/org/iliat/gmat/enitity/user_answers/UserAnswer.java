@@ -6,6 +6,7 @@ import org.iliat.gmat.enitity.questions.QuestionCRModel;
  * Created by qhuydtvt on 3/29/2016.
  */
 public class UserAnswer {
+
     private String questionId;
     private int answerChoice;
 
@@ -18,9 +19,7 @@ public class UserAnswer {
         this(questionId, -1);
     }
 
-    public String getQuestionId() {
-        return questionId;
-    }
+    public String getQuestionId() { return questionId; }
 
     public int getAnswerChoice() {
         return answerChoice;

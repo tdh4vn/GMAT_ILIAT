@@ -1,8 +1,11 @@
 package org.iliat.gmat.enitity.user_answers;
 
+import android.Manifest;
+
 import org.iliat.gmat.enitity.questions.QuestionPack;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -16,10 +19,20 @@ public class UserAnswerList {
 
     public List<UserAnswer> getList() { return list; }
 
-    public  UserAnswerList(List<String> questionIds) {
+    public UserAnswerList() {
         list = new ArrayList<>();
-        for(String questionId : questionIds) {
+    }
+
+    public void updateList(QuestionPack questionPack) {
+        list.clear();
+        answerTime = Calendar.getInstance().getTime().toString();
+        for(String questionId : questionPack.getQuestionIds()) {
             list.add(new UserAnswer(questionId));
         }
+    }
+
+    private static UserAnswerList inst = new UserAnswerList();
+    public static UserAnswerList getInst() {
+        return inst;
     }
 }

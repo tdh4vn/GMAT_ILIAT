@@ -13,7 +13,10 @@ import android.view.ViewGroup;
 import org.iliat.gmat.R;
 import org.iliat.gmat.activity.AnswerQuestionActivity;
 import org.iliat.gmat.adapter.ListQuestionPackAdapter;
+import org.iliat.gmat.enitity.QuestionPackList;
 import org.iliat.gmat.enitity.questions.QuestionPack;
+import org.iliat.gmat.enitity.user_answers.UserAnswer;
+import org.iliat.gmat.enitity.user_answers.UserAnswerList;
 import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
 
 public class QuestionPackFragment extends BaseFragment implements ListQuestionPackAdapter.OnListQuestionPackListener {
@@ -77,31 +80,12 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
         return view;
     }
 
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof ListQuestionPackAdapter.OnListFragmentInteractionListener) {
-//            mListener = (ListQuestionPackAdapter.OnListFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnListFragmentInteractionListener");
-//        }
-//    }
-
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
     @Override
     public void onQuestionPackInteraction(QuestionPack item) {
         Log.d(TAG, "Item click " + item.getAvailableTime());
-        getScreenManager().goToActivity(AnswerQuestionActivity.class, null);
-//        SCQuestionFragment scQuestionFragment = new SCQuestionFragment();
-//        scQuestionFragment.setQuestionPack(item);
-//        getScreenManager().openFragment(scQuestionFragment, true);
 
+        QuestionPackList.getInst().setActiveQuestionPack(item);
+        UserAnswerList.getInst().updateList(item);
+        getScreenManager().goToActivity(AnswerQuestionActivity.class, null);
     }
 }

@@ -76,4 +76,8 @@ public class QuestionPack {
     public void setQuestionIds(List<String> questionIds) {
         this.questionIds = questionIds;
     }
+
+//    private static QuestionPack currentQuestionPack;
+//    public static QuestionPack getActiveQuestionPack() { return currentQuestionPack; }
+//    public static void setCurrentQuestionPack(QuestionPack questionPack) { currentQuestionPack = questionPack; }
 }

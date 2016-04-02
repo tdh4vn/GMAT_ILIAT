@@ -20,6 +20,8 @@ public class AnswerChoice {
     @SerializedName(EXPLANATION)
     private String explanation;
 
+    public boolean matchIndex(int index) { return index == this.index; }
+
     public int getIndex() {
         return index;
     }

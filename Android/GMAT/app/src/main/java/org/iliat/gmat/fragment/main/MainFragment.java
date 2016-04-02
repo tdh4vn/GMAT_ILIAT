@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import org.iliat.gmat.R;
 import org.iliat.gmat.activity.AnswerQuestionActivity;
 import org.iliat.gmat.activity.ScoreActivity;
+import org.iliat.gmat.enitity.questions.AnswerChoice;
+import org.iliat.gmat.enitity.user_answers.UserAnswerList;
 import org.iliat.gmat.fragment.BaseFragment;
 import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
 
@@ -47,8 +49,10 @@ public class MainFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Log.i("CARD_VIEW_SC", "Click");
-                //Tam thoi comment cho fix server. Hien gio bam vao nhay thang sang fragment ben kia
-                //getScreenManager().openFragment(new SCQuestionFragment(), true);
+
+                /* Load question */
+//                UserAnswerList.getInst().updateList();
+
                 getScreenManager().goToActivity(AnswerQuestionActivity.class, null);
                 //getScreenManager().goToActivity(ScoreActivity.class);
             }

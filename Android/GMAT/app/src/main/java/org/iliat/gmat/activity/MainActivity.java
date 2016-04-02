@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity
         getIntances();
 
         openFragment(new QuestionPackFragment(), true);
-//        SCQuestionFragment fragment = new SCQuestionFragment();
-//        fragment.setQuestionPack(QuestionPackList.getInst().getList().get(0));
-//        openFragment(fragment, true);
     }
 
     @Override

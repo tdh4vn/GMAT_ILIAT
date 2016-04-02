@@ -23,7 +23,8 @@ public class QuestionPackList {
     }
 
     public List<QuestionPack> getTodayQuestionPacks() {
-        return list;
+        this.todayQuestionPack = list;
+        return todayQuestionPack;
     }
 
     private static QuestionPackList inst;
@@ -38,4 +39,10 @@ public class QuestionPackList {
     public static void loadFromJson(InputStreamReader reader) {
         inst = (new Gson()).fromJson(reader, QuestionPackList.class);
     }
+
+    private static List<QuestionPack> todayQuestionPack;
+
+    private QuestionPack activeQuestionPack;
+    public QuestionPack getActiveQuestionPack() {return activeQuestionPack; }
+    public void setActiveQuestionPack(QuestionPack questionPack) { activeQuestionPack = questionPack; }
 }

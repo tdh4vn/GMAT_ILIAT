@@ -18,6 +18,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class AnswerQuestionActivity extends AppCompatActivity implements ScreenManager, CallBackAnswerQuestion{
+
     long countTime = 0;
     int countAnswer = 12;
     int maxQuestion = 16;
@@ -36,9 +37,19 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_question);
-        connectView();
+        getViewReferences();
         createTimer();
         fillData();
+    }
+
+    private void getViewReferences(){
+        txtCountTime = (TextView)this.findViewById(R.id.textView_count_down);
+        progressText = (TextView)this.findViewById(R.id.text_progress);
+        progressBarDoing = (ProgressBar)this.findViewById(R.id.doing_progressBar);
+        fragmentView = (FrameLayout)this.findViewById(R.id.fragment_view_of_answer_question);
+        btnNext = (Button)this.findViewById(R.id.btn_next);
+        progressBarDoing.setMax(maxQuestion);
+        addListeners();
     }
 
     /**
@@ -51,20 +62,11 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
         progressText.setText(String.format("%d / %d", countAnswer, maxQuestion));
         progressBarDoing.setProgress(countAnswer);
     }
-    private void connectView(){
-        txtCountTime = (TextView)this.findViewById(R.id.textView_count_down);
-        progressText = (TextView)this.findViewById(R.id.text_progress);
-        progressBarDoing = (ProgressBar)this.findViewById(R.id.doing_progressBar);
-        fragmentView = (FrameLayout)this.findViewById(R.id.fragment_view_of_answer_question);
-        btnNext = (Button)this.findViewById(R.id.btn_next);
-        progressBarDoing.setMax(maxQuestion);
-        addListener();
-    }
 
     /**
      * Hàm này để add listener cho cái button NEXT, listener có 2 cái, 1 cái ở activity 1 cái ở fragment
      */
-    private void addListener(){
+    private void addListeners(){
         btnNext.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
