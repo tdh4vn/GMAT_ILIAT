@@ -85,8 +85,13 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
     public void onQuestionPackInteraction(QuestionPack item) {
         Log.d(TAG, "Item click " + item.getAvailableTime());
 
-        QuestionPackList.getInst().setActiveQuestionPack(item);
-        UserAnswerList.getInst().updateList(item);
-        getScreenManager().goToActivity(AnswerQuestionActivity.class, null);
+
+
+
+        //QuestionPackList.getInst().setActiveQuestionPack(item);
+        //UserAnswerList.getInst().updateList(item);
+
+        getScreenManager().goToActivity(AnswerQuestionActivity.class,
+                AnswerQuestionActivity.buildBundle(item));
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.activity.ScoreActivity;
 import org.iliat.gmat.adapter.ListAnswerChoiceAdapter;
-import org.iliat.gmat.adapter.QuestionAdapter;
+import org.iliat.gmat.adapter.QuestionAnswerAdapter;
 import org.iliat.gmat.enitity.questions.QuestionCRModel;
-import org.iliat.gmat.enitity.questions.QuestionPack;
-import org.iliat.gmat.enitity.questions.QuestionList;
 import org.iliat.gmat.enitity.UserChoice;
 import org.iliat.gmat.fragment.BaseFragment;
 
@@ -33,10 +30,6 @@ import org.iliat.gmat.fragment.BaseFragment;
  * create an instance of this fragment.
  */
 public class SCQuestionFragment extends BaseFragment implements AdapterView.OnItemSelectedListener,View.OnClickListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private final int ANSWER_CHOICE_NUM = 5;
 
@@ -86,10 +79,10 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     // TODO: Rename and change types and number of parameters
     public static SCQuestionFragment newInstance(String param1, String param2) {
         SCQuestionFragment fragment = new SCQuestionFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -97,8 +90,8 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -117,13 +110,14 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 //            mQuestionCRModel = QuestionList.getQuestion(mQuestionPack.getFirstQuestionId());
 //        }
 
-        ltvQuestion = (ListView) view.findViewById(R.id.ltv_question);
+
 //        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
 
+        ltvQuestion = (ListView) view.findViewById(R.id.ltv_question);
         UserChoice userChoice = new UserChoice();
         userChoice.setChoice(0);
         ltvQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        ltvQuestion.setAdapter(new QuestionAdapter(mQuestionCRModel, userChoice, getActivity().getLayoutInflater()));
+        ltvQuestion.setAdapter(new QuestionAnswerAdapter(mQuestionCRModel, userChoice, getActivity().getLayoutInflater()));
 
 //        if(isLastQuestion()) {
 //            btnSubmit.setText(getString(R.string.submit_question_pack));
@@ -247,7 +241,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         TextView txvItem = (TextView)view.findViewById(R.id.txv_answer_choice);
-        txvItem.setTextColor(0X3F51B5);
+        txvItem.setTextColor(ContextCompat.getColor(this.getActivity(), R.color.color_selected_answer));
     }
 
     @Override

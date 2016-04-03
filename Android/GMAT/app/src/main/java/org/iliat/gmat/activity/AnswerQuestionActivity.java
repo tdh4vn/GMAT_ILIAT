@@ -35,16 +35,10 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     ProgressBar progressBarDoing;
     FrameLayout fragmentView;
     Button btnNext;
-    View.OnClickListener btnNextListennerOnFragment;
     FragmentManager mFragmentManager;
 
-    int questionIdx = 0;
     QuestionPack questionPack;
     QuestionCRModel questionCRModel;
-
-    public void setBtnNextListennerOnFragment(View.OnClickListener btnNextListennerOnFragment) {
-        this.btnNextListennerOnFragment = btnNextListennerOnFragment;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +46,19 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
 
         setContentView(R.layout.activity_answer_question);
 
-        questionIdx = 0;
-        questionPack = QuestionPackList.getInst().getList().get(0);
-        questionCRModel = QuestionList.getQuestion(questionPack.getFirstQuestionId());
 
+        getDataFromIntent();
         getViewReferences();
         createTimer();
         fillData();
-
         openQuestionFragment();
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = this.getIntent();
+        Bundle bundle = intent.getExtras();
+        questionPack = getQuestionPackFromBundle(bundle);
+        questionCRModel = questionPack.getFirstQuestion();
     }
 
     private void openQuestionFragment() {
@@ -113,8 +111,7 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
                     questionCRModel = questionPack.getNextQuestion(questionCRModel);
                     openQuestionFragment();
                     updateSubmitButtonText();
-                }
-                else {
+                } else {
                     goToActivity(ScoreActivity.class, null);
                 }
             }
@@ -130,15 +127,13 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
         T.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable()
-                {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void run()
-                    {
-                        if(countTime/3600 >= 1){
-                            txtCountTime.setText(String.format("%02d:%02d:%02d",countTime/3600, (countTime%3600) / 60, countTime % 60));
+                    public void run() {
+                        if (countTime / 3600 >= 1) {
+                            txtCountTime.setText(String.format("%02d:%02d:%02d", countTime / 3600, (countTime % 3600) / 60, countTime % 60));
                         } else {
-                            txtCountTime.setText(String.format("%02d:%02d",countTime/60, countTime % 60));
+                            txtCountTime.setText(String.format("%02d:%02d", countTime / 60, countTime % 60));
                         }
 
                         countTime++;
@@ -180,5 +175,17 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
         Intent intent = new Intent(this, activityClass);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
+    }
+
+    private static final String QUESTION_PACK_BUNDLE_STRING = "questionpack";
+
+    public static Bundle buildBundle(QuestionPack questionPack) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(QUESTION_PACK_BUNDLE_STRING, questionPack);
+        return bundle;
+    }
+
+    public static QuestionPack getQuestionPackFromBundle(Bundle bundle) {
+        return (QuestionPack)bundle.getSerializable(QUESTION_PACK_BUNDLE_STRING);
     }
 }

@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity
     public void goToActivity(Class activityClass, Bundle bundle){
         Intent intent = new Intent(this, activityClass);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtras(bundle);
         getApplicationContext().startActivity(intent);
     }
 

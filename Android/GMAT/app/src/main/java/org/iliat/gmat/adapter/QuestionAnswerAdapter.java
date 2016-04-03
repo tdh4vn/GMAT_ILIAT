@@ -15,14 +15,14 @@ import org.iliat.gmat.enitity.UserChoice;
 /**
  * Created by qhuydtvt on 3/19/2016.
  */
-public class QuestionAdapter extends BaseAdapter {
+public class QuestionAnswerAdapter extends BaseAdapter {
 
     private QuestionCRModel mQuestionCRModel;
     private final int FIXED_ITEMS_CNT = 2;
     private LayoutInflater mLayoutInflater;
     private UserChoice mUserChoice;
 
-    public QuestionAdapter(QuestionCRModel questionCRModel, UserChoice userChoice, LayoutInflater layoutInflater) {
+    public QuestionAnswerAdapter(QuestionCRModel questionCRModel, UserChoice userChoice, LayoutInflater layoutInflater) {
         mQuestionCRModel = questionCRModel;
         mUserChoice  = userChoice;
         mLayoutInflater = layoutInflater;

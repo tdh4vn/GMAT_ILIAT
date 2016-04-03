@@ -14,12 +14,12 @@ import java.util.List;
 public class QuestionList {
 
     private static final String VERSION = "version";
-    private static final String QUESTTIONS= "questions";
+    private static final String QUESTIONS = "questions";
 
     @SerializedName(VERSION)
     private String version;
 
-    @SerializedName(QUESTTIONS)
+    @SerializedName(QUESTIONS)
     private List<QuestionCRModel> list;
 
     public QuestionList() {

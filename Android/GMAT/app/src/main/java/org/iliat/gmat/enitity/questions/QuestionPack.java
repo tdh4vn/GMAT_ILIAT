@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.iliat.gmat.enitity.ObjectID;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,14 +77,9 @@ public class QuestionPack {
         return null;
     }
 
-    public String getNextQuestionId(String id) {
-        int currentIdx = questionIds.indexOf(id);
-        if(currentIdx >= 0) {
-            int nextIdx = currentIdx + 1;
-            if (nextIdx < questionIds.size()) {
-                return questionIds.get(nextIdx);
-            }
-        }
+    public QuestionCRModel getFirstQuestion() {
+        if(questionIds.size() > 0)
+            return QuestionList.getQuestion(questionIds.get(0));
         return null;
     }
 
