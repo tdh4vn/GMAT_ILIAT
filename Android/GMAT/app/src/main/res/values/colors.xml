@@ -11,4 +11,8 @@
     <color name="color_selected_answer">#303F9F</color>
     <color name="color_normal_answer">#000000</color>
     <color name="color_grey_50">#FAFAFA</color>
+    <color name="color_grey_500">#9E9E9E</color>
+    <color name="color_red_500">#F44336</color>
+    <color name="color_green_500">#4CAF50</color>
+    <color name="color_yellow_500">#FFEB3B</color>
 </resources>

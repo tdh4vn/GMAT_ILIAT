@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.iliat.gmat.enitity.ObjectID;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,36 @@ public class QuestionPack {
 
     @SerializedName(QUESTION_IDS)
     private List<String> questionIds;
+
+
+    /**
+     * Tham số này cho biết xem ở màn hình hiện các question pack. question pack này có bị mở rộng ra để xem chi tiết hay không
+     * sử dụng trong view holder của ListQuestionPackAdapter
+     */
+
+    private boolean isChecked;
+
+    public static String getID() {
+        return ID;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setIsChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    private boolean isShowDetail;
+
+    public boolean isShowDetail() {
+        return isShowDetail;
+    }
+
+    public void setIsShowDetail(boolean isShowDetail) {
+        this.isShowDetail = isShowDetail;
+    }
 
     public String getAvailableTime() {
         return availableTime;
@@ -54,6 +85,14 @@ public class QuestionPack {
             }
         }
         return null;
+    }
+
+    public ArrayList<QuestionCRModel> getListQuestionOnPack(){
+        ArrayList<QuestionCRModel> arrayList = new ArrayList<QuestionCRModel>();
+        for (String i : questionIds){
+            arrayList.add(QuestionList.getQuestion(i));
+        }
+        return arrayList;
     }
 
     public QuestionCRModel getNextQuestion(QuestionCRModel questionCRModel) {

@@ -75,6 +75,7 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
 
             ListQuestionPackAdapter listQuestionPackAdapter = new ListQuestionPackAdapter();
             listQuestionPackAdapter.setQuestionPackListener(this);
+            listQuestionPackAdapter.setmBaseFragment(this);
             recyclerView.setAdapter(listQuestionPackAdapter);
         }
         return view;
