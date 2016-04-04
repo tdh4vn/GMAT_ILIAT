@@ -2,8 +2,6 @@ package org.iliat.gmat.database;
 
 import com.orm.SugarRecord;
 
-import org.iliat.gmat.view_model.QuestionPackViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 

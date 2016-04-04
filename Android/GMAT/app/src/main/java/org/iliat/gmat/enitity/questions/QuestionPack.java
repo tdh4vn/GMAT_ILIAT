@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by qhuydtvt on 3/14/2016.
  */
-public class QuestionPack {
+public class QuestionPack implements Serializable{
 
     private static final String ID = "_id";
     private static final String AVAILABLE_TIME = "available_time";

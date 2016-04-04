@@ -10,4 +10,20 @@ public class UserAnswer extends SugarRecord {
     private Question question;
 
     public UserAnswer() {}
+
+    public int getChoiceIndex() {
+        return choiceIndex;
+    }
+
+    public void setChoiceIndex(int choiceIndex) {
+        this.choiceIndex = choiceIndex;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
 }

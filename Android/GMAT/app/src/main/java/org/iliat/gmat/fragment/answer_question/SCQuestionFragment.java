@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import org.iliat.gmat.adapter.QuestionAnswerAdapter;
 import org.iliat.gmat.enitity.questions.QuestionCRModel;
 import org.iliat.gmat.enitity.UserChoice;
 import org.iliat.gmat.fragment.BaseFragment;
+import org.iliat.gmat.fragment.DialogFragmentExplantionQuestion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +32,7 @@ import org.iliat.gmat.fragment.BaseFragment;
  * create an instance of this fragment.
  */
 public class SCQuestionFragment extends BaseFragment implements AdapterView.OnItemSelectedListener,View.OnClickListener {
-
+    boolean isReview = true;
     private final int ANSWER_CHOICE_NUM = 5;
 
 //    private ListView mAnswerChoices;

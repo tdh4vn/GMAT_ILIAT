@@ -53,6 +53,7 @@ public class QuestionCRModel {
         return this.answerChoiceList;
     }
 
+
     public AnswerChoice getAnswerChoice(int idx) {
         if(idx < answerChoiceList.size())
             return answerChoiceList.get(idx);

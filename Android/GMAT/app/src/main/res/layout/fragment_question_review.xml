@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.QuestionReviewActivity$PlaceholderFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/question_content"
+        android:textSize="15sp"
+        android:padding="16dp"/>
+    <View
+        android:id="@+id/line_in_question_review"
+        android:layout_below="@id/question_content"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/color_orange_main">
+    </View>
+    <ListView
+        android:background="@color/color_orange_500"
+        android:layout_below="@id/line_in_question_review"
+        android:id="@+id/list_answer_review"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+</RelativeLayout>

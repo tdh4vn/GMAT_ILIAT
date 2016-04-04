@@ -1,4 +1,4 @@
-    package org.iliat.gmat.activity;
+package org.iliat.gmat.activity;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -17,7 +17,6 @@ import android.view.MenuItem;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.fragment.QuestionPackFragment;
-import org.iliat.gmat.fragment.main.MainFragment;
 import org.iliat.gmat.interf.ScreenManager;
 
 public class MainActivity extends AppCompatActivity
@@ -57,6 +56,10 @@ public class MainActivity extends AppCompatActivity
         getIntances();
 
         openFragment(new QuestionPackFragment(), true);
+    }
+
+    private void initData() {
+
     }
 
     @Override

@@ -1,9 +1,12 @@
 package org.iliat.gmat.activity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -59,6 +62,14 @@ public class ScoreActivity extends AppCompatActivity {
         txtCountRedTag = (TextView) this.findViewById(R.id.txtCountRed);
         txtCountTimeAverage = (TextView) this.findViewById(R.id.txtTime);
         arcProgress = (ArcProgress) this.findViewById(R.id.arc_progress);
+        Button btnReview = (Button) this.findViewById(R.id.btn_review);
+        btnReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ScoreActivity.this, QuestionReviewActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     /**

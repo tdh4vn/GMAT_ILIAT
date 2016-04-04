@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    tools:context=".activity.QuestionReviewActivity">
+
+    <RelativeLayout
+        android:id="@+id/navigation_header"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/color_orange_main"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <TextView
+            android:id="@+id/txt_is_correct"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Incorrect"
+            android:textStyle="bold"
+            android:textColor="@color/color_white"/>
+        <TextView
+            android:layout_marginTop="0dp"
+            android:textColor="@color/color_white"
+            android:textSize="15sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txt_is_correct"
+            android:id="@+id/txt_process"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3/10"/>
+        <Button
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            android:text="Exit"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_below="@id/navigation_header"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#FF8A65"
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/btn_dont_know"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="Don't Know"
+            android:textColor="@color/color_white"
+            android:drawableTop="@mipmap/red"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+        <Button
+            android:id="@+id/btn_dont_somewhat_know"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/color_white"
+            android:text="Somewhat Know"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/yellow"
+            android:background="@android:color/transparent"
+            style="@style/Widget.AppCompat.Button.Borderless"/>
+        <Button
+            android:id="@+id/btn_know"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/color_white"
+            android:text="Know"
+            android:drawableTop="@mipmap/green"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            style="@style/Widget.AppCompat.Button.Borderless" />
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

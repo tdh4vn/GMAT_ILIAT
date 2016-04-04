@@ -15,14 +15,13 @@ public class SCQuestionVM {
     private QuestionCRModel questionCRModel;
     private UserAnswer userAnswer;
     private List<AnswerChoiceVM> answerChoiceVMs;
-    private UserChoice userChoice;
+//    private UserChoice userChoice;
 
     public SCQuestionVM(QuestionCRModel questionCRModel,
-                        UserAnswer userAnswer,
-                        UserChoice userChoice) {
+                        UserAnswer userAnswer) {
         this.questionCRModel = questionCRModel;
         this.userAnswer = userAnswer;
-        this.userChoice = userChoice;
+//        this.userChoice = userChoice;
 
         answerChoiceVMs = new ArrayList<>();
 
@@ -43,6 +42,6 @@ public class SCQuestionVM {
             answerChoiceVMInList.setSelected(false);
         }
         answerChoiceVM.setSelected(true);
-        userChoice.setChoice(answerChoiceVM.getIndex());
+        userAnswer.setAnswerChoice(answerChoiceVM.getIndex());
     }
 }

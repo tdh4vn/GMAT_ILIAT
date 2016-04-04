@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.enitity.questions.QuestionCRModel;
+import org.iliat.gmat.view_model.QuestionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +19,11 @@ import java.util.List;
 /**
  * Created by hungtran on 4/3/16.
  */
-public class ListQuestionDetailAdapter extends ArrayAdapter<QuestionCRModel>{
+public class ListQuestionDetailAdapter extends ArrayAdapter<QuestionViewModel>{
     Context context=null;
-    ArrayList<QuestionCRModel>arrQuestionCRModel=null;
+    List<QuestionViewModel>arrQuestionCRModel=null;
     int layoutId;
-    public ListQuestionDetailAdapter(Context context, int resource, ArrayList<QuestionCRModel> objects) {
+    public ListQuestionDetailAdapter(Context context, int resource, List<QuestionViewModel> objects) {
         super(context, resource, objects);
         this.context=context;
         this.arrQuestionCRModel = objects;
@@ -38,7 +39,8 @@ public class ListQuestionDetailAdapter extends ArrayAdapter<QuestionCRModel>{
         TextView txtView = (TextView)convertView.findViewById(R.id.txt_name_question_detail);
         ImageView isDone = (ImageView)convertView.findViewById(R.id.img_isdone_question_detail);
 
-        QuestionCRModel questionCRModel = arrQuestionCRModel.get(position);
+        //QuestionCRModel questionCRModel = arrQuestionCRModel.get(position);
+        QuestionViewModel questionCRModel = arrQuestionCRModel.get(position);
 
         /**
          * Them code doi mau vao cho nay

@@ -21,12 +21,13 @@ import org.iliat.gmat.enitity.questions.QuestionPack;
 import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
 import org.iliat.gmat.interf.CallBackAnswerQuestion;
 import org.iliat.gmat.interf.ScreenManager;
+import org.iliat.gmat.view_model.QuestionPackViewModel;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class AnswerQuestionActivity extends AppCompatActivity implements ScreenManager, CallBackAnswerQuestion{
-
+    boolean isReview;
     long countTime = 0;
     int countAnswer = 12;
     int maxQuestion = 16;
@@ -42,11 +43,9 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isReview = false;
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_answer_question);
-
-
         getDataFromIntent();
         getViewReferences();
         createTimer();
@@ -179,7 +178,7 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
 
     private static final String QUESTION_PACK_BUNDLE_STRING = "questionpack";
 
-    public static Bundle buildBundle(QuestionPack questionPack) {
+    public static Bundle buildBundle(QuestionPackViewModel questionPack) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(QUESTION_PACK_BUNDLE_STRING, questionPack);
         return bundle;

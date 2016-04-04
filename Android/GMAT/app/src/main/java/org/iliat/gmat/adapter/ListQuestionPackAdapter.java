@@ -11,20 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.questions.QuestionCRModel;
-import org.iliat.gmat.enitity.questions.QuestionList;
-import org.iliat.gmat.enitity.questions.QuestionPack;
-import org.iliat.gmat.enitity.QuestionPackList;
+
+
+import org.iliat.gmat.database.QuestionPack;
 import org.iliat.gmat.fragment.BaseFragment;
+import org.iliat.gmat.view_model.QuestionPackViewModel;
+import org.iliat.gmat.view_model.QuestionViewModel;
 
 import java.util.ArrayList;
 import android.view.ViewGroup.LayoutParams;
@@ -33,21 +32,29 @@ import java.util.List;
 /**
  * Created by hungtran on 3/14/16.
  */
-public class ListQuestionPackAdapter extends RecyclerView.Adapter<ListQuestionPackAdapter.QuestionPackViewHolder> {
-    private List<QuestionPack> mListQuestionPack;
+public class ListQuestionPackAdapter extends
+        RecyclerView.Adapter<ListQuestionPackAdapter.QuestionPackViewHolder> {
+//    private List<QuestionPack> mListQuestionPack;
+    private List<QuestionPackViewModel> mListQuestionPack;
+
     private OnListQuestionPackListener mQuestionPackListener;
     private MultipleSelectAdapterCallback mMultipleSelectAdapterCallback;
     private BaseFragment mBaseFragment;
-//    questionIdx = 0;
-//    questionPack = QuestionPackList.getInst().getList().get(0);
-//    questionCRModel = QuestionList.getQuestion(questionPack.getFirstQuestionId());
 
     public void setmBaseFragment(BaseFragment mBaseFragment) {
         this.mBaseFragment = mBaseFragment;
     }
 
-    public ListQuestionPackAdapter(){
-        mListQuestionPack = QuestionPackList.getInst().getTodayQuestionPacks();
+    public ListQuestionPackAdapter() {
+
+        List<QuestionPack> questionPackListModel = QuestionPack.getAllQuestionPacks();
+
+        mListQuestionPack = new ArrayList<>();
+        for(QuestionPack questionPack : questionPackListModel) {
+            mListQuestionPack.add(new QuestionPackViewModel(questionPack));
+        }
+
+//        mListQuestionPack = QuestionPackList.getInst().getTodayQuestionPacks();
     }
 
     public void setQuestionPackListener(OnListQuestionPackListener mQuestionPackListener) {
@@ -66,7 +73,8 @@ public class ListQuestionPackAdapter extends RecyclerView.Adapter<ListQuestionPa
 
     @Override
     public void onBindViewHolder(QuestionPackViewHolder holder, int position) {
-        final QuestionPack questionPack = this.mListQuestionPack.get(position);
+
+        final QuestionPackViewModel questionPack = this.mListQuestionPack.get(position);
 
         holder.txtTime.setText(mListQuestionPack.get(position).getAvailableTime());
         holder.prbProcess.getProgressDrawable().setColorFilter(
@@ -86,12 +94,13 @@ public class ListQuestionPackAdapter extends RecyclerView.Adapter<ListQuestionPa
         // change primary text view background color
         //String [] arrData = new String[]{"Android01", "Android02", "DevPro", "Android04"};
         ListQuestionDetailAdapter adapter=new ListQuestionDetailAdapter
-                (mBaseFragment.getActivity(), R.layout.item_question_on_list, mListQuestionPack.get(position).getListQuestionOnPack());
+                (mBaseFragment.getActivity(), R.layout.item_question_on_list,
+                        mListQuestionPack.get(position).getQuestionViewModelList());
 
         holder.listViewQuestion.setAdapter(adapter);
         LayoutParams list = (LayoutParams) holder.listViewQuestion.getLayoutParams();
         int totalHeight = holder.listViewQuestion.getPaddingTop() + holder.listViewQuestion.getPaddingBottom();;
-        for (int i = 0; i < mListQuestionPack.get(position).getListQuestionOnPack().size(); i++){
+        for (int i = 0; i < mListQuestionPack.get(position).getQuestionViewModelList().size(); i++){
             View itemView = adapter.getView(i, null, holder.listViewQuestion);
             itemView.measure(0, 0);
             totalHeight += itemView.getMeasuredHeight();
@@ -238,13 +247,14 @@ public class ListQuestionPackAdapter extends RecyclerView.Adapter<ListQuestionPa
             if (mMultipleSelectAdapterCallback != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
 
                 int clickedPosition = getAdapterPosition();
-                QuestionPack clickedItem = mListQuestionPack.get(clickedPosition);
 
-                if (clickedItem.isChecked()) {
-                    clickedItem.setIsChecked(false);
-                } else {
-                    clickedItem.setIsChecked(true);
-                }
+//                QuestionPack clickedItem = mListQuestionPack.get(clickedPosition);
+//
+//                if (clickedItem.isChecked()) {
+//                    clickedItem.setIsChecked(false);
+//                } else {
+//                    clickedItem.setIsChecked(true);
+//                }
 
                 notifyItemChanged(clickedPosition);
 
@@ -276,16 +286,16 @@ public class ListQuestionPackAdapter extends RecyclerView.Adapter<ListQuestionPa
     }
 
     public interface OnListQuestionPackListener {
-        void onQuestionPackInteraction (QuestionPack item);
+        void onQuestionPackInteraction (QuestionPackViewModel item);
     }
     private SelectedItem getSelectedItem() {
         SelectedItem selectedItem = new SelectedItem();
         int counter = 0;
         if (mListQuestionPack != null) {
-            for (QuestionPack item : mListQuestionPack) {
+            for (QuestionPackViewModel item : mListQuestionPack) {
                 if (item.isChecked()) {
                     counter++;
-                    selectedItem.addItemIds(item.getId());
+                    //selectedItem.addItemIds(item.getId());
                 }
             }
         }

@@ -27,4 +27,6 @@
     <dimen name="question_scroll_padding">8dp</dimen>
     <dimen name="question_card_padding">8dp</dimen>
     <dimen name="question_item_margin">8dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 </resources>

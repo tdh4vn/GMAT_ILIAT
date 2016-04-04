@@ -18,6 +18,7 @@ import org.iliat.gmat.enitity.questions.QuestionPack;
 import org.iliat.gmat.enitity.user_answers.UserAnswer;
 import org.iliat.gmat.enitity.user_answers.UserAnswerList;
 import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
+import org.iliat.gmat.view_model.QuestionPackViewModel;
 
 public class QuestionPackFragment extends BaseFragment implements ListQuestionPackAdapter.OnListQuestionPackListener {
 
@@ -82,11 +83,8 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
     }
 
     @Override
-    public void onQuestionPackInteraction(QuestionPack item) {
+    public void onQuestionPackInteraction(QuestionPackViewModel item) {
         Log.d(TAG, "Item click " + item.getAvailableTime());
-
-
-
 
         //QuestionPackList.getInst().setActiveQuestionPack(item);
         //UserAnswerList.getInst().updateList(item);
