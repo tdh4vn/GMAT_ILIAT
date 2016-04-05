@@ -22,7 +22,7 @@
             android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Incorrect"
+            android:text="Correct"
             android:textStyle="bold"
             android:textColor="@color/color_white"/>
         <TextView
@@ -34,7 +34,7 @@
             android:id="@+id/txt_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0/0"/>
+            android:text="1/0"/>
         <Button
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"

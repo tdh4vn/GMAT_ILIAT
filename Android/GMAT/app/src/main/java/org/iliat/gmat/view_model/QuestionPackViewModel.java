@@ -96,8 +96,9 @@ public class QuestionPackViewModel implements Serializable {
 
 
     public void saveUserAnswers() {
-//        for(QuestionViewModel questionViewModel : questionViewModels) {
-//            questionViewModel.saveUserAnswer();
-//        }
+        initQuestionViewModels();
+        for(QuestionViewModel questionViewModel : questionViewModels) {
+            questionViewModel.saveUserAnswer();
+        }
     }
 }

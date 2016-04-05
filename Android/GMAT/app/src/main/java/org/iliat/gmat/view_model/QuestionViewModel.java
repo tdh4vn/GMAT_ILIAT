@@ -19,6 +19,10 @@ public class QuestionViewModel implements Serializable {
     private UserAnswer userAnswer;
     private List<AnswerChoice> answerChoices;
 
+    public UserAnswer getUserAnswer() {
+        return userAnswer;
+    }
+
     public List<AnswerChoice> getAnswerChoices() {
         return answerChoices;
     }

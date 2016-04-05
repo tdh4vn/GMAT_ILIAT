@@ -1,6 +1,7 @@
 package org.iliat.gmat.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +10,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import org.iliat.gmat.R;
 import org.iliat.gmat.database.AnswerChoice;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
+import org.w3c.dom.Text;
 
 /**
  * Khi sử dụng nhớ set QuestionPack cho nó
@@ -62,16 +67,45 @@ public class QuestionReviewActivity extends AppCompatActivity {
         getRefercenceForView();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), mQuestionPack);
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        addListenerForTabChange();
     }
 
 
     private void getRefercenceForView(){
         isCorrect = (TextView)findViewById(R.id.txt_is_correct);
         txtProcess = (TextView)findViewById(R.id.txt_process);
+    }
+
+    /**
+     * thêm listener cho sự kiện change tab
+     */
+    private void addListenerForTabChange(){
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //kiem tra neu dap an dung thi thay doi text
+                if(mQuestionPack.getQuestionViewModels().get(position).getUserAnswer().getChoiceIndex()
+                        == mQuestionPack.getQuestionViewModels().get(position).getQuestion().getRightAnswerIndex()){
+                    isCorrect.setText("Correct");
+                } else {
+                    isCorrect.setText("Incorrect");
+                }
+                txtProcess.setText(String.format("%d / %d",position + 1,mQuestionPack.getQuestionViewModels().size()));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
@@ -86,6 +120,8 @@ public class QuestionReviewActivity extends AppCompatActivity {
         public void setmQuestionPack(QuestionPackViewModel mQuestionPack) {
             this.mQuestionPack = mQuestionPack;
         }
+
+
 
         /**
          * The fragment argument representing the section number for this
@@ -133,11 +169,25 @@ public class QuestionReviewActivity extends AppCompatActivity {
             //item_question_in_question_review layout id để ném vào listView Adapter
             AnswerChoiseInReviewAdapter answerChoiseInReviewAdapter
                     = new AnswerChoiseInReviewAdapter(getActivity(),R.layout.item_question_in_question_review, mQuestionPack.getQuestionViewModels().get(position));
+            answerChoiseInReviewAdapter.userChoise = mQuestionPack.getQuestionViewModels().get(position).getUserAnswer().getChoiceIndex();
+            answerChoiseInReviewAdapter.rightAnswer = mQuestionPack.getQuestionViewModels().get(position).getQuestion().getRightAnswerIndex();
             listView.setAdapter(answerChoiseInReviewAdapter);
+            listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    Log.d("TEST1","asdasd");
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    Log.d("TEST1=2","asdasd");
+                }
+            });
         }
 
-        public class AnswerChoiseInReviewAdapter extends ArrayAdapter<AnswerChoice>{
-
+        public class AnswerChoiseInReviewAdapter extends ArrayAdapter<AnswerChoice> implements AdapterView.OnItemSelectedListener{
+            int userChoise;
+            int rightAnswer;
             QuestionViewModel questionViewModel;
             Context context;
             int resourceLayoutID;
@@ -151,6 +201,7 @@ public class QuestionReviewActivity extends AppCompatActivity {
                 resourceLayoutID = resource;
             }
 
+
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 LayoutInflater inflater=
@@ -162,21 +213,77 @@ public class QuestionReviewActivity extends AppCompatActivity {
                     case 0:
                         iconAnswer.setImageResource(R.drawable.a);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        if(userChoise == 0){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
+                        }
+                        if(rightAnswer == 0){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
+                        }
                         break;
                     case 1:
                         iconAnswer.setImageResource(R.drawable.b);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        if(userChoise == 0){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
+                        }
+                        if(rightAnswer == 0){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
+                        }
                         break;
                     case 2:
                         iconAnswer.setImageResource(R.drawable.c);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        if(userChoise == 0){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
+                        }
+                        if(rightAnswer == 0){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
+                        }
                         break;
                     case 3:
                         iconAnswer.setImageResource(R.drawable.d);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        if(userChoise == 0){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
+                        }
+                        if(rightAnswer == 0){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
+                        }
                         break;
                 }
                 return convertView;
+            }
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("TAGTAG", "SS");
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View convertView  = inflater.inflate(R.layout.dialog_question_explanation, null);
+                TextView txtExplanation = (TextView)convertView.findViewById(R.id.txt_explantion);
+                txtExplanation.setText(mQuestionPack.getQuestionViewModels().get(PlaceholderFragment.this.position).getAnswerChoices().get(position).getExplanation());
+                Button btn = (Button) convertView.findViewById(R.id.btn_ok_dialog_quesiton_explantion);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+                builder.setView(view);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         }
     }
@@ -188,8 +295,6 @@ public class QuestionReviewActivity extends AppCompatActivity {
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private QuestionPackViewModel questionPack;
         private QuestionViewModel questionCRModel;
-
-
 
         public SectionsPagerAdapter(FragmentManager fm, QuestionPackViewModel questionPack) {
             super(fm);
@@ -208,7 +313,6 @@ public class QuestionReviewActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return this.questionPack.getNumberOfQuestions();
         }
 
