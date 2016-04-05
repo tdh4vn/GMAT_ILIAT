@@ -12,11 +12,7 @@ import android.view.ViewGroup;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.activity.AnswerQuestionActivity;
-import org.iliat.gmat.activity.ScoreActivity;
-import org.iliat.gmat.enitity.questions.AnswerChoice;
-import org.iliat.gmat.enitity.user_answers.UserAnswerList;
 import org.iliat.gmat.fragment.BaseFragment;
-import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.QuestionPackList;
-import org.iliat.gmat.enitity.questions.QuestionCRModel;
-import org.iliat.gmat.enitity.questions.QuestionPack;
+
+import org.iliat.gmat.view_model.QuestionPackViewModel;
+import org.iliat.gmat.view_model.QuestionViewModel;
 
 /**
  * Khi sử dụng nhớ set QuestionPack cho nó
@@ -24,13 +24,13 @@ import org.iliat.gmat.enitity.questions.QuestionPack;
 public class QuestionReviewActivity extends AppCompatActivity {
 
     //question Pack của cái activity này
-    private QuestionPack mQuestionPack;
+    private QuestionPackViewModel mQuestionPack;
 
-    public QuestionPack getmQuestionPack() {
+    public QuestionPackViewModel getmQuestionPack() {
         return mQuestionPack;
     }
 
-    public void setmQuestionPack(QuestionPack mQuestionPack) {
+    public void setmQuestionPack(QuestionPackViewModel mQuestionPack) {
         this.mQuestionPack = mQuestionPack;
     }
 
@@ -51,7 +51,6 @@ public class QuestionReviewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mQuestionPack = QuestionPackList.getInst().getList().get(0);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_review_fragment);
         PlaceholderFragment.context = this;
@@ -70,11 +69,11 @@ public class QuestionReviewActivity extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        public QuestionPack getmQuestionPack() {
+        public QuestionPackViewModel getmQuestionPack() {
             return mQuestionPack;
         }
 
-        public void setmQuestionPack(QuestionPack mQuestionPack) {
+        public void setmQuestionPack(QuestionPackViewModel mQuestionPack) {
             this.mQuestionPack = mQuestionPack;
         }
 
@@ -84,7 +83,7 @@ public class QuestionReviewActivity extends AppCompatActivity {
          */
 
 
-        private QuestionPack mQuestionPack;
+        private QuestionPackViewModel mQuestionPack;
         private TextView contentQuestion;
         private ListView listView;
         public static Context context;
@@ -117,7 +116,8 @@ public class QuestionReviewActivity extends AppCompatActivity {
 
         private void getRefercence(View view){
             contentQuestion = (TextView) view.findViewById(R.id.question_content);
-            contentQuestion.setText(mQuestionPack.getListQuestionOnPack().get(0).getStimulus());
+            QuestionViewModel questionViewModel = (mQuestionPack.getFirstQuestionViewModel());
+            contentQuestion.setText(questionViewModel.getStimulus());
             listView = (ListView) view.findViewById(R.id.list_answer_review);
             //item_question_in_question_review layout id để ném vào listView Adapter
         }
@@ -128,12 +128,12 @@ public class QuestionReviewActivity extends AppCompatActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-        private QuestionPack questionPack;
-        private QuestionCRModel questionCRModel;
+        private QuestionPackViewModel questionPack;
+        private QuestionViewModel questionCRModel;
 
 
 
-        public SectionsPagerAdapter(FragmentManager fm, QuestionPack questionPack) {
+        public SectionsPagerAdapter(FragmentManager fm, QuestionPackViewModel questionPack) {
             super(fm);
             this.questionPack = questionPack;
         }
@@ -151,7 +151,7 @@ public class QuestionReviewActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return this.questionPack.getListQuestionOnPack().size();
+            return this.questionPack.getNumberOfQuestions();
         }
 
         @Override
