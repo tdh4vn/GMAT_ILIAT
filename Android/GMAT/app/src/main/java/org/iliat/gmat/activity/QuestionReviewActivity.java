@@ -1,6 +1,8 @@
 package org.iliat.gmat.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,10 +12,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import org.iliat.gmat.R;
 
+import org.iliat.gmat.database.AnswerChoice;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
 
@@ -26,13 +31,8 @@ public class QuestionReviewActivity extends AppCompatActivity {
     //question Pack của cái activity này
     private QuestionPackViewModel mQuestionPack;
 
-    public QuestionPackViewModel getmQuestionPack() {
-        return mQuestionPack;
-    }
-
-    public void setmQuestionPack(QuestionPackViewModel mQuestionPack) {
-        this.mQuestionPack = mQuestionPack;
-    }
+    TextView isCorrect;
+    TextView txtProcess;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -54,14 +54,24 @@ public class QuestionReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_review_fragment);
         PlaceholderFragment.context = this;
-
+        Intent itent = this.getIntent();
+        mQuestionPack = (QuestionPackViewModel)((itent.getBundleExtra(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL))
+                .getSerializable(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL));
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
+        getRefercenceForView();
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), mQuestionPack);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+    }
+
+
+    private void getRefercenceForView(){
+        isCorrect = (TextView)findViewById(R.id.txt_is_correct);
+        txtProcess = (TextView)findViewById(R.id.txt_process);
     }
 
 
@@ -82,7 +92,7 @@ public class QuestionReviewActivity extends AppCompatActivity {
          * fragment.
          */
 
-
+        private int position;
         private QuestionPackViewModel mQuestionPack;
         private TextView contentQuestion;
         private ListView listView;
@@ -100,6 +110,7 @@ public class QuestionReviewActivity extends AppCompatActivity {
          */
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
+            fragment.position = sectionNumber - 1;
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
@@ -120,6 +131,53 @@ public class QuestionReviewActivity extends AppCompatActivity {
             contentQuestion.setText(questionViewModel.getStimulus());
             listView = (ListView) view.findViewById(R.id.list_answer_review);
             //item_question_in_question_review layout id để ném vào listView Adapter
+            AnswerChoiseInReviewAdapter answerChoiseInReviewAdapter
+                    = new AnswerChoiseInReviewAdapter(getActivity(),R.layout.item_question_in_question_review, mQuestionPack.getQuestionViewModels().get(position));
+            listView.setAdapter(answerChoiseInReviewAdapter);
+        }
+
+        public class AnswerChoiseInReviewAdapter extends ArrayAdapter<AnswerChoice>{
+
+            QuestionViewModel questionViewModel;
+            Context context;
+            int resourceLayoutID;
+            ImageView iconAnswer;
+            TextView contentAnswer;
+
+            public AnswerChoiseInReviewAdapter(Context context, int resource, QuestionViewModel object) {
+                super(context, resource, object.getAnswerChoices());
+                this.context = context;
+                questionViewModel = object;
+                resourceLayoutID = resource;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                LayoutInflater inflater=
+                        ((Activity)context).getLayoutInflater();
+                convertView=inflater.inflate(resourceLayoutID, null);
+                iconAnswer = (ImageView)convertView.findViewById(R.id.img_icon_answer);
+                contentAnswer = (TextView)convertView.findViewById(R.id.txt_content_answer);
+                switch (position){
+                    case 0:
+                        iconAnswer.setImageResource(R.drawable.a);
+                        contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        break;
+                    case 1:
+                        iconAnswer.setImageResource(R.drawable.b);
+                        contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        break;
+                    case 2:
+                        iconAnswer.setImageResource(R.drawable.c);
+                        contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        break;
+                    case 3:
+                        iconAnswer.setImageResource(R.drawable.d);
+                        contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        break;
+                }
+                return convertView;
+            }
         }
     }
 
@@ -171,5 +229,6 @@ public class QuestionReviewActivity extends AppCompatActivity {
     /**
      * Adapter cho các câu trả lời ở phần Review
      */
+
 
 }

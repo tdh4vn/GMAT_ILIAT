@@ -17,18 +17,13 @@ import android.view.MenuItem;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.fragment.QuestionPackFragment;
-import org.iliat.gmat.interfaces.ScreenManager;
+import org.iliat.gmat.interf.ScreenManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ScreenManager {
 
     FragmentManager mFragmentManager;
 
-    /**
-     * Hàm này để chuyển activity mới
-     * @param activityClass Class của activity mới.
-     * @example AnswerQuestionAcivity.
-     */
     public void goToActivity(Class activityClass, Bundle bundle){
         Intent intent = new Intent(this, activityClass);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

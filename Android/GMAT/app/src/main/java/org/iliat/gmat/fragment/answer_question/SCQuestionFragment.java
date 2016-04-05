@@ -18,10 +18,10 @@ import android.widget.TextView;
 import org.iliat.gmat.R;
 import org.iliat.gmat.adapter.ListAnswerChoiceAdapter;
 import org.iliat.gmat.adapter.QuestionAnswerAdapter;
-import org.iliat.gmat.enitity.questions.QuestionCRModel;
 import org.iliat.gmat.enitity.UserChoice;
 import org.iliat.gmat.fragment.BaseFragment;
 import org.iliat.gmat.fragment.DialogFragmentExplantionQuestion;
+import org.iliat.gmat.view_model.QuestionViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +44,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 
 //    private QuestionPack mQuestionPack;
 
-    private QuestionCRModel mQuestionCRModel;
+    private QuestionViewModel mQuestionCRModel;
 
 //    private TextView[] tvAnswers;
 //    private ViewHolder[] viewHolders;
@@ -66,7 +66,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 //        mQuestionPack = questionPack;
 //    }
 
-    public void setQuestion(QuestionCRModel question) {
+    public void setQuestion(QuestionViewModel question) {
         mQuestionCRModel = question;
     }
 
@@ -91,10 +91,10 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+////            mParam1 = getArguments().getString(ARG_PARAM1);
+////            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @Override
@@ -119,7 +119,7 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         UserChoice userChoice = new UserChoice();
         userChoice.setChoice(0);
         ltvQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        ltvQuestion.setAdapter(new QuestionAnswerAdapter(mQuestionCRModel, userChoice, getActivity().getLayoutInflater()));
+        ltvQuestion.setAdapter(new QuestionAnswerAdapter(mQuestionCRModel, getActivity(), getActivity().getLayoutInflater()));
 
 //        if(isLastQuestion()) {
 //            btnSubmit.setText(getString(R.string.submit_question_pack));

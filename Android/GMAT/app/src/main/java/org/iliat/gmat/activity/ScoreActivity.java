@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
@@ -15,6 +17,7 @@ import org.iliat.gmat.view_model.QuestionPackViewModel;
 
 public class ScoreActivity extends AppCompatActivity {
     private static final String TAG = ScoreActivity.class.toString();
+    public static final String TAG_QUESTION_PACK_VIEW_MODEL = "QUESTION_PACK_VIEW_MODEL";
 
     private int yourScore = 10;//so cau tra loi dung
     private int maxScore = 16;//so cau hoi toi da
@@ -32,6 +35,7 @@ public class ScoreActivity extends AppCompatActivity {
     TextView txtCountYellowTag;
     TextView txtCountRedTag;
     TextView txtCountTimeAverage;
+
 
     QuestionPackViewModel questionPackViewModel;
 
@@ -78,6 +82,17 @@ public class ScoreActivity extends AppCompatActivity {
         txtCountRedTag = (TextView) this.findViewById(R.id.txtCountRed);
         txtCountTimeAverage = (TextView) this.findViewById(R.id.txtTime);
         arcProgress = (ArcProgress) this.findViewById(R.id.arc_progress);
+        Button btnReview = (Button) this.findViewById(R.id.btn_review);
+        btnReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ScoreActivity.this, QuestionReviewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(TAG_QUESTION_PACK_VIEW_MODEL, questionPackViewModel);
+                intent.putExtra(TAG_QUESTION_PACK_VIEW_MODEL, bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     /**

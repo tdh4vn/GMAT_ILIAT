@@ -7,9 +7,6 @@ import org.iliat.gmat.database.UserAnswer;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * Created by qhuydtvt on 4/4/2016.
- */
 public class QuestionViewModel implements Serializable {
 
     public static final int ANSWER_NOT_DONE = -1;
@@ -21,6 +18,14 @@ public class QuestionViewModel implements Serializable {
     private Question question;
     private UserAnswer userAnswer;
     private List<AnswerChoice> answerChoices;
+
+    public List<AnswerChoice> getAnswerChoices() {
+        return answerChoices;
+    }
+
+    public void setAnswerChoices(List<AnswerChoice> answerChoices) {
+        this.answerChoices = answerChoices;
+    }
 
     public QuestionViewModel(Question question) {
         this.question = question;

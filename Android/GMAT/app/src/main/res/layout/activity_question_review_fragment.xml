@@ -34,7 +34,7 @@
             android:id="@+id/txt_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3/10"/>
+            android:text="0/0"/>
         <Button
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"

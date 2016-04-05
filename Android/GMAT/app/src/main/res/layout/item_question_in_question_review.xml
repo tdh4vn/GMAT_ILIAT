@@ -4,14 +4,14 @@
     android:layout_height="match_parent">
     <ImageView
         android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/img_icon_answer"
         android:src="@drawable/a"
         android:layout_weight="1"/>
     <TextView
         android:paddingTop="5dp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minHeight="60dp"
         android:text="New Text"
