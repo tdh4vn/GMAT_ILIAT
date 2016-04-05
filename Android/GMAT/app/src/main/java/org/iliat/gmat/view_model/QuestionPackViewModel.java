@@ -10,23 +10,59 @@ import java.util.List;
 /**
  * Created by qhuydtvt on 4/4/2016.
  */
-public class QuestionPackViewModel implements Serializable{
+public class QuestionPackViewModel implements Serializable {
 
-    private List<QuestionViewModel> questionViewModelList;
+    private List<QuestionViewModel> questionViewModels;
+    private boolean isShowDetail;
+    private boolean isChecked;
 
     private QuestionPack questionPack;
 
-    private boolean isShowDetail;
-
-    private boolean isChecked;
-
-    public boolean isChecked() {
-        return isChecked;
+    private void initQuestionViewModels() {
+        if (questionViewModels == null) {
+            questionViewModels = new ArrayList<>();
+            List<Question> questionList = questionPack.getQuestionList();
+            for (Question question : questionList) {
+                questionViewModels.add(new QuestionViewModel(question));
+            }
+        }
     }
 
-    public void setIsChecked(boolean isChecked) {
-        this.isChecked = isChecked;
+    public Long getId() {
+        return questionPack.getId();
     }
+
+
+    public List<QuestionViewModel> getQuestionViewModels() {
+        initQuestionViewModels();
+        return questionViewModels;
+    }
+
+    public QuestionPackViewModel(QuestionPack questionPack) {
+        this.questionPack = questionPack;
+    }
+
+    public String getAvailableTime() {return questionPack.getAvailableTime();}
+
+    public QuestionPack getQuestionPack(){return questionPack;}
+
+    public QuestionViewModel getFirstQuestionViewModel() {
+        Question question = questionPack.getFirstQuestion();
+        if(question != null) return new QuestionViewModel(question);
+        return null;
+    }
+
+    public QuestionViewModel getNextQuestionViewModel(QuestionViewModel questionViewModel) {
+        Question nextQuestion =  questionPack.getNextQuestion(questionViewModel.getQuestion());
+        if(nextQuestion != null) return new QuestionViewModel(nextQuestion);
+        return null;
+    }
+
+
+    public boolean isLastQuestionInPack(QuestionViewModel questionViewModel) {
+        return questionPack.isLastQuestionInPack(questionViewModel.getQuestion());
+    }
+
 
     public boolean isShowDetail() {
         return isShowDetail;
@@ -36,42 +72,32 @@ public class QuestionPackViewModel implements Serializable{
         this.isShowDetail = isShowDetail;
     }
 
-    public QuestionPackViewModel(QuestionPack questionPack) {
-        this.questionPack = questionPack;
+    public boolean isChecked() {
+        return isChecked;
     }
 
-    public List<QuestionViewModel> getQuestionViewModelList() {
-        if(questionViewModelList == null) {
-            questionViewModelList = new ArrayList<>();
-            List<Question> questionList = questionPack.getQuestionList();
-            for(Question question : questionList) {
-                questionViewModelList.add(new QuestionViewModel(question));
-            }
+    public void setIsChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    public int getNumberOfCorrectAnswers() {
+        int ret = 0;
+        initQuestionViewModels();
+        for(QuestionViewModel questionViewModel : questionViewModels) {
+            if(questionViewModel.getAnswerStatus() == QuestionViewModel.ANSWER_CORRECT)
+                ret++;
         }
-        return questionViewModelList;
+        return ret;
+    }
+
+    public int getNumberOfQuestions() {
+        return questionPack.getNumberOfQuestions();
     }
 
 
-    public String getAvailableTime() {return questionPack.getAvailableTime();}
-
-
-
-//    private String availableTime;
-//    private List<QuestionViewModel> questionViewModelList;
-//
-//    public String getAvailableTime() {
-//        return questionPack.getAvailableTime();
-//    }
-
-//    public void setAvailableTime(String availableTime) {
-//        this.availableTime = availableTime;
-//    }
-
-//    public List<QuestionViewModel> getQuestionViewModelList() {
-////        return questionViewModelList;
-//    }
-//
-//    public void setQuestionViewModelList(List<QuestionViewModel> questionViewModelList) {
-//        this.questionViewModelList = questionViewModelList;
-//    }
+    public void saveUserAnswers() {
+//        for(QuestionViewModel questionViewModel : questionViewModels) {
+//            questionViewModel.saveUserAnswer();
+//        }
+    }
 }

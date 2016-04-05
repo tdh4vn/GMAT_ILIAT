@@ -1,5 +1,8 @@
 package org.iliat.gmat.adapter;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,40 +12,47 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.questions.QuestionCRModel;
+import org.iliat.gmat.database.Question;
 import org.iliat.gmat.enitity.UserChoice;
+import org.iliat.gmat.view_model.QuestionViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by qhuydtvt on 3/19/2016.
  */
 public class QuestionAnswerAdapter extends BaseAdapter {
 
-    private QuestionCRModel mQuestionCRModel;
+    private static final String TAG = QuestionAnswerAdapter.class.toString();
+
     private final int FIXED_ITEMS_CNT = 2;
     private LayoutInflater mLayoutInflater;
-    private UserChoice mUserChoice;
 
-    public QuestionAnswerAdapter(QuestionCRModel questionCRModel, UserChoice userChoice, LayoutInflater layoutInflater) {
-        mQuestionCRModel = questionCRModel;
-        mUserChoice  = userChoice;
+    private QuestionViewModel mQuestionViewModel;
+    private Context mContext;
+
+    public QuestionAnswerAdapter(QuestionViewModel questionViewModel, Context context, LayoutInflater layoutInflater) {
+        mQuestionViewModel = questionViewModel;
         mLayoutInflater = layoutInflater;
+        mContext = context;
     }
 
     @Override
     public int getCount() {
-        return FIXED_ITEMS_CNT + mQuestionCRModel.getAnswerChoiceList().size();
+        return FIXED_ITEMS_CNT + mQuestionViewModel.getNumberOAnswerChoices();
     }
 
     @Override
     public Object getItem(int position) {
         switch (position) {
             case 0:
-                return mQuestionCRModel.getStimulus();
+                return mQuestionViewModel.getQuestion().getStimulus();
             case 1:
-                return "<b>" + mQuestionCRModel.getStem() + "</b>";
+                return "<b>" + mQuestionViewModel.getQuestion().getStem() + "</b>";
             default:
                 int idx = position - FIXED_ITEMS_CNT;
-                return mQuestionCRModel.getAnswerChoice(idx).getChoice();
+                return mQuestionViewModel.getAnswerChoiceViewModel(idx).getChoice();
         }
     }
 
@@ -61,6 +71,8 @@ public class QuestionAnswerAdapter extends BaseAdapter {
         }
         return -1;
     }
+
+    private List<TextView> answerTextViewList = new ArrayList<>();
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -81,14 +93,31 @@ public class QuestionAnswerAdapter extends BaseAdapter {
             WebView wvContent = (WebView)convertView.findViewById(R.id.wv_content);
             wvContent.loadData(content, "text/html", "utf-8");
         } else {
+            int  answerIdx = position - FIXED_ITEMS_CNT;
+
             TextView textView = (TextView) convertView.findViewById(R.id.wv_content);
             textView.setText(content);
+            answerTextViewList.add(textView);
 
             ImageView imvLabel = (ImageView) convertView.findViewById(R.id.iv_answer_label);
-            int imgId = getAnswerLabelImvId(position - FIXED_ITEMS_CNT);
+            int imgId = getAnswerLabelImvId(answerIdx);
             if (imgId != -1) {
                 imvLabel.setImageResource(imgId);
             }
+            convertView.setTag(answerIdx);
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Integer answerIdx = (Integer) v.getTag();
+                    mQuestionViewModel.selectAnswerChoice(answerIdx);
+                    TextView textView = (TextView) v.findViewById(R.id.wv_content);
+                    for(TextView txv : answerTextViewList){
+                        txv.setTextColor(ContextCompat.getColor(mContext, R.color.color_normal_answer));
+                    }
+                    textView.setTextColor(ContextCompat.getColor(mContext, R.color.color_selected_answer));
+                    Log.d(TAG, "View click");
+                }
+            });
         }
 
         return convertView;

@@ -1,40 +1,29 @@
 package org.iliat.gmat.view_model;
 
+import com.orm.SugarRecord;
+
+import org.iliat.gmat.database.AnswerChoice;
+
 /**
  * Created by hungtran on 4/4/16.
  */
 public class AnswerChoiceViewModel {
-    private String text;
-    private String explanation;
-    private int index;
 
-    public AnswerChoiceViewModel(String text, String explanation, int index) {
-        this.text = text;
-        this.explanation = explanation;
-        this.index = index;
+    private AnswerChoice answerChoice;
+
+    public AnswerChoiceViewModel(AnswerChoice answerChoice) {
+        this.answerChoice = answerChoice;
     }
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    public String getChoice() {
+        return answerChoice.getChoice();
     }
 
     public String getExplanation() {
-        return explanation;
-    }
-
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
+        return answerChoice.getExplanation();
     }
 
     public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
+        return answerChoice.getIdx();
     }
 }

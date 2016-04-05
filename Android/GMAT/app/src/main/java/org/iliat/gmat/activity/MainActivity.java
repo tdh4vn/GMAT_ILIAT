@@ -1,4 +1,4 @@
-package org.iliat.gmat.activity;
+    package org.iliat.gmat.activity;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
@@ -17,13 +17,12 @@ import android.view.MenuItem;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.fragment.QuestionPackFragment;
-import org.iliat.gmat.interf.ScreenManager;
+import org.iliat.gmat.interfaces.ScreenManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ScreenManager {
-    //properties
-    FragmentManager mFragmentManager;
 
+    FragmentManager mFragmentManager;
 
     /**
      * Hàm này để chuyển activity mới

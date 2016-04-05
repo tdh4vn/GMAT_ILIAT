@@ -1,46 +1,68 @@
 package org.iliat.gmat.view_model;
 
+import org.iliat.gmat.database.AnswerChoice;
 import org.iliat.gmat.database.Question;
 import org.iliat.gmat.database.UserAnswer;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by qhuydtvt on 4/4/2016.
  */
-public class QuestionViewModel {
+public class QuestionViewModel implements Serializable {
 
-    public static final int QUESTION_STATUS_NOT_DONE = -1;
-    public static final int QUESTION_STATUS_INCORRECT = 0;
-    public static final int QUESTION_STATUS_CORRECT = 1;
+    public static final int ANSWER_NOT_DONE = -1;
+    public static final int ANSWER_INCORRECT = 0;
+    public static final int ANSWER_CORRECT = 1;
 
-
+    private static final String TAG = QuestionViewModel.class.toString();
 
     private Question question;
     private UserAnswer userAnswer;
-
-
+    private List<AnswerChoice> answerChoices;
 
     public QuestionViewModel(Question question) {
         this.question = question;
+        answerChoices = AnswerChoice.find(AnswerChoice.class,
+                "QUESTION=?",
+                String.valueOf(question.getId()));
+
+        List<UserAnswer> userAnswers = UserAnswer.find(UserAnswer.class, "QUESTION=?",
+                String.valueOf(question.getId()));
+        if(userAnswers.size() > 0) {
+            userAnswer = userAnswers.get(0);
+        }
+        else {
+            userAnswer = new UserAnswer(question);
+        }
     }
 
-    public Question getQuestion() {return question;}
+    public Question getQuestion() { return question; }
 
-    public int getQuestionStatus() {
-        if (userAnswer == null) {
-            List<UserAnswer> userAnswers = UserAnswer.find(UserAnswer.class, "QUESTION=?",
-                    String.valueOf(question.getId()));
-            if(userAnswers.size() > 0) {
-                userAnswer = userAnswers.get(0);
-            }
-        }
+    public AnswerChoiceViewModel getAnswerChoiceViewModel(int index) {
+        return new AnswerChoiceViewModel(answerChoices.get(index));
+    }
 
-        if (userAnswer.getChoiceIndex() == -1) {
-            return QUESTION_STATUS_NOT_DONE;
+    public int getNumberOAnswerChoices() {
+        return answerChoices.size();
+    }
+
+    public void selectAnswerChoice(int index) {
+        userAnswer.setChoiceIndex(index);
+    }
+
+    public void saveUserAnswer(){
+        this.userAnswer.save();
+    }
+
+    public int getAnswerStatus() {
+        if(userAnswer.getChoiceIndex() == -1) {
+            return ANSWER_NOT_DONE;
         }
-        return (userAnswer.getChoiceIndex() == question.getRightAnswerIndex()) ?
-                QUESTION_STATUS_CORRECT : QUESTION_STATUS_INCORRECT;
+        else {
+            return userAnswer.getChoiceIndex() == question.getRightAnswerIndex() ? ANSWER_CORRECT : ANSWER_INCORRECT;
+        }
     }
 
 }

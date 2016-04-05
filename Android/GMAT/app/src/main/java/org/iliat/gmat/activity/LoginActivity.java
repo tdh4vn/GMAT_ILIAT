@@ -254,11 +254,15 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 
     private void saveQuestions(JSONQuestionList jsonQuestionList) {
         long questionCount = Question.count(Question.class);
-        if (questionCount == 0) {
+        if (questionCount == 0)
+        {
             for (JSONQuestion jsonQuestion : jsonQuestionList.getList()) {
                 Question question = new Question(jsonQuestion.getId(), jsonQuestion.getType(),
-                        jsonQuestion.getSubType(), jsonQuestion.getStimulus(), jsonQuestion.getStem(), -1);
-                question.save();
+                        jsonQuestion.getSubType(), jsonQuestion.getStimulus(), jsonQuestion.getStem(),
+                        jsonQuestion.getRightAnswer());
+
+                long questionId = question.save();
+                question.setId(questionId);
                 for (JSONAnswerChoice jsonAnswerChoice : jsonQuestion.getAnswerChoiceList()) {
                     AnswerChoice answerChoice = new AnswerChoice(jsonAnswerChoice.getIndex(),
                             jsonAnswerChoice.getChoice(), jsonAnswerChoice.getExplanation(), question);
@@ -266,6 +270,13 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
                 }
             }
 
+
+            List<Question> questionList = Question.listAll(Question.class);
+            List<AnswerChoice> answerChoiceList = AnswerChoice.listAll(AnswerChoice.class);
+
+            List<AnswerChoice> answerChoiceList1 = AnswerChoice.find(AnswerChoice.class, "question=?", "1");
+
+            Log.d(TAG, "DUMP");
         }
     }
 

@@ -7,9 +7,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.AnswerChoiceVM;
-import org.iliat.gmat.enitity.questions.AnswerChoice;
-import org.iliat.gmat.enitity.questions.QuestionCRModel;
+import org.iliat.gmat.database.AnswerChoice;
+import org.iliat.gmat.database.Question;
+import org.iliat.gmat.view_model.AnswerChoiceViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,32 +19,30 @@ import java.util.List;
  */
 public class ListAnswerChoiceAdapter extends BaseAdapter {
 
-    private QuestionCRModel mQuestion;
-    private ArrayList<AnswerChoiceVM> answerChoiceVMList;
+    private Question mQuestion;
+    private ArrayList<AnswerChoiceViewModel> answerChoiceViewModelList;
     private LayoutInflater mLayoutInflater;
 
-    public ListAnswerChoiceAdapter(LayoutInflater layoutInflater, QuestionCRModel question) {
+    public ListAnswerChoiceAdapter(LayoutInflater layoutInflater, Question question) {
         this.mLayoutInflater = layoutInflater;
         this.mQuestion = question;
 
-        answerChoiceVMList = new ArrayList<>();
-        List<AnswerChoice> answer_choices = mQuestion.getAnswerChoiceList();
-        for(int idx = 0; idx < answer_choices.size(); idx++) {
-            answerChoiceVMList.add(
-                    new AnswerChoiceVM(mQuestion.getId(),
-                    idx,
-                    answer_choices.get(idx).getChoice() ));
-        }
+        answerChoiceViewModelList = new ArrayList<>();
+
+//        List<AnswerChoice> answer_choices = mQuestion.getAnswerChoiceList();
+//        for(int idx = 0; idx < answer_choices.size(); idx++) {
+//            answerChoiceViewModelList.add(new AnswerChoiceViewModel(answer_choices.get(idx)));
+//        }
     }
 
     @Override
     public int getCount() {
-        return answerChoiceVMList.size();
+        return answerChoiceViewModelList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return answerChoiceVMList.get(position);
+        return answerChoiceViewModelList.get(position);
     }
 
     @Override
@@ -54,14 +52,14 @@ public class ListAnswerChoiceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        AnswerChoiceVM answerChoiceVM = answerChoiceVMList.get(position);
+        AnswerChoiceViewModel answerChoiceVM = answerChoiceViewModelList.get(position);
 
         if(convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.list_item_answer_choice, parent, false);
         }
 
         TextView txvAnswerChoice = (TextView)convertView.findViewById(R.id.txv_answer_choice);
-        txvAnswerChoice.setText(answerChoiceVM.getText());
+        txvAnswerChoice.setText(answerChoiceVM.getChoice());
 
         convertView.setTag(answerChoiceVM);
 

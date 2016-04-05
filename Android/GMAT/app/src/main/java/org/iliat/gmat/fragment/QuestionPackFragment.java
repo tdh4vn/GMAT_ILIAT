@@ -11,16 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.iliat.gmat.R;
+
 import org.iliat.gmat.activity.AnswerQuestionActivity;
 import org.iliat.gmat.adapter.ListQuestionPackAdapter;
-import org.iliat.gmat.enitity.QuestionPackList;
-import org.iliat.gmat.enitity.questions.QuestionPack;
-import org.iliat.gmat.enitity.user_answers.UserAnswer;
-import org.iliat.gmat.enitity.user_answers.UserAnswerList;
-import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
+import org.iliat.gmat.database.QuestionPack;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 
-public class QuestionPackFragment extends BaseFragment implements ListQuestionPackAdapter.OnListQuestionPackListener {
+public class QuestionPackFragment extends BaseFragment
+        implements
+        ListQuestionPackAdapter.OnListQuestionPackListener
+    {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -28,8 +28,6 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
 
     // TODO: Customize parameters
     private int mColumnCount = 1;
-
-//    private ListQuestionPackAdapter.OnListFragmentInteractionListener mListener;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,8 +73,9 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
             }
 
             ListQuestionPackAdapter listQuestionPackAdapter = new ListQuestionPackAdapter();
+            listQuestionPackAdapter.setQuestionPackList(QuestionPack.getAllQuestionPacks());
             listQuestionPackAdapter.setQuestionPackListener(this);
-            listQuestionPackAdapter.setmBaseFragment(this);
+            listQuestionPackAdapter.setContext(this.getActivity());
             recyclerView.setAdapter(listQuestionPackAdapter);
         }
         return view;
@@ -84,12 +83,8 @@ public class QuestionPackFragment extends BaseFragment implements ListQuestionPa
 
     @Override
     public void onQuestionPackInteraction(QuestionPackViewModel item) {
-        Log.d(TAG, "Item click " + item.getAvailableTime());
-
-        //QuestionPackList.getInst().setActiveQuestionPack(item);
-        //UserAnswerList.getInst().updateList(item);
-
+        Log.d(TAG, "Item click " + item.getQuestionPack().getAvailableTime());
         getScreenManager().goToActivity(AnswerQuestionActivity.class,
-                AnswerQuestionActivity.buildBundle(item));
+                AnswerQuestionActivity.buildBundle(item.getQuestionPack().getId()));
     }
 }

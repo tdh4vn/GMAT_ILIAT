@@ -1,15 +1,25 @@
 package org.iliat.gmat.database;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
+
+import java.io.Serializable;
 
 /**
  * Created by qhuydtvt on 4/4/2016.
  */
-public class UserAnswer extends SugarRecord {
-    private int choiceIndex;
+public class UserAnswer extends SugarRecord implements Serializable {
+
+    private int choiceIndex = -1;
     private Question question;
 
-    public UserAnswer() {}
+    public UserAnswer() {
+        choiceIndex = -1;
+    }
+
+    public UserAnswer(Question question) {
+        this.question = question;
+    }
 
     public int getChoiceIndex() {
         return choiceIndex;

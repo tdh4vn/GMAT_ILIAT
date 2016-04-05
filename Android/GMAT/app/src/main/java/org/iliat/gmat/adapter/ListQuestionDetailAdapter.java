@@ -10,19 +10,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.questions.QuestionCRModel;
+
 import org.iliat.gmat.view_model.QuestionViewModel;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
  * Created by hungtran on 4/3/16.
  */
-public class ListQuestionDetailAdapter extends ArrayAdapter<QuestionViewModel>{
-    Context context=null;
-    List<QuestionViewModel>arrQuestionCRModel=null;
-    int layoutId;
+public class ListQuestionDetailAdapter extends ArrayAdapter<QuestionViewModel> {
+
+    private Context context = null;
+    private List<QuestionViewModel>arrQuestionCRModel = null;
+    private int layoutId;
     public ListQuestionDetailAdapter(Context context, int resource, List<QuestionViewModel> objects) {
         super(context, resource, objects);
         this.context=context;

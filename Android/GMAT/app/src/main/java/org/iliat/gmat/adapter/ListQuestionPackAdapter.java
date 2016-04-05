@@ -2,6 +2,7 @@ package org.iliat.gmat.adapter;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,9 +22,8 @@ import org.iliat.gmat.R;
 
 
 import org.iliat.gmat.database.QuestionPack;
-import org.iliat.gmat.fragment.BaseFragment;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
-import org.iliat.gmat.view_model.QuestionViewModel;
+
 
 import java.util.ArrayList;
 import android.view.ViewGroup.LayoutParams;
@@ -33,28 +33,24 @@ import java.util.List;
  * Created by hungtran on 3/14/16.
  */
 public class ListQuestionPackAdapter extends
-        RecyclerView.Adapter<ListQuestionPackAdapter.QuestionPackViewHolder> {
-//    private List<QuestionPack> mListQuestionPack;
-    private List<QuestionPackViewModel> mListQuestionPack;
-
+        RecyclerView.Adapter<ListQuestionPackAdapter.QuestionPackViewHolder>
+{
+    private List<QuestionPackViewModel> mQuestionPackVIewModels;
     private OnListQuestionPackListener mQuestionPackListener;
     private MultipleSelectAdapterCallback mMultipleSelectAdapterCallback;
-    private BaseFragment mBaseFragment;
+    private Context mContext;
 
-    public void setmBaseFragment(BaseFragment mBaseFragment) {
-        this.mBaseFragment = mBaseFragment;
+    public void setContext(Context context) {
+        this.mContext = context;
     }
 
-    public ListQuestionPackAdapter() {
+    public ListQuestionPackAdapter() { }
 
-        List<QuestionPack> questionPackListModel = QuestionPack.getAllQuestionPacks();
-
-        mListQuestionPack = new ArrayList<>();
-        for(QuestionPack questionPack : questionPackListModel) {
-            mListQuestionPack.add(new QuestionPackViewModel(questionPack));
+    public void setQuestionPackList(List<QuestionPack> questionPackList){
+        mQuestionPackVIewModels = new ArrayList<>();
+        for(QuestionPack questionPack : questionPackList) {
+            mQuestionPackVIewModels.add(new QuestionPackViewModel(questionPack));
         }
-
-//        mListQuestionPack = QuestionPackList.getInst().getTodayQuestionPacks();
     }
 
     public void setQuestionPackListener(OnListQuestionPackListener mQuestionPackListener) {
@@ -74,9 +70,9 @@ public class ListQuestionPackAdapter extends
     @Override
     public void onBindViewHolder(QuestionPackViewHolder holder, int position) {
 
-        final QuestionPackViewModel questionPack = this.mListQuestionPack.get(position);
+        final QuestionPackViewModel questionPack = this.mQuestionPackVIewModels.get(position);
 
-        holder.txtTime.setText(mListQuestionPack.get(position).getAvailableTime());
+        holder.txtTime.setText(mQuestionPackVIewModels.get(position).getAvailableTime());
         holder.prbProcess.getProgressDrawable().setColorFilter(
                 Color.parseColor("#FF5722"), android.graphics.PorterDuff.Mode.SRC_IN);
         holder.prbProcess.setMax(10);
@@ -89,18 +85,14 @@ public class ListQuestionPackAdapter extends
             }
         });
 
-        //holder.listViewQuestion(mListQuestionPack.get(position).getSupportingText());
-
-        // change primary text view background color
-        //String [] arrData = new String[]{"Android01", "Android02", "DevPro", "Android04"};
-        ListQuestionDetailAdapter adapter=new ListQuestionDetailAdapter
-                (mBaseFragment.getActivity(), R.layout.item_question_on_list,
-                        mListQuestionPack.get(position).getQuestionViewModelList());
+        ListQuestionDetailAdapter adapter = new ListQuestionDetailAdapter
+                (mContext, R.layout.item_question_on_list,
+                        mQuestionPackVIewModels.get(position).getQuestionViewModels());
 
         holder.listViewQuestion.setAdapter(adapter);
         LayoutParams list = (LayoutParams) holder.listViewQuestion.getLayoutParams();
         int totalHeight = holder.listViewQuestion.getPaddingTop() + holder.listViewQuestion.getPaddingBottom();;
-        for (int i = 0; i < mListQuestionPack.get(position).getQuestionViewModelList().size(); i++){
+        for (int i = 0; i < mQuestionPackVIewModels.get(position).getQuestionViewModels().size(); i++){
             View itemView = adapter.getView(i, null, holder.listViewQuestion);
             itemView.measure(0, 0);
             totalHeight += itemView.getMeasuredHeight();
@@ -109,9 +101,9 @@ public class ListQuestionPackAdapter extends
         holder.totalHeight = totalHeight;
         holder.listViewQuestion.setLayoutParams(list);
 
-        // expand supporting text view
+        // Expand supporting text view
 
-        if (mListQuestionPack.get(position).isShowDetail()) {
+        if (mQuestionPackVIewModels.get(position).isShowDetail()) {
             holder.listViewQuestion.setVisibility(View.VISIBLE);
         } else {
             holder.listViewQuestion.setVisibility(View.GONE);
@@ -121,7 +113,7 @@ public class ListQuestionPackAdapter extends
 
     @Override
     public int getItemCount() {
-        return mListQuestionPack.size();
+        return mQuestionPackVIewModels.size();
     }
 
     @Override
@@ -154,11 +146,11 @@ public class ListQuestionPackAdapter extends
                 public void onClick(View v) {
                     if (getAdapterPosition() != RecyclerView.NO_POSITION) {
 
-                        if (mListQuestionPack.get(getAdapterPosition()).isShowDetail()) {
-                            mListQuestionPack.get(getAdapterPosition()).setIsShowDetail(false);
+                        if (mQuestionPackVIewModels.get(getAdapterPosition()).isShowDetail()) {
+                            mQuestionPackVIewModels.get(getAdapterPosition()).setIsShowDetail(false);
                             collapse();
                         } else {
-                            mListQuestionPack.get(getAdapterPosition()).setIsShowDetail(true);
+                            mQuestionPackVIewModels.get(getAdapterPosition()).setIsShowDetail(true);
                             expand();
                         }
                         //notifyItemChanged(getAdapterPosition());
@@ -248,7 +240,7 @@ public class ListQuestionPackAdapter extends
 
                 int clickedPosition = getAdapterPosition();
 
-//                QuestionPack clickedItem = mListQuestionPack.get(clickedPosition);
+//                QuestionPack clickedItem = mQuestionPackVIewModels.get(clickedPosition);
 //
 //                if (clickedItem.isChecked()) {
 //                    clickedItem.setIsChecked(false);
@@ -291,8 +283,8 @@ public class ListQuestionPackAdapter extends
     private SelectedItem getSelectedItem() {
         SelectedItem selectedItem = new SelectedItem();
         int counter = 0;
-        if (mListQuestionPack != null) {
-            for (QuestionPackViewModel item : mListQuestionPack) {
+        if (mQuestionPackVIewModels != null) {
+            for (QuestionPackViewModel item : mQuestionPackVIewModels) {
                 if (item.isChecked()) {
                     counter++;
                     //selectedItem.addItemIds(item.getId());

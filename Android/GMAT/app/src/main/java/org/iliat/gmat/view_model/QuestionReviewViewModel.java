@@ -8,14 +8,14 @@ import java.util.List;
 public class QuestionReviewViewModel {
     private String stimulus;
     private String stem;
-    private List<AnswerChoiceViewModel> answerChoiceViewModelList;
+    private List<AnswerChoiceViewModel> answerChoiceViewModels;
     private int userAnswer;
     private int rightAnswer;
 
-    public QuestionReviewViewModel(String stimulus, String stem, List<AnswerChoiceViewModel> answerChoiceViewModelList, int userAnswer, int rightAnswer) {
+    public QuestionReviewViewModel(String stimulus, String stem, List<AnswerChoiceViewModel> answerChoiceViewModels, int userAnswer, int rightAnswer) {
         this.stimulus = stimulus;
         this.stem = stem;
-        this.answerChoiceViewModelList = answerChoiceViewModelList;
+        this.answerChoiceViewModels = answerChoiceViewModels;
         this.userAnswer = userAnswer;
         this.rightAnswer = rightAnswer;
     }
@@ -36,12 +36,12 @@ public class QuestionReviewViewModel {
         this.stem = stem;
     }
 
-    public List<AnswerChoiceViewModel> getAnswerChoiceViewModelList() {
-        return answerChoiceViewModelList;
+    public List<AnswerChoiceViewModel> getAnswerChoiceViewModels() {
+        return answerChoiceViewModels;
     }
 
-    public void setAnswerChoiceViewModelList(List<AnswerChoiceViewModel> answerChoiceViewModelList) {
-        this.answerChoiceViewModelList = answerChoiceViewModelList;
+    public void setAnswerChoiceViewModels(List<AnswerChoiceViewModel> answerChoiceViewModels) {
+        this.answerChoiceViewModels = answerChoiceViewModels;
     }
 
     public int getUserAnswer() {

@@ -14,20 +14,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.enitity.QuestionPackList;
-import org.iliat.gmat.enitity.questions.QuestionCRModel;
-import org.iliat.gmat.enitity.questions.QuestionList;
-import org.iliat.gmat.enitity.questions.QuestionPack;
+import org.iliat.gmat.database.QuestionPack;
 import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
-import org.iliat.gmat.interf.CallBackAnswerQuestion;
-import org.iliat.gmat.interf.ScreenManager;
+import org.iliat.gmat.interfaces.CallBackAnswerQuestion;
+import org.iliat.gmat.interfaces.ScreenManager;
+import org.iliat.gmat.view_model.QuestionPackListViewModel;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
+import org.iliat.gmat.view_model.QuestionViewModel;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class AnswerQuestionActivity extends AppCompatActivity implements ScreenManager, CallBackAnswerQuestion{
-    boolean isReview;
+public class AnswerQuestionActivity
+        extends AppCompatActivity
+        implements ScreenManager, CallBackAnswerQuestion {
+
     long countTime = 0;
     int countAnswer = 12;
     int maxQuestion = 16;
@@ -38,14 +39,16 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     Button btnNext;
     FragmentManager mFragmentManager;
 
-    QuestionPack questionPack;
-    QuestionCRModel questionCRModel;
+    private QuestionViewModel questionViewModel;
+    private QuestionPackViewModel questionPackViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isReview = false;
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_answer_question);
+
+
         getDataFromIntent();
         getViewReferences();
         createTimer();
@@ -56,13 +59,18 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     private void getDataFromIntent() {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        questionPack = getQuestionPackFromBundle(bundle);
-        questionCRModel = questionPack.getFirstQuestion();
+
+
+        Long questionPackId = getQuestionPackFromBundle(bundle);
+        QuestionPack questionPack = QuestionPack.findById(QuestionPack.class, questionPackId);
+
+        questionPackViewModel = new QuestionPackViewModel(questionPack);
+        questionViewModel = questionPackViewModel.getFirstQuestionViewModel();
     }
 
     private void openQuestionFragment() {
         SCQuestionFragment scQuestionFragment = new SCQuestionFragment();
-        scQuestionFragment.setQuestion(this.questionCRModel);
+        scQuestionFragment.setQuestion(this.questionViewModel);
         openFragment(scQuestionFragment, true);
     }
 
@@ -79,7 +87,7 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     }
 
     private void updateSubmitButtonText() {
-        if (questionPack.isLastQuestion(questionCRModel)) {
+        if (this.questionPackViewModel.isLastQuestionInPack(this.questionViewModel) ) {
             btnNext.setText(getString(R.string.submit_question_pack));
         } else {
             btnNext.setText(getString(R.string.next_question));
@@ -104,15 +112,19 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     private void addListeners(){
 
         btnNext.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                if (!questionPack.isLastQuestion(questionCRModel)) {
-                    questionCRModel = questionPack.getNextQuestion(questionCRModel);
-                    openQuestionFragment();
-                    updateSubmitButtonText();
-                } else {
-                    goToActivity(ScoreActivity.class, null);
+                if(questionPackViewModel.isLastQuestionInPack(questionViewModel)) {
+                    questionPackViewModel.saveUserAnswers();
+                    Bundle bundle = ScoreActivity.buildBundle(questionPackViewModel.getQuestionPack().getId());
+                    goToActivity(ScoreActivity.class, bundle);
                 }
+                else {
+                    questionViewModel = questionPackViewModel.getNextQuestionViewModel(questionViewModel);
+                    openQuestionFragment();
+                }
+                updateSubmitButtonText();
             }
         });
     }
@@ -129,13 +141,13 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (countTime / 3600 >= 1) {
-                            txtCountTime.setText(String.format("%02d:%02d:%02d", countTime / 3600, (countTime % 3600) / 60, countTime % 60));
-                        } else {
-                            txtCountTime.setText(String.format("%02d:%02d", countTime / 60, countTime % 60));
-                        }
+                    if (countTime / 3600 >= 1) {
+                        txtCountTime.setText(String.format("%02d:%02d:%02d", countTime / 3600, (countTime % 3600) / 60, countTime % 60));
+                    } else {
+                        txtCountTime.setText(String.format("%02d:%02d", countTime / 60, countTime % 60));
+                    }
 
-                        countTime++;
+                    countTime++;
                     }
                 });
             }
@@ -173,18 +185,19 @@ public class AnswerQuestionActivity extends AppCompatActivity implements ScreenM
     public void goToActivity(Class activityClass, Bundle bundle) {
         Intent intent = new Intent(this, activityClass);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtras(bundle);
         getApplicationContext().startActivity(intent);
     }
 
-    private static final String QUESTION_PACK_BUNDLE_STRING = "questionpack";
+    private static final String QUESTION_PACK_BUNDLE_STRING = "question pack";
 
-    public static Bundle buildBundle(QuestionPackViewModel questionPack) {
+    public static Bundle buildBundle(Long questionPackId) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(QUESTION_PACK_BUNDLE_STRING, questionPack);
+        bundle.putSerializable(QUESTION_PACK_BUNDLE_STRING, questionPackId);
         return bundle;
     }
 
-    public static QuestionPack getQuestionPackFromBundle(Bundle bundle) {
-        return (QuestionPack)bundle.getSerializable(QUESTION_PACK_BUNDLE_STRING);
+    public static Long getQuestionPackFromBundle(Bundle bundle) {
+        return (Long)bundle.getSerializable(QUESTION_PACK_BUNDLE_STRING);
     }
 }
