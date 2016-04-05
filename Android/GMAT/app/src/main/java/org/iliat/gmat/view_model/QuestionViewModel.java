@@ -38,6 +38,8 @@ public class QuestionViewModel implements Serializable {
         }
     }
 
+    public String getStimulus() {return this.question.getStimulus();}
+
     public Question getQuestion() { return question; }
 
     public AnswerChoiceViewModel getAnswerChoiceViewModel(int index) {
