@@ -24,6 +24,7 @@ import android.widget.TextView;
 import org.iliat.gmat.R;
 
 import org.iliat.gmat.database.AnswerChoice;
+import org.iliat.gmat.fragment.ExplanationAnswerFragment;
 import org.iliat.gmat.interf.ScreenManager;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
@@ -192,29 +193,26 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
 
         private void getRefercence(View view){
             contentQuestion = (TextView) view.findViewById(R.id.question_content);
-            QuestionViewModel questionViewModel = (mQuestionPack.getFirstQuestionViewModel());
+            final QuestionViewModel questionViewModel = (mQuestionPack.getQuestionViewModels().get(position));
             contentQuestion.setText(questionViewModel.getStimulus());
             listView = (ListView) view.findViewById(R.id.list_answer_review);
-            //item_question_in_question_review layout id để ném vào listView Adapter
             AnswerChoiseInReviewAdapter answerChoiseInReviewAdapter
                     = new AnswerChoiseInReviewAdapter(getActivity(),R.layout.item_question_in_question_review, mQuestionPack.getQuestionViewModels().get(position));
             answerChoiseInReviewAdapter.userChoise = mQuestionPack.getQuestionViewModels().get(position).getUserAnswer().getChoiceIndex();
             answerChoiseInReviewAdapter.rightAnswer = mQuestionPack.getQuestionViewModels().get(position).getQuestion().getRightAnswerIndex();
+            Log.d("User/Right", String.format("%d-%d,%d", position, answerChoiseInReviewAdapter.userChoise, answerChoiseInReviewAdapter.rightAnswer));
             listView.setAdapter(answerChoiseInReviewAdapter);
-            listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d("TEST1", "asdasd");
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                    Log.d("TEST1=2", "asdasd");
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    ExplanationAnswerFragment explanationAnswerFragment = new ExplanationAnswerFragment();
+                    explanationAnswerFragment.setContent(questionViewModel.getAnswerChoiceViewModel(position).getExplanation());
+                    ((ScreenManager)PlaceholderFragment.this.getActivity()).showDialogFragment(explanationAnswerFragment, "");
                 }
             });
         }
 
-        public class AnswerChoiseInReviewAdapter extends ArrayAdapter<AnswerChoice> implements AdapterView.OnItemSelectedListener{
+        public class AnswerChoiseInReviewAdapter extends ArrayAdapter<AnswerChoice> implements AdapterView.OnItemClickListener{
             int userChoise;
             int rightAnswer;
             QuestionViewModel questionViewModel;
@@ -222,6 +220,7 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
             int resourceLayoutID;
             ImageView iconAnswer;
             TextView contentAnswer;
+            ScreenManager screenManager;
 
             public AnswerChoiseInReviewAdapter(Context context, int resource, QuestionViewModel object) {
                 super(context, resource, object.getAnswerChoices());
@@ -253,11 +252,11 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                     case 1:
                         iconAnswer.setImageResource(R.drawable.b);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
-                        if(userChoise == 0){
+                        if(userChoise == 1){
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
                         }
-                        if(rightAnswer == 0){
+                        if(rightAnswer == 1){
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
                         }
@@ -265,11 +264,11 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                     case 2:
                         iconAnswer.setImageResource(R.drawable.c);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
-                        if(userChoise == 0){
+                        if(userChoise == 2){
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
                         }
-                        if(rightAnswer == 0){
+                        if(rightAnswer == 2){
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
                         }
@@ -277,11 +276,23 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                     case 3:
                         iconAnswer.setImageResource(R.drawable.d);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
-                        if(userChoise == 0){
+                        if(userChoise == 3){
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
                         }
-                        if(rightAnswer == 0){
+                        if(rightAnswer == 3){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
+                        }
+                        break;
+                    case 4:
+                        iconAnswer.setImageResource(R.drawable.e);
+                        contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
+                        if(userChoise == 4){
+                            iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
+                            contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
+                        }
+                        if(rightAnswer == 4){
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
                         }
@@ -290,27 +301,23 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                 return convertView;
             }
 
+
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("TAGTAG", "SS");
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View convertView  = inflater.inflate(R.layout.dialog_question_explanation, null);
-                TextView txtExplanation = (TextView)convertView.findViewById(R.id.txt_explantion);
-                txtExplanation.setText(mQuestionPack.getQuestionViewModels().get(PlaceholderFragment.this.position).getAnswerChoices().get(position).getExplanation());
-                Button btn = (Button) convertView.findViewById(R.id.btn_ok_dialog_quesiton_explantion);
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-                builder.setView(view);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+//                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                LayoutInflater inflater = getActivity().getLayoutInflater();
+//                View convertView  = inflater.inflate(R.layout.dialog_question_explanation, null);
+//                TextView txtExplanation = (TextView)convertView.findViewById(R.id.txt_explantion);
+//                txtExplanation.setText(mQuestionPack.getQuestionViewModels().get(PlaceholderFragment.this.position).getAnswerChoices().get(position).getExplanation());
+//                Button btn = (Button) convertView.findViewById(R.id.btn_ok_dialog_quesiton_explantion);
+//                btn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//
+//                    }
+//                });
+//                builder.setView(view);
 
             }
         }

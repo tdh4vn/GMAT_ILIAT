@@ -26,4 +26,8 @@ public class AnswerChoiceViewModel {
     public int getIndex() {
         return answerChoice.getIdx();
     }
+
+    public boolean isCorrectAnswerChoice() {
+        return answerChoice.getIdx() == answerChoice.getQuestion().getRightAnswerIndex();
+    }
 }
