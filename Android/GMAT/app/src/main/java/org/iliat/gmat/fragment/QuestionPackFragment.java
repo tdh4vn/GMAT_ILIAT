@@ -16,6 +16,7 @@ import org.iliat.gmat.activity.AnswerQuestionActivity;
 import org.iliat.gmat.adapter.ListQuestionPackAdapter;
 import org.iliat.gmat.database.QuestionPack;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
+import org.iliat.gmat.view_model.QuestionViewModel;
 
 public class QuestionPackFragment extends BaseFragment
         implements
@@ -84,6 +85,7 @@ public class QuestionPackFragment extends BaseFragment
     @Override
     public void onQuestionPackInteraction(QuestionPackViewModel item) {
         Log.d(TAG, "Item click " + item.getQuestionPack().getAvailableTime());
+        item.clearUserAnswers();
         getScreenManager().goToActivity(AnswerQuestionActivity.class,
                 AnswerQuestionActivity.buildBundle(item.getQuestionPack().getId()));
     }

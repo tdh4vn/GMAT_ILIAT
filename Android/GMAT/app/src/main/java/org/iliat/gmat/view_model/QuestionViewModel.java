@@ -68,12 +68,17 @@ public class QuestionViewModel implements Serializable {
     }
 
     public int getAnswerStatus() {
-        if(userAnswer.getChoiceIndex() == -1) {
+        if(userAnswer.getChoiceIndex() == UserAnswer.CHOICE_INDEX_UNDONE) {
             return ANSWER_NOT_DONE;
         }
         else {
             return userAnswer.getChoiceIndex() == question.getRightAnswerIndex() ? ANSWER_CORRECT : ANSWER_INCORRECT;
         }
+    }
+
+    public void clearUserAnswer() {
+        userAnswer.setChoiceIndex(UserAnswer.CHOICE_INDEX_UNDONE);
+        userAnswer.save();
     }
 
 }

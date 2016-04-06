@@ -25,7 +25,6 @@ import org.iliat.gmat.R;
 import org.iliat.gmat.database.AnswerChoice;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
-import org.w3c.dom.Text;
 
 /**
  * Khi sử dụng nhớ set QuestionPack cho nó
@@ -117,7 +116,7 @@ public class QuestionReviewActivity extends AppCompatActivity {
             return mQuestionPack;
         }
 
-        public void setmQuestionPack(QuestionPackViewModel mQuestionPack) {
+        public void setQuestionPack(QuestionPackViewModel mQuestionPack) {
             this.mQuestionPack = mQuestionPack;
         }
 
@@ -175,12 +174,12 @@ public class QuestionReviewActivity extends AppCompatActivity {
             listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d("TEST1","asdasd");
+                    Log.d("TEST1", "asdasd");
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> parent) {
-                    Log.d("TEST1=2","asdasd");
+                    Log.d("TEST1=2", "asdasd");
                 }
             });
         }
@@ -200,7 +199,6 @@ public class QuestionReviewActivity extends AppCompatActivity {
                 questionViewModel = object;
                 resourceLayoutID = resource;
             }
-
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -307,7 +305,7 @@ public class QuestionReviewActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             PlaceholderFragment placeholderFragment = PlaceholderFragment.newInstance(position + 1);
-            placeholderFragment.setmQuestionPack(questionPack);
+            placeholderFragment.setQuestionPack(questionPack);
             return placeholderFragment;
         }
 

@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import org.iliat.gmat.R;
+import org.iliat.gmat.adapter.QuestionAnswerSummaryAdapter;
 import org.iliat.gmat.database.Question;
 import org.iliat.gmat.database.QuestionPack;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
@@ -35,7 +37,7 @@ public class ScoreActivity extends AppCompatActivity {
     TextView txtCountYellowTag;
     TextView txtCountRedTag;
     TextView txtCountTimeAverage;
-
+    ListView ltvQuestionAnswerSummary;
 
     QuestionPackViewModel questionPackViewModel;
 
@@ -81,6 +83,8 @@ public class ScoreActivity extends AppCompatActivity {
         txtCountYellowTag = (TextView) this.findViewById(R.id.txtCountYellow);
         txtCountRedTag = (TextView) this.findViewById(R.id.txtCountRed);
         txtCountTimeAverage = (TextView) this.findViewById(R.id.txtTime);
+        ltvQuestionAnswerSummary = (ListView) this.findViewById(R.id.ltv_score_question_answer_summary);
+
         arcProgress = (ArcProgress) this.findViewById(R.id.arc_progress);
         Button btnReview = (Button) this.findViewById(R.id.btn_review);
         btnReview.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +117,11 @@ public class ScoreActivity extends AppCompatActivity {
 
         arcProgress.setBottomText(String.format("%d / %d", yourScore, maxScore));
         arcProgress.setProgress((int) (yourScore * 100.0f / maxScore));
-    }
 
+        ltvQuestionAnswerSummary.setAdapter(new QuestionAnswerSummaryAdapter(this,
+                R.layout.list_item_score_question_answer_summary,
+                questionPackViewModel.getQuestionViewModels()));
+    }
 
     private static final String QUESTION_PACK_VIEW_MODEL_BUNDLE_STRING = "Question_pack_view_model";
 

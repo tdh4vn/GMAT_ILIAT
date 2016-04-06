@@ -47,14 +47,26 @@ public class QuestionPackViewModel implements Serializable {
     public QuestionPack getQuestionPack(){return questionPack;}
 
     public QuestionViewModel getFirstQuestionViewModel() {
-        Question question = questionPack.getFirstQuestion();
-        if(question != null) return new QuestionViewModel(question);
+//        Question question = questionPack.getFirstQuestion();
+//        if(question != null) return new QuestionViewModel(question);
+//        return null;
+        initQuestionViewModels();
+        if(questionViewModels.size() > 0) {
+            return questionViewModels.get(0);
+        }
         return null;
     }
 
     public QuestionViewModel getNextQuestionViewModel(QuestionViewModel questionViewModel) {
-        Question nextQuestion =  questionPack.getNextQuestion(questionViewModel.getQuestion());
-        if(nextQuestion != null) return new QuestionViewModel(nextQuestion);
+//        Question nextQuestion =  questionPack.getNextQuestion(questionViewModel.getQuestion());
+//        if(nextQuestion != null) return new QuestionViewModel(nextQuestion);
+//        return null;
+        initQuestionViewModels();
+        int idx = questionViewModels.indexOf(questionViewModel);
+        int nextIdx = idx + 1;
+        if(nextIdx < questionViewModels.size()){
+            return questionViewModels.get(nextIdx);
+        }
         return null;
     }
 
@@ -62,7 +74,6 @@ public class QuestionPackViewModel implements Serializable {
     public boolean isLastQuestionInPack(QuestionViewModel questionViewModel) {
         return questionPack.isLastQuestionInPack(questionViewModel.getQuestion());
     }
-
 
     public boolean isShowDetail() {
         return isShowDetail;
@@ -99,6 +110,13 @@ public class QuestionPackViewModel implements Serializable {
         initQuestionViewModels();
         for(QuestionViewModel questionViewModel : questionViewModels) {
             questionViewModel.saveUserAnswer();
+        }
+    }
+
+    public void clearUserAnswers() {
+        initQuestionViewModels();
+        for(QuestionViewModel questionViewModel : questionViewModels) {
+            questionViewModel.clearUserAnswer();
         }
     }
 }

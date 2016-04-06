@@ -46,8 +46,7 @@
         android:id="@+id/viewHeader_score"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true">
+        android:layout_height="150dp">
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -94,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1m 2s"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imgTime"
                         android:layout_centerVertical="true"
                         android:id="@+id/txtTime" />
@@ -114,7 +113,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="3"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imgStar"
                         android:layout_centerVertical="true"
                         android:id="@+id/txtCountStar" />
@@ -140,7 +139,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imgGrey"
                         android:layout_centerVertical="true"
                         android:id="@+id/txtCountGrey" />
@@ -160,7 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imgGreen"
                         android:layout_centerVertical="true"
                         android:id="@+id/txtCountGreen" />
@@ -185,7 +184,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imgYellow"
                         android:layout_centerVertical="true"
                         android:id="@+id/txtCountYellow" />
@@ -205,7 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:layout_toEndOf="@+id/imgRed"
                         android:layout_centerVertical="true"
                         android:id="@+id/txtCountRed" />
@@ -214,24 +213,31 @@
         </LinearLayout>
     </LinearLayout>
     <View
-        android:layout_below="@id/viewHeader_score"
         android:id="@+id/line1_in_score"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#FFAB91"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
     </View>
-    <RelativeLayout
-        android:layout_below="@id/line1_in_score"
+    <!--<RelativeLayout-->
+        <!--android:layout_below="@id/line1_in_score"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<ListView-->
+            <!--android:id="@+id/list_question_after_doing"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+        <!--</ListView>-->
+    <!--</RelativeLayout>-->
+
+    <ListView
+        android:id="@+id/ltv_score_question_answer_summary"
+        android:background="@color/color_orange_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ListView
-            android:id="@+id/list_question_after_doing"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        </ListView>
-    </RelativeLayout>
-
-
+    </ListView>
 </LinearLayout>

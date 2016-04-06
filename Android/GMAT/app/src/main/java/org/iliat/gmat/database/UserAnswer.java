@@ -10,7 +10,8 @@ import java.io.Serializable;
  */
 public class UserAnswer extends SugarRecord implements Serializable {
 
-    private int choiceIndex = -1;
+    public static int CHOICE_INDEX_UNDONE = -1;
+    private int choiceIndex = CHOICE_INDEX_UNDONE;
     private Question question;
 
     public UserAnswer() {
