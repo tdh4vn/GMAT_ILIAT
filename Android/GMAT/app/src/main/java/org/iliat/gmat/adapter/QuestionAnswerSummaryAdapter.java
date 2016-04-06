@@ -65,7 +65,7 @@ public class QuestionAnswerSummaryAdapter extends ArrayAdapter<QuestionViewModel
 
             switch (questionViewModel.getAnswerStatus()) {
                 case QuestionViewModel.ANSWER_NOT_DONE:
-                    //imvStatus.setImageResource(R.drawable.ic_warning_black_24dp);
+                    imvStatus.setImageResource(R.drawable.ic_warning_black_24dp);
                     break;
                 case QuestionViewModel.ANSWER_INCORRECT:
                     imvStatus.setImageResource(R.drawable.ic_clear_black_24dp);

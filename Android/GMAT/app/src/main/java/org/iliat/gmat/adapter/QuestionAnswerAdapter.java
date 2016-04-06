@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
-import org.iliat.gmat.database.Question;
-import org.iliat.gmat.enitity.UserChoice;
 import org.iliat.gmat.view_model.QuestionViewModel;
 
 import java.util.ArrayList;
@@ -26,7 +24,7 @@ public class QuestionAnswerAdapter extends BaseAdapter {
 
     private static final String TAG = QuestionAnswerAdapter.class.toString();
 
-    private final int FIXED_ITEMS_CNT = 2;
+    private int fixedItemsCnt = 2;
     private LayoutInflater mLayoutInflater;
 
     private QuestionViewModel mQuestionViewModel;
@@ -40,20 +38,29 @@ public class QuestionAnswerAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return FIXED_ITEMS_CNT + mQuestionViewModel.getNumberOAnswerChoices();
+
+        if(mQuestionViewModel.stemIsEmpty())
+        {
+            fixedItemsCnt = 1;
+        }
+        else {
+            fixedItemsCnt = 2;
+        }
+        Log.d(TAG, "FixedItemsCnt : " + String.valueOf(fixedItemsCnt));
+        return fixedItemsCnt + mQuestionViewModel.getNumberOAnswerChoices();
     }
 
     @Override
     public Object getItem(int position) {
-        switch (position) {
-            case 0:
+        if (position < fixedItemsCnt) {
+            if (position == 0)
                 return mQuestionViewModel.getQuestion().getStimulus();
-            case 1:
-                return "<b>" + mQuestionViewModel.getQuestion().getStem() + "</b>";
-            default:
-                int idx = position - FIXED_ITEMS_CNT;
-                return mQuestionViewModel.getAnswerChoiceViewModel(idx).getChoice();
+            return "<b>" + mQuestionViewModel.getQuestion().getStem() + "</b>";
         }
+
+        int idx = position - fixedItemsCnt;
+        Log.d(TAG, String.valueOf(idx));
+        return mQuestionViewModel.getAnswerChoiceViewModel(idx).getChoice();
     }
 
     @Override
@@ -78,7 +85,7 @@ public class QuestionAnswerAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
             int layoutId;
-            if (position < FIXED_ITEMS_CNT) {
+            if (position < fixedItemsCnt) {
                 layoutId = R.layout.list_item_question_prompt;
             } else {
                 layoutId = R.layout.list_item_question_answer_choice;
@@ -89,11 +96,11 @@ public class QuestionAnswerAdapter extends BaseAdapter {
         }
 
         String content = (String)getItem(position);
-        if (position < FIXED_ITEMS_CNT) {
-            WebView wvContent = (WebView)convertView.findViewById(R.id.wv_content);
+        if (position < fixedItemsCnt) {
+            WebView wvContent = (WebView) convertView.findViewById(R.id.wv_content);
             wvContent.loadData(content, "text/html", "utf-8");
         } else {
-            int  answerIdx = position - FIXED_ITEMS_CNT;
+            int  answerIdx = position - fixedItemsCnt;
 
             TextView textView = (TextView) convertView.findViewById(R.id.wv_content);
             textView.setText(content);

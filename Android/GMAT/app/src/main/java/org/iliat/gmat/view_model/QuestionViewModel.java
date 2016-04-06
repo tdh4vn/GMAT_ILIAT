@@ -1,5 +1,7 @@
 package org.iliat.gmat.view_model;
 
+import android.util.Log;
+
 import org.iliat.gmat.database.AnswerChoice;
 import org.iliat.gmat.database.Question;
 import org.iliat.gmat.database.UserAnswer;
@@ -48,6 +50,14 @@ public class QuestionViewModel implements Serializable {
     }
 
     public String getStimulus() {return this.question.getStimulus();}
+
+    public String getStem() {return question.getStem();}
+
+    public boolean stemIsEmpty() {
+        Log.d(TAG, "STEM: " + String.valueOf(question.getStem()));
+        String stem = question.getStem();
+        return (stem == null || stem.isEmpty());
+    }
 
     public Question getQuestion() { return question; }
 
