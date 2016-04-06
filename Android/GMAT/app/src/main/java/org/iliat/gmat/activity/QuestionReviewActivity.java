@@ -2,6 +2,7 @@ package org.iliat.gmat.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import org.iliat.gmat.R;
 
 import org.iliat.gmat.database.AnswerChoice;
+import org.iliat.gmat.interf.ScreenManager;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
 
@@ -30,11 +32,11 @@ import org.iliat.gmat.view_model.QuestionViewModel;
  * Khi sử dụng nhớ set QuestionPack cho nó
  */
 
-public class QuestionReviewActivity extends AppCompatActivity {
+public class QuestionReviewActivity extends AppCompatActivity implements ScreenManager {
 
     //question Pack của cái activity này
     private QuestionPackViewModel mQuestionPack;
-
+    private android.app.FragmentManager mFragmentManager;
     TextView isCorrect;
     TextView txtProcess;
 
@@ -61,11 +63,13 @@ public class QuestionReviewActivity extends AppCompatActivity {
         Intent itent = this.getIntent();
         mQuestionPack = (QuestionPackViewModel)((itent.getBundleExtra(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL))
                 .getSerializable(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL));
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         getRefercenceForView();
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), mQuestionPack);
+
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -76,6 +80,7 @@ public class QuestionReviewActivity extends AppCompatActivity {
     private void getRefercenceForView(){
         isCorrect = (TextView)findViewById(R.id.txt_is_correct);
         txtProcess = (TextView)findViewById(R.id.txt_process);
+        mFragmentManager = getFragmentManager();
     }
 
     /**
@@ -105,6 +110,31 @@ public class QuestionReviewActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void openFragment(android.app.Fragment fragment, boolean addToBackStack) {
+
+    }
+
+    @Override
+    public void showDialogFragment(DialogFragment dialogFragment, String tag) {
+        dialogFragment.show(mFragmentManager, tag);
+    }
+
+    @Override
+    public boolean back() {
+        return false;
+    }
+
+    @Override
+    public void setTitleOfActionBar(String titles) {
+
+    }
+
+    @Override
+    public void goToActivity(Class activityClass, Bundle bundle) {
+
     }
 
 
