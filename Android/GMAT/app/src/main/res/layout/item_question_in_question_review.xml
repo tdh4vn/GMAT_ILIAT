@@ -18,6 +18,5 @@
         android:text="New Text"
         android:textSize="15sp"
         android:id="@+id/txt_content_answer"
-        android:layout_gravity="center_horizontal"
         android:layout_weight="4"/>
 </LinearLayout>

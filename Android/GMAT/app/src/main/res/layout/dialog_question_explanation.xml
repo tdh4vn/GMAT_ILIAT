@@ -11,8 +11,22 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingLeft="16dp">
-
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_answer"
+            android:text="Answer choice"
+            android:layout_marginBottom="5dp"/>
+        <View
+            android:layout_below="@id/txt_answer"
+            android:id="@+id/line_in_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/holo_blue_light"
+            />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/line_in_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Text"

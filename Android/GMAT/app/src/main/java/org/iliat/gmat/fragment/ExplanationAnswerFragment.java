@@ -27,13 +27,16 @@ public class ExplanationAnswerFragment extends DialogFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     String content;
+    String answerChoice;
     TextView txtContent;
+    TextView txtAnswer;
     Button btnClose;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public void setContent(String content) {
+    public void setContent(String content, String answerChoice) {
+        this.answerChoice = answerChoice;
         this.content = content;
         if(txtContent !=  null){
             txtContent.setText(content);
@@ -84,6 +87,8 @@ public class ExplanationAnswerFragment extends DialogFragment {
 
     private void connectView(View view){
         txtContent = (TextView) view.findViewById(R.id.txt_explantion);
+        txtAnswer = (TextView) view.findViewById(R.id.txt_answer);
+        txtAnswer.setText(answerChoice);
         txtContent.setText(content);
         btnClose = (Button) view.findViewById(R.id.btn_ok_dialog_quesiton_explantion);
         btnClose.setOnClickListener(new View.OnClickListener() {

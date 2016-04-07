@@ -61,11 +61,15 @@ public class AnswerQuestionActivity
         Bundle bundle = intent.getExtras();
 
 
+
         Long questionPackId = getQuestionPackFromBundle(bundle);
         QuestionPack questionPack = QuestionPack.findById(QuestionPack.class, questionPackId);
 
         questionPackViewModel = new QuestionPackViewModel(questionPack);
         questionViewModel = questionPackViewModel.getFirstQuestionViewModel();
+
+        countAnswer = 0;
+        maxQuestion = questionPackViewModel.getNumberOfQuestions();
     }
 
     private void openQuestionFragment() {
@@ -80,7 +84,7 @@ public class AnswerQuestionActivity
         progressBarDoing = (ProgressBar)this.findViewById(R.id.doing_progressBar);
         fragmentView = (FrameLayout)this.findViewById(R.id.fragment_view_of_answer_question);
         btnNext = (Button)this.findViewById(R.id.btn_next);
-        progressBarDoing.setMax(maxQuestion);
+
         mFragmentManager = getFragmentManager();
 
         addListeners();
@@ -100,8 +104,9 @@ public class AnswerQuestionActivity
      * ở fragment có thêm cái CallBackAnswerQuestion rồi truyền cái class này vào đấy
      *
      */
-    public void fillData(){
+    public void fillData() {
         progressText.setText(String.format("%d / %d", countAnswer, maxQuestion));
+        progressBarDoing.setMax(maxQuestion);
         progressBarDoing.setProgress(countAnswer);
         updateSubmitButtonText();
     }
@@ -121,6 +126,8 @@ public class AnswerQuestionActivity
                     goToActivity(ScoreActivity.class, bundle);
                 }
                 else {
+                    countAnswer++;
+                    fillData();
                     questionViewModel = questionPackViewModel.getNextQuestionViewModel(questionViewModel);
                     openQuestionFragment();
                 }

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -194,7 +195,7 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
         private void getRefercence(View view){
             contentQuestion = (TextView) view.findViewById(R.id.question_content);
             final QuestionViewModel questionViewModel = (mQuestionPack.getQuestionViewModels().get(position));
-            contentQuestion.setText(questionViewModel.getStimulus());
+            contentQuestion.setText(Html.fromHtml(questionViewModel.getStimulus()));
             listView = (ListView) view.findViewById(R.id.list_answer_review);
             AnswerChoiseInReviewAdapter answerChoiseInReviewAdapter
                     = new AnswerChoiseInReviewAdapter(getActivity(),R.layout.item_question_in_question_review, mQuestionPack.getQuestionViewModels().get(position));
@@ -206,7 +207,7 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     ExplanationAnswerFragment explanationAnswerFragment = new ExplanationAnswerFragment();
-                    explanationAnswerFragment.setContent(questionViewModel.getAnswerChoiceViewModel(position).getExplanation());
+                    explanationAnswerFragment.setContent(questionViewModel.getAnswerChoiceViewModel(position).getExplanation(), questionViewModel.getAnswerChoiceViewModel(position).getChoice());
                     ((ScreenManager)PlaceholderFragment.this.getActivity()).showDialogFragment(explanationAnswerFragment, "");
                 }
             });
