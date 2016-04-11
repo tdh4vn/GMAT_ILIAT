@@ -2,7 +2,7 @@
 //  Answer+CoreDataProperties.m
 //  GMAT
 //
-//  Created by Trung Đức on 3/21/16.
+//  Created by Trung Đức on 4/9/16.
 //  Copyright © 2016 Trung Đức. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,8 +13,10 @@
 
 @implementation Answer (CoreDataProperties)
 
-@dynamic idx;
-@dynamic content;
+@dynamic index;
+@dynamic choice;
+@dynamic explanation;
+@dynamic note;
 @dynamic question;
 
 @end

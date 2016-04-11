@@ -2,7 +2,7 @@
 //  QuestionPack.m
 //  GMAT
 //
-//  Created by Trung Đức on 3/14/16.
+//  Created by Trung Đức on 4/9/16.
 //  Copyright © 2016 Trung Đức. All rights reserved.
 //
 
@@ -10,19 +10,15 @@
 
 @implementation QuestionPack
 
-- (instancetype)initWithJson:(NSDictionary *)json;
+- (instancetype)initWithJson:(NSDictionary *)jsonDict;
 {
     self = [super init];
     
     if (self) {
-        _questionPackId = json[@"_id"][@"oid"];
-        _availableTime = json[@"available_time"];
         
-        _questionIds = [[NSMutableArray alloc]init];
-        
-        for (NSString *questionId in json[@"question_ids"]) {
-            [_questionIds addObject:questionId];
-        }
+        self.packId = jsonDict[@"_id"][@"oid"];
+        self.availableTime = jsonDict[@"available_time"];
+        self.questionIds = jsonDict[@"question_ids"];
     }
     
     return self;

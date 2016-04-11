@@ -2,7 +2,7 @@
 //  Question.h
 //  GMAT
 //
-//  Created by Trung Đức on 3/21/16.
+//  Created by Trung Đức on 4/9/16.
 //  Copyright © 2016 Trung Đức. All rights reserved.
 //
 
@@ -10,23 +10,15 @@
 #import <CoreData/CoreData.h>
 
 @class Answer;
+@class StudentAnswer;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Question : NSObject
-
-@property (nullable, nonatomic, retain) NSString *questionId;
-@property (nullable, nonatomic, retain) NSString *explanation;
-@property (nullable, nonatomic, retain) NSNumber *rightAnswerIdx;
-@property (nullable, nonatomic, retain) NSString *stem;
-@property (nullable, nonatomic, retain) NSString *stimulus;
-@property (nullable, nonatomic, retain) NSString *subType;
-@property (nullable, nonatomic, retain) NSString *type;
-@property (nullable, nonatomic, retain) NSArray *answers;
+@interface Question : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
 
-- (instancetype)initWithJson:(NSDictionary *)json;
++ (instancetype)createQuestionWithJson:(NSDictionary *)jsonDict;
 
 @end
 

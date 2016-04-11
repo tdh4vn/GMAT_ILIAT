@@ -14,7 +14,7 @@
 
 + (instancetype)sharedInstance;
 
-- (void)exploreQuestionWithCompletionBlock:(void(^)(NSArray *questions))completion;
+- (void)exploreQuestionWithCompletionBlock:(void(^)(NSArray *question))completion;
 
 - (void)exploreQuestionPackWithCompletionBlock:(void(^)(NSArray *questionPacks))completion;
 

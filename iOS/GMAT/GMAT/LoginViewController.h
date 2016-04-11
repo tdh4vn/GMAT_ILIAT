@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MMDrawerController/MMDrawerController.h"
 
 @interface LoginViewController : UIViewController<UITextFieldDelegate>
 
@@ -18,6 +19,8 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *txtEmail;
 @property (weak, nonatomic) IBOutlet UITextField *txtPassword;
+
+@property (nonatomic,strong) MMDrawerController * drawerController;
 
 
 @end

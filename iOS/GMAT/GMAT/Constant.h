@@ -10,24 +10,49 @@
 #define Constant_h
 
 
+#define kWidth_LeftSide                                  265.0f
+
+//MARK: Title
+
+#define kTitle_MainView                                 @"GMAT"
+
+//MARK: Color
+
+#define kColor_NavigationBarBackground                  [UIColor orangeColor]
+
+#define kColor_Window                                   [UIColor whiteColor]
+
+#define kAppColor                                       [UIColor orangeColor]
+
 
 //MARK: API
 
-#define kGmatAPIExploreQuestionUrl                      @"http://103.1.209.92:6969/question_collection"
+#define kGmatAPIExploreQuestionUrl                      @"https://g-service.herokuapp.com/api/questions"
 
-#define kGmatAPIExploreQuestionPackUrl                  @"http://103.1.209.92:6969/question_pack_collection"
+#define kGmatAPIExploreQuestionPackUrl                  @"https://g-service.herokuapp.com/api/question_packs"
 
+#define kGmatAPIVersionUrl                              @"https://g-service.herokuapp.com/api/version"
 
 //MARK: Image
 
+#define kImage_TableQuestionPacksBackground             @"LoginBackground"
 
-#define kLoginBackGroundImage                           @"LoginBackground"
+#define kImage_LoginBackGround                          @"LoginBackground"
 
-#define kLoginAreaBackgroundImage                       @"LoginAreaBackground"
+#define kImage_LoginAreaBackground                      @"LoginAreaBackground"
 
-#define kLogoImage                                      @"iliatLogo"
+#define kImage_Logo                                     @"iliatLogo"
 
-#define kBtnLoginBackgroundImage                        @"Background Login"
+#define kImage_BtnLoginBackground                       @"Background Login"
+
+#define kImage_AnswerA                                  @"a"
+#define kImage_AnswerB                                  @"b"
+#define kImage_AnswerC                                  @"c"
+#define kImage_AnswerD                                  @"d"
+#define kImage_AnswerE                                  @"e"
+
+#define kImage_Right                                    @"Right"
+#define kImage_Wrong                                    @"Wrong"
 
 //MARK: Database
 

@@ -2,7 +2,7 @@
 //  QuestionPack.h
 //  GMAT
 //
-//  Created by Trung Đức on 3/14/16.
+//  Created by Trung Đức on 4/9/16.
 //  Copyright © 2016 Trung Đức. All rights reserved.
 //
 
@@ -10,10 +10,10 @@
 
 @interface QuestionPack : NSObject
 
-@property(nonatomic,strong) NSString *questionPackId;
-@property(nonatomic,strong) NSString *availableTime;
-@property(nonatomic,strong) NSMutableArray *questionIds;
+@property (nonatomic, strong) NSString *packId;
+@property (nonatomic, strong) NSString *availableTime;
+@property (nonatomic, strong) NSArray *questionIds;
 
-- (instancetype)initWithJson:(NSDictionary *)json;
+- (instancetype)initWithJson:(NSDictionary *)jsonDict;
 
 @end

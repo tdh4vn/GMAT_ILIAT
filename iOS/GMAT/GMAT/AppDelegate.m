@@ -8,9 +8,9 @@
 
 #import "AppDelegate.h"
 #import "GmatAPI.h"
-#import "Question.h"
 #import "MagicalRecord/MagicalRecord.h"
 #import "Constant.h"
+#import "HexColors.h"
 
 @interface AppDelegate ()
 
@@ -22,8 +22,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    
-    self.window.tintColor = [UIColor redColor];
+    [[UINavigationBar appearance] setBarTintColor:kColor_NavigationBarBackground];
+    self.window.tintColor = kColor_Window;
     
     [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:kDatabaseName];
     

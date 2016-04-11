@@ -9,6 +9,7 @@
 #import "GmatAPI.h"
 #import "AFNetworking/AFNetworking.h"
 #import "Constant.h"
+#import "MagicalRecord/MagicalRecord.h"
 #import "Question.h"
 
 
@@ -54,28 +55,57 @@
 }
 
 
-- (void)exploreQuestionWithCompletionBlock:(void(^)(NSArray *questions))completion;
+- (void)exploreQuestionWithCompletionBlock:(void(^)(NSArray *question))completion;
 {
     
-    
-    NSURLSessionDataTask *dataTask = [_httpSessionManager GET:kGmatAPIExploreQuestionUrl
-                                                   parameters:nil
-                                                     progress:nil
-                                                      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                                          
-                                                          if (completion && responseObject) {
-                                                              completion(responseObject[@"questions"]);
-                                                          }
+    [_httpSessionManager GET:kGmatAPIVersionUrl parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if (completion && responseObject) {
+            NSString *currentVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+            
+            NSString *apiVersion = responseObject[@"value"];
+            
+            if (![currentVersion isEqualToString:apiVersion]) {
+                
+                [_httpSessionManager GET:kGmatAPIExploreQuestionUrl
+                                         parameters:nil
+                                           progress:nil
+                                            success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                                         
-                                                      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                                          
-                                                          if (error) {
-                                                              NSLog(@"error: %@",error);
-                                                          }
-                                                          
-                                                      }];
-
-    [dataTask resume];
+                                                    [Question MR_truncateAll];
+                                                        
+                                                    for (NSDictionary *jsonDict in responseObject[@"questions"]) {
+                                                        [Question createQuestionWithJson:jsonDict];
+                                                    }
+                                                        
+                                                    [[NSManagedObjectContext MR_defaultContext]MR_saveToPersistentStoreWithCompletion:^(BOOL contextDidSave,NSError* error) {
+                                                        
+                                                    }];
+                                                        
+                                                    [[NSUserDefaults standardUserDefaults]setObject:apiVersion forKey:@"version"];
+                                                
+                                                    [[NSUserDefaults standardUserDefaults] synchronize];
+                                                        
+                                                    NSLog(@"%lu",(unsigned long)[Question MR_countOfEntities]);
+                                                    
+                                                    completion(responseObject[@"questions"]);
+                                                
+                                                
+                                            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                                                
+                                                if (error) {
+                                                    NSLog(@"error: %@",error);
+                                                }
+                                                
+                                            }];
+        }
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (error) {
+            NSLog(@"error: %@",error);
+        }
+    }];
     
 }
 
@@ -89,7 +119,9 @@
                                                       success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                                                           
                                                           if (completion && responseObject) {
+                                                              
                                                               completion(responseObject[@"question_packs"]);
+                                                              
                                                           }
                                                           
                                                       } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

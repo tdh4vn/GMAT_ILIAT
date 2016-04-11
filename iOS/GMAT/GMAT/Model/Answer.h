@@ -2,7 +2,7 @@
 //  Answer.h
 //  GMAT
 //
-//  Created by Trung Đức on 3/21/16.
+//  Created by Trung Đức on 4/9/16.
 //  Copyright © 2016 Trung Đức. All rights reserved.
 //
 
@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Insert code here to declare functionality of your managed object subclass
 
-- (instancetype)answerWithJson:(NSDictionary *)json;
++ (instancetype)createAnswerWithJson:(NSDictionary *)jsonDict andQuestion:(Question *)question;
 
 @end
 

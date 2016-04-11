@@ -8,10 +8,16 @@
 
 #import "LoginViewController.h"
 #import "Constant.h"
-#import "MainViewController.h"
 #import "AppDelegate.h"
+#import "MainViewController.h"
+#import "LeftSideViewController.h"
+#import "MMDrawerController.h"
+
+#define kPlaceHolerLabelTexColorKeyPath                 @"_placeholderLabel.textColor"
 
 @interface LoginViewController ()
+
+
 
 @end
 
@@ -21,9 +27,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _imvLoginBackGround.image = [UIImage imageNamed:kLoginBackGroundImage];
-    _imvLoginAreBackground.image = [UIImage imageNamed:kLoginAreaBackgroundImage];
-    _imvLogo.image = [UIImage imageNamed:kLogoImage];
+    _imvLoginBackGround.image = [UIImage imageNamed:kImage_LoginBackGround];
+    _imvLoginAreBackground.image = [UIImage imageNamed:kImage_LoginAreaBackground];
+    _imvLogo.image = [UIImage imageNamed:kImage_Logo];
     
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
@@ -33,9 +39,9 @@
     [self.view addGestureRecognizer:tap];
     
     [self.txtEmail setValue:[UIColor whiteColor]
-                    forKeyPath:@"_placeholderLabel.textColor"];
+                    forKeyPath:kPlaceHolerLabelTexColorKeyPath];
     [self.txtPassword setValue:[UIColor whiteColor]
-                 forKeyPath:@"_placeholderLabel.textColor"];
+                 forKeyPath:kPlaceHolerLabelTexColorKeyPath];
     
     _txtEmail.delegate = self;
     _txtPassword.delegate = self;
@@ -72,16 +78,31 @@
 }
 - (IBAction)btnLoginDidTouch:(id)sender {
     
-    MainViewController *mainViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"mainView"];
-    
+    MainViewController *mainViewController = [MainViewController sharedInstance];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
     
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    LeftSideViewController * leftSideViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"leftSide"];
     
     
-    [self presentViewController:navigationController animated:YES completion:^{
+    
+    
+    //Create and config drawerController
+    
+    self.drawerController = [[MMDrawerController alloc]
+                             initWithCenterViewController:navigationController
+                             leftDrawerViewController:leftSideViewController];
+    [self.drawerController setShowsShadow:YES];
+    [self.drawerController setMaximumLeftDrawerWidth:kWidth_LeftSide];
+    [self.drawerController setOpenDrawerGestureModeMask:MMOpenDrawerGestureModeAll];
+    [self.drawerController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeAll];
+    
+    
+    
+    
+    [self presentViewController:_drawerController animated:YES completion:^{
         
-        [appDelegate.window setRootViewController:navigationController];
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        [appDelegate.window setRootViewController:self.drawerController];
         
     }];
     
