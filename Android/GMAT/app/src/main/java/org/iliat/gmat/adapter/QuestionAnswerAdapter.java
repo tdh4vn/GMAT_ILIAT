@@ -1,7 +1,12 @@
 package org.iliat.gmat.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.media.Image;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
+import org.iliat.gmat.interf.ButtonNextControl;
 import org.iliat.gmat.view_model.QuestionViewModel;
 
 import java.util.ArrayList;
@@ -21,7 +27,7 @@ import java.util.List;
  * Created by qhuydtvt on 3/19/2016.
  */
 public class QuestionAnswerAdapter extends BaseAdapter {
-
+    private ButtonNextControl buttonNextControl;
     private static final String TAG = QuestionAnswerAdapter.class.toString();
 
     private int fixedItemsCnt = 2;
@@ -29,12 +35,19 @@ public class QuestionAnswerAdapter extends BaseAdapter {
 
     private QuestionViewModel mQuestionViewModel;
     private Context mContext;
+    private Typeface typeFace;
 
-    public QuestionAnswerAdapter(QuestionViewModel questionViewModel, Context context, LayoutInflater layoutInflater) {
-        mQuestionViewModel = questionViewModel;
-        mLayoutInflater = layoutInflater;
-        mContext = context;
+
+
+    public QuestionAnswerAdapter(QuestionViewModel questionViewModel, Context context, LayoutInflater layoutInflater, ButtonNextControl buttonNextControl) {
+        this.mQuestionViewModel = questionViewModel;
+        this.mLayoutInflater = layoutInflater;
+        this.mContext = context;
+        this.buttonNextControl = buttonNextControl;
     }
+
+
+
 
     @Override
     public int getCount() {
@@ -80,9 +93,10 @@ public class QuestionAnswerAdapter extends BaseAdapter {
     }
 
     private List<TextView> answerTextViewList = new ArrayList<>();
+    private List<ImageView> answerIconViewList = new ArrayList<>();
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if(convertView == null) {
             int layoutId;
             if (position < fixedItemsCnt) {
@@ -103,10 +117,13 @@ public class QuestionAnswerAdapter extends BaseAdapter {
             int  answerIdx = position - fixedItemsCnt;
 
             TextView textView = (TextView) convertView.findViewById(R.id.wv_content);
+            typeFace = textView.getTypeface();
             textView.setText(content);
             answerTextViewList.add(textView);
 
+
             ImageView imvLabel = (ImageView) convertView.findViewById(R.id.iv_answer_label);
+            answerIconViewList.add(imvLabel);
             int imgId = getAnswerLabelImvId(answerIdx);
             if (imgId != -1) {
                 imvLabel.setImageResource(imgId);
@@ -118,11 +135,20 @@ public class QuestionAnswerAdapter extends BaseAdapter {
                     Integer answerIdx = (Integer) v.getTag();
                     mQuestionViewModel.selectAnswerChoice(answerIdx);
                     TextView textView = (TextView) v.findViewById(R.id.wv_content);
+                    ImageView imgIcon = (ImageView) v.findViewById(R.id.iv_answer_label);
                     for(TextView txv : answerTextViewList){
+                        Log.d("FUCK","FUCK");
                         txv.setTextColor(ContextCompat.getColor(mContext, R.color.color_normal_answer));
+                        txv.setTypeface(typeFace);
+                    }
+                    buttonNextControl.setButtonNextState(1);
+                    for(ImageView img : answerIconViewList){
+                        Log.d("FUCK","FUCK");
+                        img.setColorFilter(ContextCompat.getColor(mContext, R.color.color_normal_answer));
                     }
                     textView.setTextColor(ContextCompat.getColor(mContext, R.color.color_selected_answer));
-                    Log.d(TAG, "View click");
+                    textView.setTypeface(Typeface.DEFAULT_BOLD);
+                    imgIcon.setColorFilter(ContextCompat.getColor(mContext, R.color.color_selected_answer));
                 }
             });
         }

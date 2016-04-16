@@ -73,7 +73,7 @@
             android:layout_height="60dp"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
-            android:background="@color/color_white"
+            android:background="@color/color_orange_500"
             android:padding="@dimen/question_answer_bottom_bar_padding"
             android:gravity="center_horizontal"
             android:weightSum="3">

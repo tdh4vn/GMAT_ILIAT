@@ -187,7 +187,7 @@ public class ListQuestionPackAdapter extends
             RotateAnimation rotate = new RotateAnimation(180, 360,
                     Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                     0.5f);
-            rotate.setFillAfter(true);
+            //rotate.setFillAfter(true);
             rotate.setDuration(600);
             btnExtend.setAnimation(rotate);
             ValueAnimator mAnimator = slideAnimator(finalHeight, 0);
@@ -240,13 +240,6 @@ public class ListQuestionPackAdapter extends
 
                 int clickedPosition = getAdapterPosition();
 
-//                QuestionPack clickedItem = mQuestionPackVIewModels.get(clickedPosition);
-//
-//                if (clickedItem.isChecked()) {
-//                    clickedItem.setIsChecked(false);
-//                } else {
-//                    clickedItem.setIsChecked(true);
-//                }
 
                 notifyItemChanged(clickedPosition);
 

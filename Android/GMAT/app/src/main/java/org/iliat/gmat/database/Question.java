@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Question extends SugarRecord implements Serializable {
 
-//    private Long id;
+    private Long id;
     private String idInServer;
     private String type;
     private String subType;
@@ -32,10 +32,10 @@ public class Question extends SugarRecord implements Serializable {
         this.rightAnswerIndex = rightAnswerIndex;
     }
 
-//    @Override
-//    public Long getId() {
-//        return id;
-//    }
+    @Override
+    public Long getId() {
+        return id;
+    }
 
     public Question(){}
 

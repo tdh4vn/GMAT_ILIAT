@@ -39,9 +39,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -50,8 +55,6 @@ import okhttp3.Callback;
 
 public class LoginActivity extends AppCompatActivity implements JSONPreDownloadHandler,
         JSONPostDownloadHandler, JSONParser {
-
-    private OkHttpClient client;
 
     private static final String TAG = LoginActivity.class.toString();
 
@@ -88,6 +91,8 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 //        for(AnswerChoice a: answerChoiceList) {
 //            Log.d(TAG, a.getQuestion().getIdInServer());
 //        }
+
+//        QuestionPack.findById(QuestionPack.class, 1);
 
         this.initUtils();
         this.initLayout();
@@ -204,6 +209,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
             @Override
             public void onFailure(Call call, IOException e) {
                 onJSONDownloadFinished(TAG_QUESION_PACK_DOWNLOAD, false);
+                Log.d(TAG, e.getMessage());
             }
 
             @Override
@@ -257,6 +263,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         if (questionCount == 0)
         {
             for (JSONQuestion jsonQuestion : jsonQuestionList.getList()) {
+
                 Question question = new Question(jsonQuestion.getId(), jsonQuestion.getType(),
                         jsonQuestion.getSubType(), jsonQuestion.getStimulus(), jsonQuestion.getStem(),
                         jsonQuestion.getRightAnswer());
@@ -282,7 +289,6 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 
     private void saveQuestionPacks(JSONQuestionPackList jsonQuestionPackList) {
         Log.d(TAG, "JSONQuestionPackSize: " + String.valueOf(jsonQuestionPackList.getList().size()));
-
         for(JSONQuestionPack jsonQuestionPack : jsonQuestionPackList.getList()) {
             QuestionPack questionPack = new QuestionPack(
                     jsonQuestionPack.getId(),
@@ -298,6 +304,8 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
                     questionQuestionPackRel.save();
                 }
             }
+
+
         }
 
         List<QuestionPack> questionPackList = QuestionPack.getAllQuestionPacks();
@@ -306,8 +314,17 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 
     private void onJSONDownloadFinished(String tag, boolean result) {
         if(!result){
-            mSnackbar.setText(getString(R.string.download_failed));
-            mSnackbar.setDuration(Snackbar.LENGTH_LONG);
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    mSnackbar.setText(getString(R.string.download_failed));
+                    mSnackbar.setDuration(Snackbar.LENGTH_LONG);
+
+                }
+            });
+
         } else {
             mSnackbar.dismiss();
             if(tag == TAG_QUESION_PACK_DOWNLOAD) {

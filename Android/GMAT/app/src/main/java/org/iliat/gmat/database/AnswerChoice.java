@@ -9,8 +9,6 @@ import java.io.Serializable;
  * Created by qhuydtvt on 4/4/2016.
  */
 public class AnswerChoice extends SugarRecord implements Serializable {
-
-
     private int idx;
     private String choice;
     private String explanation;

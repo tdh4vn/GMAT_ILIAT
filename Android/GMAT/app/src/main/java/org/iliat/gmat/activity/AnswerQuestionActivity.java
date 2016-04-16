@@ -16,9 +16,9 @@ import android.widget.TextView;
 import org.iliat.gmat.R;
 import org.iliat.gmat.database.QuestionPack;
 import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
+import org.iliat.gmat.interf.ButtonNextControl;
 import org.iliat.gmat.interf.CallBackAnswerQuestion;
 import org.iliat.gmat.interf.ScreenManager;
-import org.iliat.gmat.view_model.QuestionPackListViewModel;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
 
@@ -27,8 +27,8 @@ import java.util.TimerTask;
 
 public class AnswerQuestionActivity
         extends AppCompatActivity
-        implements ScreenManager, CallBackAnswerQuestion {
-
+        implements ScreenManager, CallBackAnswerQuestion, ButtonNextControl {
+    public static final String KEY_TIME_AVERAGE = "ANSWER_QUESTION_KEY_TIME_AVERAGE";
     long countTime = 0;
     int countAnswer = 12;
     int maxQuestion = 16;
@@ -45,9 +45,7 @@ public class AnswerQuestionActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_answer_question);
-
 
         getDataFromIntent();
         getViewReferences();
@@ -59,9 +57,6 @@ public class AnswerQuestionActivity
     private void getDataFromIntent() {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-
-
-
         Long questionPackId = getQuestionPackFromBundle(bundle);
         QuestionPack questionPack = QuestionPack.findById(QuestionPack.class, questionPackId);
 
@@ -70,10 +65,13 @@ public class AnswerQuestionActivity
 
         countAnswer = 0;
         maxQuestion = questionPackViewModel.getNumberOfQuestions();
+
     }
 
     private void openQuestionFragment() {
         SCQuestionFragment scQuestionFragment = new SCQuestionFragment();
+        scQuestionFragment.setButtonNextControl(this);
+        this.setButtonNextState(0);
         scQuestionFragment.setQuestion(this.questionViewModel);
         openFragment(scQuestionFragment, true);
     }
@@ -105,7 +103,7 @@ public class AnswerQuestionActivity
      *
      */
     public void fillData() {
-        progressText.setText(String.format("%d / %d", countAnswer, maxQuestion));
+        progressText.setText(String.format("%d / %d", countAnswer + 1, maxQuestion));
         progressBarDoing.setMax(maxQuestion);
         progressBarDoing.setProgress(countAnswer);
         updateSubmitButtonText();
@@ -123,6 +121,7 @@ public class AnswerQuestionActivity
                 if(questionPackViewModel.isLastQuestionInPack(questionViewModel)) {
                     questionPackViewModel.saveUserAnswers();
                     Bundle bundle = ScoreActivity.buildBundle(questionPackViewModel.getQuestionPack().getId());
+                    bundle.putInt(KEY_TIME_AVERAGE, (int)(countTime / 10));
                     goToActivity(ScoreActivity.class, bundle);
                 }
                 else {
@@ -194,6 +193,7 @@ public class AnswerQuestionActivity
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtras(bundle);
         getApplicationContext().startActivity(intent);
+        this.finish();
     }
 
     private static final String QUESTION_PACK_BUNDLE_STRING = "question pack";
@@ -206,5 +206,14 @@ public class AnswerQuestionActivity
 
     public static Long getQuestionPackFromBundle(Bundle bundle) {
         return (Long)bundle.getSerializable(QUESTION_PACK_BUNDLE_STRING);
+    }
+
+    @Override
+    public void setButtonNextState(int state) {
+        if(state == 1){//enable
+            btnNext.setEnabled(true);
+        } else {
+            btnNext.setEnabled(false);
+        }
     }
 }

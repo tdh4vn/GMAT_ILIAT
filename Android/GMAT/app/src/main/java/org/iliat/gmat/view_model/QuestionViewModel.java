@@ -21,6 +21,11 @@ public class QuestionViewModel implements Serializable {
     private UserAnswer userAnswer;
     private List<AnswerChoice> answerChoices;
 
+    public QuestionViewModel(Question question) {
+        this.question = question;
+        answerChoices = AnswerChoice.find(AnswerChoice.class, "question = ?", String.valueOf(question.getId()));
+    }
+
     public UserAnswer getUserAnswer() {
         return userAnswer;
     }
@@ -33,21 +38,7 @@ public class QuestionViewModel implements Serializable {
         this.answerChoices = answerChoices;
     }
 
-    public QuestionViewModel(Question question) {
-        this.question = question;
-        answerChoices = AnswerChoice.find(AnswerChoice.class,
-                "QUESTION=?",
-                String.valueOf(question.getId()));
 
-        List<UserAnswer> userAnswers = UserAnswer.find(UserAnswer.class, "QUESTION=?",
-                String.valueOf(question.getId()));
-        if(userAnswers.size() > 0) {
-            userAnswer = userAnswers.get(0);
-        }
-        else {
-            userAnswer = new UserAnswer(question);
-        }
-    }
 
     public String getStimulus() {return this.question.getStimulus();}
 

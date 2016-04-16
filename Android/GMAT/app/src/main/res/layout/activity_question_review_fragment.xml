@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:text="1/0"/>
         <Button
+            android:id="@+id/btnExit"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,13 +46,14 @@
     </RelativeLayout>
 
     <android.support.v4.view.ViewPager
-        android:layout_marginBottom="60dp"
+        android:layout_above="@+id/bottom_controller"
         android:layout_below="@id/navigation_header"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     <LinearLayout
+        android:id="@+id/bottom_controller"
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
@@ -65,6 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="Don't Know"
+            android:textSize="12sp"
             android:textColor="@color/color_white"
             android:drawableTop="@mipmap/red"
             android:layout_weight="1"
@@ -76,6 +79,7 @@
             android:layout_height="match_parent"
             android:textColor="@color/color_white"
             android:text="Somewhat Know"
+            android:textSize="12sp"
             android:layout_weight="1"
             android:drawableTop="@mipmap/yellow"
             android:background="@android:color/transparent"
@@ -86,6 +90,7 @@
             android:layout_height="match_parent"
             android:textColor="@color/color_white"
             android:text="Know"
+            android:textSize="12sp"
             android:drawableTop="@mipmap/green"
             android:layout_weight="1"
             android:background="@android:color/transparent"

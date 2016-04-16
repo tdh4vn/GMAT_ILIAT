@@ -9,6 +9,7 @@
         android:orientation="vertical">
 
         <ListView
+            android:background="@color/color_orange_500"
             android:id="@+id/ltv_question"
             android:layout_width="match_parent"
             android:listSelector="@android:color/transparent"

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,13 +14,14 @@ import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.adapter.QuestionAnswerSummaryAdapter;
-import org.iliat.gmat.database.Question;
 import org.iliat.gmat.database.QuestionPack;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
+
 
 public class ScoreActivity extends AppCompatActivity {
     private static final String TAG = ScoreActivity.class.toString();
     public static final String TAG_QUESTION_PACK_VIEW_MODEL = "QUESTION_PACK_VIEW_MODEL";
+    public static final String SCOREACTIIVTY_POSITION = "SCOREACTIIVTY_POSITION";
 
     private int yourScore = 10;//so cau tra loi dung
     private int maxScore = 16;//so cau hoi toi da
@@ -29,6 +31,10 @@ public class ScoreActivity extends AppCompatActivity {
     private int countYellowTag = 0;//nt
     private int countRedTag = 0;//nt
     private int countTimeAverage = 0;//thoi gian lam trung binh 1 cau
+
+    public void setCountTimeAverage(int countTimeAverage) {
+        this.countTimeAverage = countTimeAverage;
+    }
 
     ArcProgress arcProgress;
     TextView txtCountStar;
@@ -72,7 +78,7 @@ public class ScoreActivity extends AppCompatActivity {
         Long questionPackId = getDataFromBundle(bundle);
         QuestionPack questionPack = QuestionPack.findById(QuestionPack.class, questionPackId);
         questionPackViewModel = new QuestionPackViewModel(questionPack);
-
+        countTimeAverage = bundle.getInt(AnswerQuestionActivity.KEY_TIME_AVERAGE);
         Log.d(TAG, questionPackViewModel.getAvailableTime());
     }
 
@@ -92,6 +98,7 @@ public class ScoreActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ScoreActivity.this, QuestionReviewActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putInt(SCOREACTIIVTY_POSITION, -1);
                 bundle.putSerializable(TAG_QUESTION_PACK_VIEW_MODEL, questionPackViewModel);
                 intent.putExtra(TAG_QUESTION_PACK_VIEW_MODEL, bundle);
                 startActivity(intent);
@@ -106,6 +113,8 @@ public class ScoreActivity extends AppCompatActivity {
     private void fillData(){
         yourScore = questionPackViewModel.getNumberOfCorrectAnswers();
         maxScore = questionPackViewModel.getNumberOfQuestions();
+        Log.d(TAG, "Your score"  + yourScore);
+        Log.d(TAG, "Max score"  + maxScore);
 
 
         txtCountStar.setText(String.valueOf(countStar));
@@ -121,6 +130,18 @@ public class ScoreActivity extends AppCompatActivity {
         ltvQuestionAnswerSummary.setAdapter(new QuestionAnswerSummaryAdapter(this,
                 R.layout.list_item_score_question_answer_summary,
                 questionPackViewModel.getQuestionViewModels()));
+        ltvQuestionAnswerSummary.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            /*TODO*/
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ScoreActivity.this, QuestionReviewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(SCOREACTIIVTY_POSITION, position);
+                bundle.putSerializable(TAG_QUESTION_PACK_VIEW_MODEL, questionPackViewModel);
+                intent.putExtra(TAG_QUESTION_PACK_VIEW_MODEL, bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     private static final String QUESTION_PACK_VIEW_MODEL_BUNDLE_STRING = "Question_pack_view_model";

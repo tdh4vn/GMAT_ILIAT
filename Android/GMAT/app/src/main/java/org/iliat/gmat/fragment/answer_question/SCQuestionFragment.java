@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,9 @@ import org.iliat.gmat.adapter.QuestionAnswerAdapter;
 import org.iliat.gmat.enitity.UserChoice;
 import org.iliat.gmat.fragment.BaseFragment;
 import org.iliat.gmat.fragment.DialogFragmentExplantionQuestion;
+import org.iliat.gmat.interf.ButtonNextControl;
 import org.iliat.gmat.view_model.QuestionViewModel;
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,12 +35,16 @@ import org.iliat.gmat.view_model.QuestionViewModel;
  * create an instance of this fragment.
  */
 public class SCQuestionFragment extends BaseFragment implements AdapterView.OnItemSelectedListener,View.OnClickListener {
-    boolean isReview = true;
     private final int ANSWER_CHOICE_NUM = 5;
-
+    private ButtonNextControl buttonNextControl;
 //    private ListView mAnswerChoices;
 //    private TextView mWvQuestionStem;
 //    private TextView mWvStimulus;
+
+
+    public void setButtonNextControl(ButtonNextControl buttonNextControl) {
+        this.buttonNextControl = buttonNextControl;
+    }
 
     private ListView ltvQuestion;
     private Button btnSubmit;
@@ -119,102 +126,10 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         UserChoice userChoice = new UserChoice();
         userChoice.setChoice(0);
         ltvQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        ltvQuestion.setAdapter(new QuestionAnswerAdapter(mQuestionCRModel, getActivity(), getActivity().getLayoutInflater()));
+        ltvQuestion.setAdapter(new QuestionAnswerAdapter(mQuestionCRModel, getActivity(), getActivity().getLayoutInflater(), buttonNextControl));
 
-//        if(isLastQuestion()) {
-//            btnSubmit.setText(getString(R.string.submit_question_pack));
-//        } else {
-//            btnSubmit.setText(getString(R.string.next_question));
-//        }
-
-//        btnSubmit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!isLastQuestion()) {
-//                    /* Go to last screen */
-//                    gotoNextQuestion();
-//                }else {
-//                    getScreenManager().goToActivity(ScoreActivity.class, null);
-//                }
-//            }
-//        });
-
-//        mWvStimulus = (TextView)view.findViewById(R.ObjectID.tv_stimulus);
-//        mWvQuestionStem = (TextView)view.findViewById(R.ObjectID.tv_stem);
-//        mAnswerChoices = (ListView) view.findViewById(R.ObjectID.list_answer_choices);
-//        btnSubmit = (Button)view.findViewById(R.ObjectID.btnSubmit);
-
-//        viewHolders = new ViewHolder[] {
-//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_a),
-//                        (TextView)view.findViewById(R.ObjectID.tv_label_a), 0),
-//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_b),
-//                        (TextView)view.findViewById(R.ObjectID.tv_label_b), 1),
-//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_c),
-//                        (TextView)view.findViewById(R.ObjectID.tv_label_c), 2),
-//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_d),
-//                        (TextView)view.findViewById(R.ObjectID.tv_label_d), 3),
-//                new ViewHolder((TextView)view.findViewById(R.ObjectID.tv_answer_e),
-//                        (TextView)view.findViewById(R.ObjectID.tv_label_e), 4)
-//        };
-//        tvAnswers = new TextView[]{
-//                (TextView)view.findViewById(R.ObjectID.tv_answer_a),
-//                (TextView)view.findViewById(R.ObjectID.tv_answer_b),
-//                (TextView)view.findViewById(R.ObjectID.tv_answer_c),
-//                (TextView)view.findViewById(R.ObjectID.tv_answer_d),
-//                (TextView)view.findViewById(R.ObjectID.tv_answer_e)
-//        };
-
-
-        /*mWvStimulus.loadData(mQuestionCRModel.getStimulus(),"text/html", "utf-8");
-        mWvQuestionStem.loadData(mQuestionCRModel.getStem(),"text/html", "utf-8");*/
-
-//        mWvStimulus.setText(mQuestionCRModel.getStimulus());
-//        mWvQuestionStem.setText(mQuestionCRModel.getStem());
-//
-//        List<String> answerChoices = mQuestionCRModel.getAnswerChoiceList();
-//        for(int idx = 0; idx < answerChoices.size(); idx++ ){
-//            tvAnswers[idx].setText(answerChoices.get(idx));
-//        }
-
-//        mAnswerChoices.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-//        mAnswerChoices.setOnItemSelectedListener(this);
-//
-//        mAnswerChoices.setAdapter(
-//                new ListAnswerChoiceAdapter(getActivity().getLayoutInflater(),
-//                mQuestionCRModel));
-//        UIUtils.setListViewHeightBasedOnChildren(mAnswerChoices);
-//
-////        setListViewHeightBasedOnChildren(mAnswerChoices);
-//
-//        if(isLastQuestion()) {
-//            btnSubmit.setText(getString(R.string.submit_question_pack));
-//        }
-//
-//        btnSubmit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(isLastQuestion()) {
-//                    /* Go to last screen */
-//                }
-//                else {
-//                    gotoNextQuestion();
-//                }
-//            }
-//        });
     }
 
-//    private  boolean isLastQuestion() {
-//        return mQuestionPack.isLastQuestion(mQuestionCRModel);
-//    }
-
-//    private void gotoNextQuestion() {
-//        QuestionCRModel nextQuestion = mQuestionPack.getNextQuestion(mQuestionCRModel);
-//        if(nextQuestion != null) {
-//            Log.d("gotoNextQuestion", nextQuestion.getId());
-//            getScreenManager().openFragment(create(mQuestionPack,
-//                    nextQuestion), true);
-//        }
-//    }
 
 /*    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -242,8 +157,11 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("FUCK","FUCK");
         TextView txvItem = (TextView)view.findViewById(R.id.txv_answer_choice);
+        txvItem.setText(Html.fromHtml("<b>" + txvItem.getText().toString() + "</b>"));
         txvItem.setTextColor(ContextCompat.getColor(this.getActivity(), R.color.color_selected_answer));
+
     }
 
     @Override

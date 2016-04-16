@@ -10,15 +10,11 @@ public class JSONQuestionList extends SugarRecord {
     private static final String VERSION = "version";
     private static final String QUESTIONS = "questions";
 
-    @SerializedName(VERSION)
-    private String version;
 
     @SerializedName(QUESTIONS)
     private List<JSONQuestion> list;
 
-    public String getVersion() {
-        return version;
-    }
+
 
     public List<JSONQuestion> getList() {
         return list;

@@ -1,10 +1,10 @@
 package org.iliat.gmat.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,18 +22,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import org.iliat.gmat.R;
 
+import org.iliat.gmat.animation.ExpandAnimation;
 import org.iliat.gmat.database.AnswerChoice;
-import org.iliat.gmat.fragment.ExplanationAnswerFragment;
 import org.iliat.gmat.interf.ScreenManager;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
 
+import java.util.ArrayList;
+
 /**
  * Khi sử dụng nhớ set QuestionPack cho nó
  */
-
+/*TODO*/
 public class QuestionReviewActivity extends AppCompatActivity implements ScreenManager {
 
     //question Pack của cái activity này
@@ -41,7 +44,7 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
     private android.app.FragmentManager mFragmentManager;
     TextView isCorrect;
     TextView txtProcess;
-
+    Button btnExit;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -63,7 +66,7 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
         setContentView(R.layout.activity_question_review_fragment);
         PlaceholderFragment.context = this;
         Intent itent = this.getIntent();
-        mQuestionPack = (QuestionPackViewModel)((itent.getBundleExtra(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL))
+        mQuestionPack = (QuestionPackViewModel) ((itent.getBundleExtra(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL))
                 .getSerializable(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL));
 
         // Create the adapter that will return a fragment for each of the three
@@ -78,17 +81,35 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
         addListenerForTabChange();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bundle bundle = getIntent().getBundleExtra(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL);
+        int position = bundle.getInt(ScoreActivity.SCOREACTIIVTY_POSITION);
+        if (position != -1) {// chuyen review sang cau hoi thu position
+            Log.d("TAG TAG TAG", String.valueOf(position));
+            mViewPager.setCurrentItem(position);
+        }
+    }
 
-    private void getRefercenceForView(){
-        isCorrect = (TextView)findViewById(R.id.txt_is_correct);
-        txtProcess = (TextView)findViewById(R.id.txt_process);
+    private void getRefercenceForView() {
+        isCorrect = (TextView) findViewById(R.id.txt_is_correct);
+        isCorrect.setTypeface(Typeface.DEFAULT_BOLD);
+        txtProcess = (TextView) findViewById(R.id.txt_process);
         mFragmentManager = getFragmentManager();
+        btnExit = (Button) findViewById(R.id.btnExit);
+        btnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuestionReviewActivity.this.finish();
+            }
+        });
     }
 
     /**
      * thêm listener cho sự kiện change tab
      */
-    private void addListenerForTabChange(){
+    private void addListenerForTabChange() {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -98,13 +119,13 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
             @Override
             public void onPageSelected(int position) {
                 //kiem tra neu dap an dung thi thay doi text
-                if(mQuestionPack.getQuestionViewModels().get(position).getUserAnswer().getChoiceIndex()
-                        == mQuestionPack.getQuestionViewModels().get(position).getQuestion().getRightAnswerIndex()){
+                if (mQuestionPack.getQuestionViewModels().get(position).getUserAnswer().getChoiceIndex()
+                        == mQuestionPack.getQuestionViewModels().get(position).getQuestion().getRightAnswerIndex()) {
                     isCorrect.setText("Correct");
                 } else {
                     isCorrect.setText("Incorrect");
                 }
-                txtProcess.setText(String.format("%d / %d",position + 1,mQuestionPack.getQuestionViewModels().size()));
+                txtProcess.setText(String.format("%d / %d", position + 1, mQuestionPack.getQuestionViewModels().size()));
             }
 
             @Override
@@ -139,6 +160,7 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
 
     }
 
+    /*TODO*/
 
     /**
      * A placeholder fragment containing a simple view.
@@ -151,7 +173,6 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
         public void setQuestionPack(QuestionPackViewModel mQuestionPack) {
             this.mQuestionPack = mQuestionPack;
         }
-
 
 
         /**
@@ -192,13 +213,13 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
             return rootView;
         }
 
-        private void getRefercence(View view){
+        private void getRefercence(View view) {
             contentQuestion = (TextView) view.findViewById(R.id.question_content);
             final QuestionViewModel questionViewModel = (mQuestionPack.getQuestionViewModels().get(position));
             contentQuestion.setText(Html.fromHtml(questionViewModel.getStimulus()));
             listView = (ListView) view.findViewById(R.id.list_answer_review);
             AnswerChoiseInReviewAdapter answerChoiseInReviewAdapter
-                    = new AnswerChoiseInReviewAdapter(getActivity(),R.layout.item_question_in_question_review, mQuestionPack.getQuestionViewModels().get(position));
+                    = new AnswerChoiseInReviewAdapter(getActivity(), R.layout.item_question_in_question_review, mQuestionPack.getQuestionViewModels().get(position));
             answerChoiseInReviewAdapter.userChoise = mQuestionPack.getQuestionViewModels().get(position).getUserAnswer().getChoiceIndex();
             answerChoiseInReviewAdapter.rightAnswer = mQuestionPack.getQuestionViewModels().get(position).getQuestion().getRightAnswerIndex();
             Log.d("User/Right", String.format("%d-%d,%d", position, answerChoiseInReviewAdapter.userChoise, answerChoiseInReviewAdapter.rightAnswer));
@@ -206,14 +227,29 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ExplanationAnswerFragment explanationAnswerFragment = new ExplanationAnswerFragment();
-                    explanationAnswerFragment.setContent(questionViewModel.getAnswerChoiceViewModel(position).getExplanation(), questionViewModel.getAnswerChoiceViewModel(position).getChoice());
-                    ((ScreenManager)PlaceholderFragment.this.getActivity()).showDialogFragment(explanationAnswerFragment, "");
+                    TextView textViewQuestion = (TextView) view.findViewById(R.id.txt_content_answer);
+                    TextView textView = (TextView) view.findViewById(R.id.txt_explanation);
+                    View line = view.findViewById(R.id.line_between_question_explanation);
+//                    ExpandAnimation expandAnimationExplanation = new ExpandAnimation(textView, 500);
+//                    ExpandAnimation expandAnimationLine = new ExpandAnimation(line, 500);
+//                    textView.startAnimation(expandAnimationExplanation);
+//                    line.startAnimation(expandAnimationLine);
+//                    textViewQuestion.setTypeface(textViewQuestion.getTypeface(), Typeface.BOLD);
+                    if (textView.getVisibility() == View.GONE) {//nếu đang ẩn thì hiện nó lên
+                        textViewQuestion.setTypeface(Typeface.DEFAULT_BOLD);
+                        line.setVisibility(View.VISIBLE);
+                        textView.setVisibility(View.VISIBLE);
+                    } else {
+                        textViewQuestion.setTypeface(Typeface.DEFAULT);
+                        line.setVisibility(View.GONE);
+                        textView.setVisibility(View.GONE);
+                    }
                 }
             });
         }
 
-        public class AnswerChoiseInReviewAdapter extends ArrayAdapter<AnswerChoice> implements AdapterView.OnItemClickListener{
+        /*TODO*/
+        public class AnswerChoiseInReviewAdapter extends ArrayAdapter<AnswerChoice> {
             int userChoise;
             int rightAnswer;
             QuestionViewModel questionViewModel;
@@ -221,7 +257,8 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
             int resourceLayoutID;
             ImageView iconAnswer;
             TextView contentAnswer;
-            ScreenManager screenManager;
+            TextView explanationAnswer;
+            View line;
 
             public AnswerChoiseInReviewAdapter(Context context, int resource, QuestionViewModel object) {
                 super(context, resource, object.getAnswerChoices());
@@ -231,21 +268,27 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
             }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LayoutInflater inflater=
-                        ((Activity)context).getLayoutInflater();
-                convertView=inflater.inflate(resourceLayoutID, null);
-                iconAnswer = (ImageView)convertView.findViewById(R.id.img_icon_answer);
-                contentAnswer = (TextView)convertView.findViewById(R.id.txt_content_answer);
-                switch (position){
+            public View getView(final int position, View convertView, ViewGroup parent) {
+                LayoutInflater inflater =
+                        ((Activity) context).getLayoutInflater();
+
+                convertView = inflater.inflate(resourceLayoutID, null);
+                iconAnswer = (ImageView) convertView.findViewById(R.id.img_icon_answer);
+                contentAnswer = (TextView) convertView.findViewById(R.id.txt_content_answer);
+                line = convertView.findViewById(R.id.line_between_question_explanation);
+                explanationAnswer = (TextView) convertView.findViewById(R.id.txt_explanation);
+                explanationAnswer.setText(questionViewModel.getAnswerChoices().get(position).getExplanation());
+                explanationAnswer.setVisibility(View.GONE);
+                line.setVisibility(View.GONE);
+                switch (position) {
                     case 0:
                         iconAnswer.setImageResource(R.drawable.a);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
-                        if(userChoise == 0){
+                        if (userChoise == 0) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
                         }
-                        if(rightAnswer == 0){
+                        if (rightAnswer == 0) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
                         }
@@ -253,11 +296,11 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                     case 1:
                         iconAnswer.setImageResource(R.drawable.b);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
-                        if(userChoise == 1){
+                        if (userChoise == 1) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
                         }
-                        if(rightAnswer == 1){
+                        if (rightAnswer == 1) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
                         }
@@ -265,11 +308,11 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                     case 2:
                         iconAnswer.setImageResource(R.drawable.c);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
-                        if(userChoise == 2){
+                        if (userChoise == 2) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
                         }
-                        if(rightAnswer == 2){
+                        if (rightAnswer == 2) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
                         }
@@ -277,11 +320,11 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                     case 3:
                         iconAnswer.setImageResource(R.drawable.d);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
-                        if(userChoise == 3){
+                        if (userChoise == 3) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
                         }
-                        if(rightAnswer == 3){
+                        if (rightAnswer == 3) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
                         }
@@ -289,11 +332,11 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                     case 4:
                         iconAnswer.setImageResource(R.drawable.e);
                         contentAnswer.setText(questionViewModel.getAnswerChoices().get(position).getChoice());
-                        if(userChoise == 4){
+                        if (userChoise == 4) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_red_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_red_500));
                         }
-                        if(rightAnswer == 4){
+                        if (rightAnswer == 4) {
                             iconAnswer.setColorFilter(getResources().getColor(R.color.color_green_500));
                             contentAnswer.setTextColor(getResources().getColor(R.color.color_green_500));
                         }
@@ -302,25 +345,6 @@ public class QuestionReviewActivity extends AppCompatActivity implements ScreenM
                 return convertView;
             }
 
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("TAGTAG", "SS");
-//                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                LayoutInflater inflater = getActivity().getLayoutInflater();
-//                View convertView  = inflater.inflate(R.layout.dialog_question_explanation, null);
-//                TextView txtExplanation = (TextView)convertView.findViewById(R.id.txt_explantion);
-//                txtExplanation.setText(mQuestionPack.getQuestionViewModels().get(PlaceholderFragment.this.position).getAnswerChoices().get(position).getExplanation());
-//                Button btn = (Button) convertView.findViewById(R.id.btn_ok_dialog_quesiton_explantion);
-//                btn.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//
-//                    }
-//                });
-//                builder.setView(view);
-
-            }
         }
     }
 

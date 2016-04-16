@@ -2,6 +2,7 @@ package org.iliat.gmat.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,13 @@ import java.util.List;
  * Created by qhuydtvt on 4/6/2016.
  */
 public class QuestionAnswerSummaryAdapter extends ArrayAdapter<QuestionViewModel> {
-
     private LayoutInflater mLayoutInflater;
-
+    private Context context;
     public QuestionAnswerSummaryAdapter(Context context,
                                         int resource,
                                         List<QuestionViewModel> objects) {
         super(context, resource, objects);
+        this.context = context;
         mLayoutInflater = ((Activity)context).getLayoutInflater();
     }
 
@@ -69,9 +70,11 @@ public class QuestionAnswerSummaryAdapter extends ArrayAdapter<QuestionViewModel
                     break;
                 case QuestionViewModel.ANSWER_INCORRECT:
                     imvStatus.setImageResource(R.drawable.ic_clear_black_24dp);
+                    imvStatus.setColorFilter(ContextCompat.getColor(QuestionAnswerSummaryAdapter.this.context,R.color.color_red_500));
                     break;
                 case QuestionViewModel.ANSWER_CORRECT:
                     imvStatus.setImageResource(R.drawable.ic_done_black_24dp);
+                    imvStatus.setColorFilter(ContextCompat.getColor(QuestionAnswerSummaryAdapter.this.context,R.color.color_green_500));
                     break;
             }
         }

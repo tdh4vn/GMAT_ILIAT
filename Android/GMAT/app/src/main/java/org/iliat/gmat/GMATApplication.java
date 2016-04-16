@@ -5,8 +5,6 @@ import android.util.Log;
 
 import com.orm.SugarContext;
 
-import org.iliat.gmat.database.Question;
-import org.iliat.gmat.database.QuestionPack;
 
 import java.util.List;
 
@@ -17,8 +15,9 @@ public class GMATApplication extends Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         SugarContext.init(this);
+        super.onCreate();
+
 
 //        List<QuestionPack> questionPackList = QuestionPack.getAllQuestionPacks();
 //        Log.d("GMATApplication", "getAllQuestionPacks: " + String.valueOf(questionPackList.size()));

@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context="org.iliat.gmat.activity.ScoreActivity"
-    android:background="#E0E0E0">
+    tools:context="org.iliat.gmat.activity.ScoreActivity">
 
     <RelativeLayout
         android:id="@+id/navigation_header"
