@@ -1,6 +1,7 @@
 package org.iliat.gmat.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -14,14 +15,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import org.iliat.gmat.GMATApplication;
 import org.iliat.gmat.R;
-import org.iliat.gmat.database.AnswerChoice;
-import org.iliat.gmat.database.Question;
-import org.iliat.gmat.database.QuestionPack;
-import org.iliat.gmat.database.QuestionQuestionPackRel;
+import org.iliat.gmat.dao.GMATAPI;
+import org.iliat.gmat.model.AnswerModel;
+import org.iliat.gmat.model.QuestionModel;
+import org.iliat.gmat.model.QuestionPackModel;
 import org.iliat.gmat.network.APIUrls;
 import org.iliat.gmat.enitity.DownloadJSONTask;
 
@@ -29,27 +32,29 @@ import org.iliat.gmat.enitity.JSONParser;
 import org.iliat.gmat.enitity.JSONPostDownloadHandler;
 import org.iliat.gmat.enitity.JSONPreDownloadHandler;
 import org.iliat.gmat.network.JSONAnswerChoice;
+import org.iliat.gmat.network.JSONLogin;
 import org.iliat.gmat.network.JSONQuestion;
 import org.iliat.gmat.network.JSONQuestionList;
 import org.iliat.gmat.network.JSONQuestionPack;
 import org.iliat.gmat.network.JSONQuestionPackList;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.logging.Logger;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import okhttp3.Call;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.Callback;
 
@@ -60,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
 
     private static final String TAG_QUESION_PACK_DOWNLOAD = "question pack download";
     private static final String TAG_QUESION_DOWNLOAD = "question download";
+    private Realm realm;
 
     private TextInputLayout inputLayoutEmail, inputLayoutPassword;
     private Button mLoginButton;
@@ -79,24 +85,26 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        SharedPreferences sharedPreferences = getSharedPreferences(GMATApplication.SHARE_PREFERENCES, MODE_PRIVATE);
+        boolean isLogged = sharedPreferences.getBoolean(GMATApplication.LOGIN_SHARE_PREFERENCES, false);
 
-//        List<Question> questionList = Question.listAll(Question.class);
-//        for(Question q : questionList) {
-//            Log.d(TAG, q.getIdInServer());
-//        }
-//
-//        Log.d(TAG, "----------------------------------------------------------");
-//
-//        List<AnswerChoice> answerChoiceList = AnswerChoice.listAll(AnswerChoice.class);
-//        for(AnswerChoice a: answerChoiceList) {
-//            Log.d(TAG, a.getQuestion().getIdInServer());
-//        }
+        if (!isLogged) {
+            Log.d(TAG, "ACBSDE");
+            this.initUtils();
+            this.initLayout();
+            this.registerEvents();
 
-//        QuestionPack.findById(QuestionPack.class, 1);
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            this.finish();
+        }
+    }
 
-        this.initUtils();
-        this.initLayout();
-        this.registerEvents();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        realm = Realm.getDefaultInstance();
     }
 
     private void initUtils() {
@@ -124,11 +132,47 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long questionCount = Question.count(Question.class);
-                if (questionCount <= 0) {
+                mSnackbar.setDuration(Snackbar.LENGTH_INDEFINITE);
+                mSnackbar.show();
+                login();
+            }
+        });
+    }
+
+
+    private void login(){
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody formBody = new FormBody.Builder()
+                .add("username", mEmailEditText.getText().toString())
+                .add("password", mPasswordEditText.getText().toString())
+                .build();
+        Request request = new Request.Builder()
+                .url(APIUrls.LOGIN_API)
+                .post(formBody)
+                .build();
+        mHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("HttpService", "onFailure() Request was: ");
+
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                JSONLogin jsonLogin = (
+                        new Gson()).fromJson(response.body().charStream(),
+                        JSONLogin.class);
+                if(jsonLogin.getLogin_status() == 1){
+                    SharedPreferences sharedPreferences = getSharedPreferences(GMATApplication.SHARE_PREFERENCES, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean(GMATApplication.LOGIN_SHARE_PREFERENCES, true);
+                    editor.putString(GMATApplication.EMAIL_SHARE_PREFERENCES, mEmailEditText.getText().toString());
+                    editor.putString(GMATApplication.PASSWORD_SHARE_PREFERENCES, mPasswordEditText.getText().toString());
+                    editor.commit();
                     downloadQuestions();
                 } else {
-                    goToMainActivity();
+                    Toast.makeText(LoginActivity.this,"Login Fail", Toast.LENGTH_SHORT);
                 }
             }
         });
@@ -158,6 +202,7 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(intent);
+        this.finish();
     }
 
     private boolean validateEmail() {
@@ -259,57 +304,56 @@ public class LoginActivity extends AppCompatActivity implements JSONPreDownloadH
     }
 
     private void saveQuestions(JSONQuestionList jsonQuestionList) {
-        long questionCount = Question.count(Question.class);
-        if (questionCount == 0)
-        {
-            for (JSONQuestion jsonQuestion : jsonQuestionList.getList()) {
-
-                Question question = new Question(jsonQuestion.getId(), jsonQuestion.getType(),
-                        jsonQuestion.getSubType(), jsonQuestion.getStimulus(), jsonQuestion.getStem(),
-                        jsonQuestion.getRightAnswer());
-
-                long questionId = question.save();
-                question.setId(questionId);
+        realm = Realm.getDefaultInstance();
+        for (JSONQuestion jsonQuestion : jsonQuestionList.getList()) {
+            {
+                realm.beginTransaction();
+                RealmList<AnswerModel> answerModels = new RealmList<AnswerModel>();
                 for (JSONAnswerChoice jsonAnswerChoice : jsonQuestion.getAnswerChoiceList()) {
-                    AnswerChoice answerChoice = new AnswerChoice(jsonAnswerChoice.getIndex(),
-                            jsonAnswerChoice.getChoice(), jsonAnswerChoice.getExplanation(), question);
-                    answerChoice.save();
+                    AnswerModel answerModel = new AnswerModel();
+                    answerModel.setId(jsonQuestion.getId() + jsonAnswerChoice.getIndex());
+                    answerModel.setChoise(jsonAnswerChoice.getChoice());
+                    answerModel.setExplanation(jsonAnswerChoice.getExplanation());
+                    answerModel.setIndex(jsonAnswerChoice.getIndex());
+                    answerModels.add(answerModel);
                 }
+                QuestionModel questionModel = new QuestionModel();
+                questionModel.setId(jsonQuestion.getId());
+                questionModel.setIdInServer(jsonQuestion.getId());
+                questionModel.setType(jsonQuestion.getType());
+                questionModel.setSubType(jsonQuestion.getSubType());
+                questionModel.setStimulus(jsonQuestion.getStimulus());
+                questionModel.setStem(jsonQuestion.getStem());
+                questionModel.setRightAnswerIndex(jsonQuestion.getRightAnswer());
+                questionModel.setAnswerList(answerModels);
+                realm.copyToRealmOrUpdate(questionModel);
+                realm.commitTransaction();
             }
-
-
-            List<Question> questionList = Question.listAll(Question.class);
-            List<AnswerChoice> answerChoiceList = AnswerChoice.listAll(AnswerChoice.class);
-
-            List<AnswerChoice> answerChoiceList1 = AnswerChoice.find(AnswerChoice.class, "question=?", "1");
-
-            Log.d(TAG, "DUMP");
+            realm.beginTransaction();
+            RealmResults<QuestionModel> questionModel1 = realm.where(QuestionModel.class).findAll();
+            RealmResults<AnswerModel> answerModelList = realm.where(AnswerModel.class).findAll();
+            Log.i("FUCK FUCK FUCK FUCK 2", questionModel1.get(0).getStimulus());
+            Log.i("FUCK FUCK FUCK FUCK", String.valueOf(questionModel1.get(0).getAnswerList().size()));
+            realm.commitTransaction();
         }
     }
 
     private void saveQuestionPacks(JSONQuestionPackList jsonQuestionPackList) {
         Log.d(TAG, "JSONQuestionPackSize: " + String.valueOf(jsonQuestionPackList.getList().size()));
         for(JSONQuestionPack jsonQuestionPack : jsonQuestionPackList.getList()) {
-            QuestionPack questionPack = new QuestionPack(
-                    jsonQuestionPack.getId(),
-                    jsonQuestionPack.getAvailableTime());
-            questionPack.save();
+            realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            QuestionPackModel questionPackModel = new QuestionPackModel();
+            questionPackModel.setAvainableTime(jsonQuestionPack.getAvailableTime());
+            questionPackModel.setId(jsonQuestionPack.getId());
+            questionPackModel.setQuestionList(new RealmList<QuestionModel>());
             for(String id : jsonQuestionPack.getQuestionIds()) {
-                List<Question> questionsByServerId = Question.find(Question.class, "ID_IN_SERVER=?", id);
-                if(questionsByServerId.size() > 0) {
-                    Question question = questionsByServerId.get(0);
-                    QuestionQuestionPackRel questionQuestionPackRel = new QuestionQuestionPackRel(
-                            question, questionPack
-                    );
-                    questionQuestionPackRel.save();
-                }
+                QuestionModel questionModel = realm.where(QuestionModel.class).equalTo("idInServer", id).findFirst();
+                questionPackModel.getQuestionList().add(questionModel);
             }
-
-
+            realm.copyToRealmOrUpdate(questionPackModel);
+            realm.commitTransaction();
         }
-
-        List<QuestionPack> questionPackList = QuestionPack.getAllQuestionPacks();
-        Log.d(TAG, "QuestionPackSize: " + String.valueOf(questionPackList.size()));
     }
 
     private void onJSONDownloadFinished(String tag, boolean result) {

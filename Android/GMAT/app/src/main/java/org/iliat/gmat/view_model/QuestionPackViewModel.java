@@ -1,56 +1,64 @@
 package org.iliat.gmat.view_model;
 
-import org.iliat.gmat.database.Question;
-import org.iliat.gmat.database.QuestionPack;
+
+import android.content.Context;
+import android.util.Log;
+
+import org.iliat.gmat.model.QuestionModel;
+import org.iliat.gmat.model.QuestionPackModel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by qhuydtvt on 4/4/2016.
  */
 public class QuestionPackViewModel implements Serializable {
-
     private List<QuestionViewModel> questionViewModels;
     private boolean isShowDetail;
     private boolean isChecked;
 
-    private QuestionPack questionPack;
+    private QuestionPackModel questionPack;
 
-    private void initQuestionViewModels() {
-        if (questionViewModels == null) {
-            questionViewModels = new ArrayList<>();
-            List<Question> questionList = questionPack.getQuestionList();
-            for (Question question : questionList) {
-                questionViewModels.add(new QuestionViewModel(question));
-            }
-        }
-    }
 
-    public Long getId() {
+    public String getId() {
         return questionPack.getId();
     }
 
 
     public List<QuestionViewModel> getQuestionViewModels() {
-        initQuestionViewModels();
         return questionViewModels;
     }
 
-    public QuestionPackViewModel(QuestionPack questionPack) {
-        this.questionPack = questionPack;
+    public QuestionPackViewModel(Context mContext) {
+        questionViewModels = new ArrayList<QuestionViewModel>();
+        for(QuestionModel questionModel : questionPack.getQuestionList()){
+            questionViewModels.add(new QuestionViewModel(questionModel));
+        }
     }
 
-    public String getAvailableTime() {return questionPack.getAvailableTime();}
+    public QuestionPackViewModel(QuestionPackModel questionPack, Context mContext) {
+        this.questionPack = questionPack;
+        questionViewModels = new ArrayList<QuestionViewModel>();
+        for(QuestionModel questionModel : questionPack.getQuestionList()){
+            questionViewModels.add(new QuestionViewModel(questionModel));
+        }
+    }
+    public QuestionPackViewModel(QuestionPackModel questionPack) {
+        this.questionPack = questionPack;
+        questionViewModels = new ArrayList<QuestionViewModel>();
+        for(QuestionModel questionModel : questionPack.getQuestionList()){
+            questionViewModels.add(new QuestionViewModel(questionModel));
+        }
+    }
 
-    public QuestionPack getQuestionPack(){return questionPack;}
+    public String getAvailableTime() {return questionPack.getAvainableTime();}
+
+    public QuestionPackModel getQuestionPack(){return questionPack;}
 
     public QuestionViewModel getFirstQuestionViewModel() {
-//        Question question = questionPack.getFirstQuestion();
-//        if(question != null) return new QuestionViewModel(question);
-//        return null;
-        initQuestionViewModels();
         if(questionViewModels.size() > 0) {
             return questionViewModels.get(0);
         }
@@ -58,12 +66,9 @@ public class QuestionPackViewModel implements Serializable {
     }
 
     public QuestionViewModel getNextQuestionViewModel(QuestionViewModel questionViewModel) {
-//        Question nextQuestion =  questionPack.getNextQuestion(questionViewModel.getQuestion());
-//        if(nextQuestion != null) return new QuestionViewModel(nextQuestion);
-//        return null;
-        initQuestionViewModels();
         int idx = questionViewModels.indexOf(questionViewModel);
         int nextIdx = idx + 1;
+        Log.d("NEXT IDX", String.valueOf(nextIdx));
         if(nextIdx < questionViewModels.size()){
             return questionViewModels.get(nextIdx);
         }
@@ -72,6 +77,7 @@ public class QuestionPackViewModel implements Serializable {
 
 
     public boolean isLastQuestionInPack(QuestionViewModel questionViewModel) {
+        Log.d("TAG222",questionViewModel.getStimulus());
         return questionPack.isLastQuestionInPack(questionViewModel.getQuestion());
     }
 
@@ -93,7 +99,7 @@ public class QuestionPackViewModel implements Serializable {
 
     public int getNumberOfCorrectAnswers() {
         int ret = 0;
-        initQuestionViewModels();
+
         for(QuestionViewModel questionViewModel : questionViewModels) {
             if(questionViewModel.getAnswerStatus() == QuestionViewModel.ANSWER_CORRECT)
                 ret++;
@@ -107,14 +113,12 @@ public class QuestionPackViewModel implements Serializable {
 
 
     public void saveUserAnswers() {
-        initQuestionViewModels();
         for(QuestionViewModel questionViewModel : questionViewModels) {
             questionViewModel.saveUserAnswer();
         }
     }
 
     public void clearUserAnswers() {
-        initQuestionViewModels();
         for(QuestionViewModel questionViewModel : questionViewModels) {
             questionViewModel.clearUserAnswer();
         }

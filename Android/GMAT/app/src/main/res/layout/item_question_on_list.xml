@@ -19,6 +19,8 @@
         android:layout_height="60dp"
         android:layout_weight="3"
         android:text="Question 1"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="16sp"/>
     <ImageView
         android:id="@+id/img_isdone_question_detail"

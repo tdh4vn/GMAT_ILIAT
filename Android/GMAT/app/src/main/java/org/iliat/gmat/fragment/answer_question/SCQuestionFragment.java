@@ -6,25 +6,24 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.iliat.gmat.R;
 import org.iliat.gmat.adapter.ListAnswerChoiceAdapter;
-import org.iliat.gmat.adapter.QuestionAnswerAdapter;
-import org.iliat.gmat.enitity.UserChoice;
 import org.iliat.gmat.fragment.BaseFragment;
-import org.iliat.gmat.fragment.DialogFragmentExplantionQuestion;
 import org.iliat.gmat.interf.ButtonNextControl;
+import org.iliat.gmat.item_view.AnswerCRQuestion;
 import org.iliat.gmat.view_model.QuestionViewModel;
-import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
+import io.github.kexanie.library.MathView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,12 +33,14 @@ import org.w3c.dom.Text;
  * Use the {@link SCQuestionFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SCQuestionFragment extends BaseFragment implements AdapterView.OnItemSelectedListener,View.OnClickListener {
+public class SCQuestionFragment extends BaseFragment
+        implements  AdapterView.OnItemSelectedListener,
+                    View.OnClickListener,
+                    ChangeStateOfAnswerItemsInterface{
     private final int ANSWER_CHOICE_NUM = 5;
     private ButtonNextControl buttonNextControl;
-//    private ListView mAnswerChoices;
-//    private TextView mWvQuestionStem;
-//    private TextView mWvStimulus;
+    private ArrayList<AnswerCRQuestion> answerCRQuestionArrayList;
+    private MathView questionContent;
 
 
     public void setButtonNextControl(ButtonNextControl buttonNextControl) {
@@ -49,14 +50,9 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     private ListView ltvQuestion;
     private Button btnSubmit;
 
-//    private QuestionPack mQuestionPack;
 
     private QuestionViewModel mQuestionCRModel;
 
-//    private TextView[] tvAnswers;
-//    private ViewHolder[] viewHolders;
-
-    /*QuestionList listQuestion;*/
     ListAnswerChoiceAdapter adapter;
 
     // TODO: Rename and change types of parameters
@@ -69,9 +65,6 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         // Required empty public constructor
     }
 
-//    public void setQuestionPack(QuestionPack questionPack) {
-//        mQuestionPack = questionPack;
-//    }
 
     public void setQuestion(QuestionViewModel question) {
         mQuestionCRModel = question;
@@ -88,46 +81,44 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
     // TODO: Rename and change types and number of parameters
     public static SCQuestionFragment newInstance(String param1, String param2) {
         SCQuestionFragment fragment = new SCQuestionFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-////            mParam1 = getArguments().getString(ARG_PARAM1);
-////            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_single_question, container, false);
         initLayout(view);
+        fillData();
         return view;
     }
 
     private void initLayout(View view) {
+        if (answerCRQuestionArrayList == null) {
+            questionContent =  (MathView)view.findViewById(R.id.question_content);
+            answerCRQuestionArrayList = new ArrayList<AnswerCRQuestion>();
+            answerCRQuestionArrayList.add((AnswerCRQuestion)view.findViewById(R.id.answer_queston_1));
+            answerCRQuestionArrayList.add((AnswerCRQuestion)view.findViewById(R.id.answer_queston_2));
+            answerCRQuestionArrayList.add((AnswerCRQuestion)view.findViewById(R.id.answer_queston_3));
+            answerCRQuestionArrayList.add((AnswerCRQuestion)view.findViewById(R.id.answer_queston_4));
+            answerCRQuestionArrayList.add((AnswerCRQuestion)view.findViewById(R.id.answer_queston_5));
+        }
+    }
 
-//        if(mQuestionCRModel == null) { /* The first Question fragment */
-//            mQuestionCRModel = QuestionList.getQuestion(mQuestionPack.getFirstQuestionId());
-//        }
-
-
-//        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
-
-        ltvQuestion = (ListView) view.findViewById(R.id.ltv_question);
-        UserChoice userChoice = new UserChoice();
-        userChoice.setChoice(0);
-        ltvQuestion.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        ltvQuestion.setAdapter(new QuestionAnswerAdapter(mQuestionCRModel, getActivity(), getActivity().getLayoutInflater(), buttonNextControl));
-
+    private void fillData(){
+        for (int i = 0; i < ANSWER_CHOICE_NUM; i++) {
+            answerCRQuestionArrayList.get(i).setAnswerModel(mQuestionCRModel.getAnswerChoiceViewModel(i));
+            answerCRQuestionArrayList.get(i).setmContext(getActivity());
+            answerCRQuestionArrayList.get(i).setButtonNextControl(buttonNextControl);
+            answerCRQuestionArrayList.get(i).setChangeStateOfAnswerItemsInterface(this);
+            answerCRQuestionArrayList.get(i).fillData();
+            questionContent.setText(mQuestionCRModel.getStimulus());
+        }
     }
 
 
@@ -157,7 +148,6 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Log.d("FUCK","FUCK");
         TextView txvItem = (TextView)view.findViewById(R.id.txv_answer_choice);
         txvItem.setText(Html.fromHtml("<b>" + txvItem.getText().toString() + "</b>"));
         txvItem.setTextColor(ContextCompat.getColor(this.getActivity(), R.color.color_selected_answer));
@@ -179,6 +169,17 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
 
     }
 
+    @Override
+    public void changeState(int index) {
+        for (int i = 0; i < ANSWER_CHOICE_NUM; i++) {
+            if (i != index) {
+                answerCRQuestionArrayList.get(i).setUserChoise(false);
+            } else {
+                answerCRQuestionArrayList.get(i).setUserChoise(true);
+            }
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -193,50 +194,6 @@ public class SCQuestionFragment extends BaseFragment implements AdapterView.OnIt
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-//    public static SCQuestionFragment create(QuestionPack questionPack, QuestionCRModel questionCRModel) {
-//        SCQuestionFragment fragment = new SCQuestionFragment();
-//        fragment.setQuestionPack(questionPack);
-//        fragment.setQuestion(questionCRModel);
-//        return fragment;
-//    }
-
-    /**** Method for Setting the Height of the ListView dynamically.
-     **** Hack to fix the issue of not showing all the items of the ListView
-     **** when placed inside a ScrollView  ****/
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
-            return;
-
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
-        int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
-
-            view.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-    }
-
-    private class ViewHolder {
-        TextView tvLabel;
-        TextView tvContent;
-        int index;
-
-        public ViewHolder(TextView tvLabel, TextView tvContent, int index) {
-            this.tvLabel = tvLabel;
-            this.tvContent = tvContent;
-            this.index = index;
-        }
-    }
-
 
 }
 

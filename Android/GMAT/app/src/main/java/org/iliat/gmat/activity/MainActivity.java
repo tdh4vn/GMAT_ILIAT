@@ -12,17 +12,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.iliat.gmat.R;
+import org.iliat.gmat.dialog.DownloadImageDialog;
 import org.iliat.gmat.fragment.QuestionPackFragment;
+import org.iliat.gmat.interf.OnDownloadFinished;
 import org.iliat.gmat.interf.ScreenManager;
+import org.iliat.gmat.utils.QuestionHelper;
 
-public class MainActivity extends AppCompatActivity
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
+    public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ScreenManager {
 
     FragmentManager mFragmentManager;
+    QuestionPackFragment questionPackFragment;
+
 
     public void goToActivity(Class activityClass, Bundle bundle){
         Intent intent = new Intent(this, activityClass);
@@ -45,14 +55,26 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(getApplicationContext()).build();
+        Realm.setDefaultConfiguration(realmConfig);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getIntances();
-
-        openFragment(new QuestionPackFragment(), true);
+        questionPackFragment = new QuestionPackFragment();
+        questionPackFragment.setmContext(this);
+        openFragment(questionPackFragment, true);
     }
 
-    private void initData() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
     }
 
@@ -64,6 +86,26 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+
+    private void updateQuestion(){
+        QuestionHelper questionHelper = new QuestionHelper();
+        questionHelper.setOnDownloadFinished(new OnDownloadFinished() {
+            @Override
+            public void downloadFinish() {
+                Log.d("FUCK", "DUOC ROI");
+                //reload fragment
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.detach(questionPackFragment).attach(questionPackFragment).commit();
+            }
+        });
+        questionHelper.downloadQuestionInServer();
+        showDialogFragment(new DownloadImageDialog(), "DOWNLOAD_IMAGE_DIALOG");
+    }
+
+    private void checkUpdate(){
+
     }
 
     @Override
@@ -101,6 +143,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
+            updateQuestion();
+
 
         } else if (id == R.id.nav_manage) {
 

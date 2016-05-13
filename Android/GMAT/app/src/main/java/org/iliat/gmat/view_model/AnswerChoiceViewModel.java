@@ -1,22 +1,28 @@
 package org.iliat.gmat.view_model;
 
-import com.orm.SugarRecord;
 
 import org.iliat.gmat.database.AnswerChoice;
+import org.iliat.gmat.model.AnswerModel;
+
+import java.io.Serializable;
 
 /**
  * Created by hungtran on 4/4/16.
  */
-public class AnswerChoiceViewModel {
+public class AnswerChoiceViewModel implements Serializable{
 
-    private AnswerChoice answerChoice;
+    private AnswerModel answerChoice;
 
-    public AnswerChoiceViewModel(AnswerChoice answerChoice) {
+    public AnswerModel getAnswerChoice() {
+        return answerChoice;
+    }
+
+    public AnswerChoiceViewModel(AnswerModel answerChoice) {
         this.answerChoice = answerChoice;
     }
 
     public String getChoice() {
-        return answerChoice.getChoice();
+        return answerChoice.getChoise();
     }
 
     public String getExplanation() {
@@ -24,6 +30,6 @@ public class AnswerChoiceViewModel {
     }
 
     public int getIndex() {
-        return answerChoice.getIdx();
+        return answerChoice.getIndex();
     }
 }

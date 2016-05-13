@@ -1,5 +1,6 @@
 package org.iliat.gmat.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,13 +16,27 @@ import org.iliat.gmat.R;
 import org.iliat.gmat.activity.AnswerQuestionActivity;
 import org.iliat.gmat.adapter.ListQuestionPackAdapter;
 import org.iliat.gmat.database.QuestionPack;
+import org.iliat.gmat.model.QuestionPackModel;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class QuestionPackFragment extends BaseFragment
         implements
-        ListQuestionPackAdapter.OnListQuestionPackListener
-    {
+        ListQuestionPackAdapter.OnListQuestionPackListener {
+    private Context mContext;
+
+    private Realm realm;
+
+    public Context getmContext() {
+        return mContext;
+    }
+
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
+    }
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -38,8 +53,17 @@ public class QuestionPackFragment extends BaseFragment
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        realm = Realm.getDefaultInstance();
+    }
+
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
+    /**
+     * method ko duoc su dung :)
+     */
     public static QuestionPackFragment newInstance(int columnCount) {
         QuestionPackFragment fragment = new QuestionPackFragment();
         Bundle args = new Bundle();
@@ -55,6 +79,12 @@ public class QuestionPackFragment extends BaseFragment
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override
@@ -74,9 +104,10 @@ public class QuestionPackFragment extends BaseFragment
             }
 
             ListQuestionPackAdapter listQuestionPackAdapter = new ListQuestionPackAdapter();
-            listQuestionPackAdapter.setQuestionPackList(QuestionPack.getAllQuestionPacks());
+            realm = Realm.getDefaultInstance();
+            listQuestionPackAdapter.setQuestionPackList(realm.where(QuestionPackModel.class).findAll());
             listQuestionPackAdapter.setQuestionPackListener(this);
-            listQuestionPackAdapter.setContext(this.getActivity());
+            listQuestionPackAdapter.setContext(this.getmContext());
             recyclerView.setAdapter(listQuestionPackAdapter);
         }
         return view;
@@ -84,8 +115,8 @@ public class QuestionPackFragment extends BaseFragment
 
     @Override
     public void onQuestionPackInteraction(QuestionPackViewModel item) {
-        Log.d(TAG, "Item click " + item.getQuestionPack().getAvailableTime());
-        item.clearUserAnswers();
+        Log.d(TAG, "Item click " + item.getQuestionPack().getAvainableTime());
+        //item.clearUserAnswers();
         getScreenManager().goToActivity(AnswerQuestionActivity.class,
                 AnswerQuestionActivity.buildBundle(item.getQuestionPack().getId()));
     }

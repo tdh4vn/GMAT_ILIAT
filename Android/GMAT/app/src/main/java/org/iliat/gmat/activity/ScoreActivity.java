@@ -15,7 +15,11 @@ import com.github.lzyzsd.circleprogress.ArcProgress;
 import org.iliat.gmat.R;
 import org.iliat.gmat.adapter.QuestionAnswerSummaryAdapter;
 import org.iliat.gmat.database.QuestionPack;
+import org.iliat.gmat.model.QuestionPackModel;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 
 public class ScoreActivity extends AppCompatActivity {
@@ -31,6 +35,8 @@ public class ScoreActivity extends AppCompatActivity {
     private int countYellowTag = 0;//nt
     private int countRedTag = 0;//nt
     private int countTimeAverage = 0;//thoi gian lam trung binh 1 cau
+
+    Realm realm;
 
     public void setCountTimeAverage(int countTimeAverage) {
         this.countTimeAverage = countTimeAverage;
@@ -67,17 +73,32 @@ public class ScoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
-        getDataFromIntent();
         connectView();//ket noi xml voi java
-        fillData();//fill data vao view
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(getApplicationContext()).build();
+        realm = Realm.getInstance(realmConfiguration);
+        realm.setDefaultConfiguration(realmConfiguration);
+        realm = Realm.getDefaultInstance();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataFromIntent();
+        fillData();
     }
 
     private void getDataFromIntent() {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        Long questionPackId = getDataFromBundle(bundle);
-        QuestionPack questionPack = QuestionPack.findById(QuestionPack.class, questionPackId);
-        questionPackViewModel = new QuestionPackViewModel(questionPack);
+        String questionPackId = getDataFromBundle(bundle);
+        realm = realm.getDefaultInstance();
+        QuestionPackModel questionPack = realm.where(QuestionPackModel.class).equalTo("id",questionPackId).findFirst();
+        questionPackViewModel = new QuestionPackViewModel(questionPack, this);
         countTimeAverage = bundle.getInt(AnswerQuestionActivity.KEY_TIME_AVERAGE);
         Log.d(TAG, questionPackViewModel.getAvailableTime());
     }
@@ -99,7 +120,7 @@ public class ScoreActivity extends AppCompatActivity {
                 Intent intent = new Intent(ScoreActivity.this, QuestionReviewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt(SCOREACTIIVTY_POSITION, -1);
-                bundle.putSerializable(TAG_QUESTION_PACK_VIEW_MODEL, questionPackViewModel);
+                bundle.putString(TAG_QUESTION_PACK_VIEW_MODEL, questionPackViewModel.getId());
                 intent.putExtra(TAG_QUESTION_PACK_VIEW_MODEL, bundle);
                 startActivity(intent);
             }
@@ -137,7 +158,7 @@ public class ScoreActivity extends AppCompatActivity {
                 Intent intent = new Intent(ScoreActivity.this, QuestionReviewActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putInt(SCOREACTIIVTY_POSITION, position);
-                bundle.putSerializable(TAG_QUESTION_PACK_VIEW_MODEL, questionPackViewModel);
+                bundle.putString(TAG_QUESTION_PACK_VIEW_MODEL, questionPackViewModel.getId());
                 intent.putExtra(TAG_QUESTION_PACK_VIEW_MODEL, bundle);
                 startActivity(intent);
             }
@@ -146,13 +167,13 @@ public class ScoreActivity extends AppCompatActivity {
 
     private static final String QUESTION_PACK_VIEW_MODEL_BUNDLE_STRING = "Question_pack_view_model";
 
-    public static Bundle buildBundle(Long questionPackId) {
+    public static Bundle buildBundle(String questionPackId) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(QUESTION_PACK_VIEW_MODEL_BUNDLE_STRING, questionPackId);
         return bundle;
     }
 
-    public static Long getDataFromBundle(Bundle bundle) {
-        return (Long)bundle.getSerializable(QUESTION_PACK_VIEW_MODEL_BUNDLE_STRING);
+    public static String getDataFromBundle(Bundle bundle) {
+        return (String)bundle.getSerializable(QUESTION_PACK_VIEW_MODEL_BUNDLE_STRING);
     }
 }

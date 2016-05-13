@@ -9,6 +9,7 @@ import android.widget.TextView;
 import org.iliat.gmat.R;
 import org.iliat.gmat.database.AnswerChoice;
 import org.iliat.gmat.database.Question;
+import org.iliat.gmat.model.QuestionModel;
 import org.iliat.gmat.view_model.AnswerChoiceViewModel;
 
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ import java.util.List;
  */
 public class ListAnswerChoiceAdapter extends BaseAdapter {
 
-    private Question mQuestion;
+    private QuestionModel mQuestion;
     private ArrayList<AnswerChoiceViewModel> answerChoiceViewModelList;
     private LayoutInflater mLayoutInflater;
 
-    public ListAnswerChoiceAdapter(LayoutInflater layoutInflater, Question question) {
+    public ListAnswerChoiceAdapter(LayoutInflater layoutInflater, QuestionModel question) {
         this.mLayoutInflater = layoutInflater;
         this.mQuestion = question;
 

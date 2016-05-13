@@ -22,7 +22,6 @@ public class BaseFragment extends Fragment {
         toast.show();
     }
 
-
     protected ScreenManager getScreenManager() {
         return (ScreenManager)getActivity();
     }

@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -19,17 +20,22 @@ import org.iliat.gmat.fragment.answer_question.SCQuestionFragment;
 import org.iliat.gmat.interf.ButtonNextControl;
 import org.iliat.gmat.interf.CallBackAnswerQuestion;
 import org.iliat.gmat.interf.ScreenManager;
+import org.iliat.gmat.model.QuestionPackModel;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
 import org.iliat.gmat.view_model.QuestionViewModel;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 public class AnswerQuestionActivity
         extends AppCompatActivity
         implements ScreenManager, CallBackAnswerQuestion, ButtonNextControl {
     public static final String KEY_TIME_AVERAGE = "ANSWER_QUESTION_KEY_TIME_AVERAGE";
     long countTime = 0;
+    Realm realm;
     int countAnswer = 12;
     int maxQuestion = 16;
     TextView txtCountTime;
@@ -57,10 +63,13 @@ public class AnswerQuestionActivity
     private void getDataFromIntent() {
         Intent intent = this.getIntent();
         Bundle bundle = intent.getExtras();
-        Long questionPackId = getQuestionPackFromBundle(bundle);
-        QuestionPack questionPack = QuestionPack.findById(QuestionPack.class, questionPackId);
+        String questionPackId = getQuestionPackFromBundle(bundle);
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(getApplicationContext()).build();
+        realm = Realm.getInstance(realmConfig);
+        realm.setDefaultConfiguration(realmConfig);
+        QuestionPackModel questionPack = realm.where(QuestionPackModel.class).equalTo("id",questionPackId).findFirst();
 
-        questionPackViewModel = new QuestionPackViewModel(questionPack);
+        questionPackViewModel = new QuestionPackViewModel(questionPack, this);
         questionViewModel = questionPackViewModel.getFirstQuestionViewModel();
 
         countAnswer = 0;
@@ -105,7 +114,7 @@ public class AnswerQuestionActivity
     public void fillData() {
         progressText.setText(String.format("%d / %d", countAnswer + 1, maxQuestion));
         progressBarDoing.setMax(maxQuestion);
-        progressBarDoing.setProgress(countAnswer);
+        progressBarDoing.setProgress(countAnswer + 1);
         updateSubmitButtonText();
     }
 
@@ -126,6 +135,7 @@ public class AnswerQuestionActivity
                 }
                 else {
                     countAnswer++;
+                    Log.i("COUNT",String.valueOf(countAnswer));
                     fillData();
                     questionViewModel = questionPackViewModel.getNextQuestionViewModel(questionViewModel);
                     openQuestionFragment();
@@ -198,14 +208,14 @@ public class AnswerQuestionActivity
 
     private static final String QUESTION_PACK_BUNDLE_STRING = "question pack";
 
-    public static Bundle buildBundle(Long questionPackId) {
+    public static Bundle buildBundle(String questionPackId) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(QUESTION_PACK_BUNDLE_STRING, questionPackId);
         return bundle;
     }
 
-    public static Long getQuestionPackFromBundle(Bundle bundle) {
-        return (Long)bundle.getSerializable(QUESTION_PACK_BUNDLE_STRING);
+    public static String getQuestionPackFromBundle(Bundle bundle) {
+        return (String)bundle.getSerializable(QUESTION_PACK_BUNDLE_STRING);
     }
 
     @Override

@@ -1,15 +1,22 @@
 package org.iliat.gmat.view_model;
 
+import android.content.Context;
 import android.util.Log;
 
-import org.iliat.gmat.database.AnswerChoice;
-import org.iliat.gmat.database.Question;
 import org.iliat.gmat.database.UserAnswer;
+import org.iliat.gmat.model.AnswerModel;
+import org.iliat.gmat.model.QuestionModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionViewModel implements Serializable {
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
+
+public class QuestionViewModel implements Serializable{
+    public static final int CHOICE_INDEX_UNDONE = -1;
 
     public static final int ANSWER_NOT_DONE = -1;
     public static final int ANSWER_INCORRECT = 0;
@@ -17,27 +24,49 @@ public class QuestionViewModel implements Serializable {
 
     private static final String TAG = QuestionViewModel.class.toString();
 
-    private Question question;
-    private UserAnswer userAnswer;
-    private List<AnswerChoice> answerChoices;
+    private QuestionModel question;
+    //private UserAnswer userAnswer;
+    private List<AnswerModel> answerChoices = null;
 
-    public QuestionViewModel(Question question) {
+    public QuestionViewModel(QuestionModel question) {
         this.question = question;
-        answerChoices = AnswerChoice.find(AnswerChoice.class, "question = ?", String.valueOf(question.getId()));
     }
 
-    public UserAnswer getUserAnswer() {
-        return userAnswer;
+    public AnswerModel getUserAnswer() {
+        return answerChoices.get(question.getUserAnswer());
     }
 
-    public List<AnswerChoice> getAnswerChoices() {
+    public int getUserChoise(){
+        return question.getUserAnswer();
+    }
+
+    public List<AnswerModel> getAnswerChoices() {
+        if(answerChoices == null){
+            Log.d(TAG, "getAnswerChoices NULL");
+            answerChoices = question.getAnswerList();
+        }
         return answerChoices;
     }
 
-    public void setAnswerChoices(List<AnswerChoice> answerChoices) {
+    public List<AnswerChoiceViewModel> getAnswerChoisesViewModel(){
+        if(answerChoices == null){
+            Log.d(TAG, "getAnswerChoices NULL");
+            answerChoices = question.getAnswerList();
+        }
+        ArrayList<AnswerChoiceViewModel> arr = new ArrayList<AnswerChoiceViewModel>();
+        for (AnswerModel answerModel : answerChoices){
+            arr.add(new AnswerChoiceViewModel(answerModel));
+        }
+        return arr;
+    }
+
+    public void setAnswerChoices(List<AnswerModel> answerChoices) {
         this.answerChoices = answerChoices;
     }
 
+    public int getRightAnswer(){
+        return question.getRightAnswerIndex();
+    }
 
 
     public String getStimulus() {return this.question.getStimulus();}
@@ -50,36 +79,42 @@ public class QuestionViewModel implements Serializable {
         return (stem == null || stem.isEmpty());
     }
 
-    public Question getQuestion() { return question; }
+    public QuestionModel getQuestion() { return question; }
 
     public AnswerChoiceViewModel getAnswerChoiceViewModel(int index) {
+        if(answerChoices == null){
+            Log.d(TAG, "getAnswerChoices NULL");
+            answerChoices = question.getAnswerList();
+        }
         return new AnswerChoiceViewModel(answerChoices.get(index));
     }
 
-    public int getNumberOAnswerChoices() {
+    public int getNumberOfAnswerChoices() {
+        if (answerChoices == null){
+            Log.d(TAG, "getAnswerChoices NULL");
+            answerChoices = question.getAnswerList();
+        }
         return answerChoices.size();
     }
 
     public void selectAnswerChoice(int index) {
-        userAnswer.setChoiceIndex(index);
+        question.setUserAnswer(index);
     }
-
-    public void saveUserAnswer(){
-        this.userAnswer.save();
-    }
-
     public int getAnswerStatus() {
-        if(userAnswer.getChoiceIndex() == UserAnswer.CHOICE_INDEX_UNDONE) {
+        if(question.getUserAnswer() == CHOICE_INDEX_UNDONE) {
             return ANSWER_NOT_DONE;
         }
         else {
-            return userAnswer.getChoiceIndex() == question.getRightAnswerIndex() ? ANSWER_CORRECT : ANSWER_INCORRECT;
+            return question.getUserAnswer() == question.getRightAnswerIndex() ? ANSWER_CORRECT : ANSWER_INCORRECT;
         }
     }
 
     public void clearUserAnswer() {
-        userAnswer.setChoiceIndex(UserAnswer.CHOICE_INDEX_UNDONE);
-        userAnswer.save();
+        question.setUserAnswer(CHOICE_INDEX_UNDONE);
     }
 
+    public void saveUserAnswer() {
+        question.setUserAnswer(question.getUserAnswer());
+
+    }
 }

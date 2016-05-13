@@ -6,7 +6,7 @@
     <ProgressBar
         android:layout_margin="20dp"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="10dp"
         android:id="@+id/progressBar_download"
         android:max="100"
         android:progress="1"

@@ -2,11 +2,7 @@ package org.iliat.gmat.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.media.Image;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +56,7 @@ public class QuestionAnswerAdapter extends BaseAdapter {
             fixedItemsCnt = 2;
         }
         Log.d(TAG, "FixedItemsCnt : " + String.valueOf(fixedItemsCnt));
-        return fixedItemsCnt + mQuestionViewModel.getNumberOAnswerChoices();
+        return fixedItemsCnt + mQuestionViewModel.getNumberOfAnswerChoices();
     }
 
     @Override

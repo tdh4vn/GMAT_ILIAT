@@ -2,6 +2,8 @@ package org.iliat.gmat.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,13 +42,24 @@ public class ListQuestionDetailAdapter extends ArrayAdapter<QuestionViewModel> {
         TextView txtView = (TextView)convertView.findViewById(R.id.txt_name_question_detail);
         ImageView isDone = (ImageView)convertView.findViewById(R.id.img_isdone_question_detail);
 
-        //QuestionCRModel questionCRModel = arrQuestionCRModel.get(position);
-        QuestionViewModel questionCRModel = arrQuestionCRModel.get(position);
+        txtView.setText("Question " + String.valueOf(position));
+        QuestionViewModel questionViewModel = arrQuestionCRModel.get(position);
+        txtView.setText(questionViewModel.getStimulus());
+        if (questionViewModel.getUserChoise() != -1 ){
+            if ( questionViewModel.getUserChoise() == questionViewModel.getRightAnswer()){
+                isDone.setImageResource(R.mipmap.ic_done_black_24dp);
+                isDone.setColorFilter(ContextCompat.getColor(context, R.color.color_green_500));
+            } else if (questionViewModel.getUserChoise() != questionViewModel.getRightAnswer()) {
+                isDone.setImageResource(R.mipmap.ic_clear_black_24dp);
+                isDone.setColorFilter(ContextCompat.getColor(context, R.color.color_red_500));
+            }
+        }
+
 
         /**
          * Them code doi mau vao cho nay
          */
-        txtView.setText("Question " + String.valueOf(position));
+
 
         return convertView;
     }

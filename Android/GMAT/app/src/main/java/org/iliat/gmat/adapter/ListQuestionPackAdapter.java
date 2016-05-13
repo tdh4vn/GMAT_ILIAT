@@ -3,7 +3,9 @@ package org.iliat.gmat.adapter;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -21,8 +24,12 @@ import android.widget.TextView;
 import org.iliat.gmat.R;
 
 
+import org.iliat.gmat.activity.QuestionReviewActivity;
+import org.iliat.gmat.activity.ScoreActivity;
 import org.iliat.gmat.database.QuestionPack;
+import org.iliat.gmat.model.QuestionPackModel;
 import org.iliat.gmat.view_model.QuestionPackViewModel;
+import org.iliat.gmat.view_model.QuestionViewModel;
 
 
 import java.util.ArrayList;
@@ -46,10 +53,10 @@ public class ListQuestionPackAdapter extends
 
     public ListQuestionPackAdapter() { }
 
-    public void setQuestionPackList(List<QuestionPack> questionPackList){
+    public void setQuestionPackList(List<QuestionPackModel> questionPackList){
         mQuestionPackVIewModels = new ArrayList<>();
-        for(QuestionPack questionPack : questionPackList) {
-            mQuestionPackVIewModels.add(new QuestionPackViewModel(questionPack));
+        for(QuestionPackModel questionPack : questionPackList) {
+            mQuestionPackVIewModels.add(new QuestionPackViewModel(questionPack, mContext));
         }
     }
 
@@ -68,7 +75,7 @@ public class ListQuestionPackAdapter extends
     }
 
     @Override
-    public void onBindViewHolder(QuestionPackViewHolder holder, int position) {
+    public void onBindViewHolder(QuestionPackViewHolder holder, final int position) {
 
         final QuestionPackViewModel questionPack = this.mQuestionPackVIewModels.get(position);
 
@@ -90,6 +97,20 @@ public class ListQuestionPackAdapter extends
                         mQuestionPackVIewModels.get(position).getQuestionViewModels());
 
         holder.listViewQuestion.setAdapter(adapter);
+
+
+        holder.listViewQuestion.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int positionOfQuestion, long id) {
+                Intent intent = new Intent(mContext, QuestionReviewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt(ScoreActivity.SCOREACTIIVTY_POSITION, positionOfQuestion);
+                bundle.putString(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL, mQuestionPackVIewModels.get(position).getId());
+                intent.putExtra(ScoreActivity.TAG_QUESTION_PACK_VIEW_MODEL, bundle);
+                mContext.startActivity(intent);
+            }
+        });
+
         LayoutParams list = (LayoutParams) holder.listViewQuestion.getLayoutParams();
         int totalHeight = holder.listViewQuestion.getPaddingTop() + holder.listViewQuestion.getPaddingBottom();;
         for (int i = 0; i < mQuestionPackVIewModels.get(position).getQuestionViewModels().size(); i++){

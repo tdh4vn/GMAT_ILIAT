@@ -5,54 +5,47 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="false"
+    android:fitsSystemWindows="true"
     tools:context=".activity.QuestionReviewActivity">
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/activity_review_tool_bar">
+
+    </include>
 
     <RelativeLayout
-        android:id="@+id/navigation_header"
+        android:layout_below="@id/tool_bar"
+        android:id="@+id/top_controller"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/color_orange_main"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
+        android:layout_height="wrap_content"
+        android:background="#00E676"
+        android:minHeight="45dp">
         <TextView
-            android:id="@+id/txt_is_correct"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Correct"
-            android:textStyle="bold"
-            android:textColor="@color/color_white"/>
+            android:id="@+id/txt_correct"/>
         <TextView
-            android:layout_marginTop="0dp"
-            android:textColor="@color/color_white"
-            android:textSize="15sp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/txt_is_correct"
             android:id="@+id/txt_process"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1/0"/>
-        <Button
-            android:id="@+id/btnExit"
+            android:textAlignment="viewEnd"
+            android:text="Time: 1:00"
             android:layout_alignParentRight="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:text="Exit"
-            style="@style/Base.Widget.AppCompat.Button.Borderless"/>
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
     </RelativeLayout>
-
     <android.support.v4.view.ViewPager
         android:layout_above="@+id/bottom_controller"
-        android:layout_below="@id/navigation_header"
+        android:layout_below="@id/top_controller"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    <LinearLayout
+
+    <RelativeLayout
         android:id="@+id/bottom_controller"
         android:orientation="horizontal"
         android:gravity="center_vertical"
@@ -60,44 +53,41 @@
         android:layout_height="60dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="#FF8A65"
         android:layout_alignParentBottom="true">
+        <ImageButton
+            android:id="@+id/btn_share"
+            android:layout_marginLeft="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@drawable/round_button"
+            android:src="@mipmap/ic_share_white_24dp" />
         <Button
-            android:id="@+id/btn_dont_know"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="Don't Know"
-            android:textSize="12sp"
-            android:textColor="@color/color_white"
-            android:drawableTop="@mipmap/red"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
+            android:id="@+id/btn_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#66BB6A"
+            android:text="NEXT"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:foreground="?android:attr/selectableItemBackground" />
         <Button
-            android:id="@+id/btn_dont_somewhat_know"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:textColor="@color/color_white"
-            android:text="Somewhat Know"
-            android:textSize="12sp"
-            android:layout_weight="1"
-            android:drawableTop="@mipmap/yellow"
-            android:background="@android:color/transparent"
-            style="@style/Widget.AppCompat.Button.Borderless"/>
-        <Button
-            android:id="@+id/btn_know"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:textColor="@color/color_white"
-            android:text="Know"
-            android:textSize="12sp"
-            android:drawableTop="@mipmap/green"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            style="@style/Widget.AppCompat.Button.Borderless" />
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#66BB6A"
+            android:text="BACK"
+            android:textColor="@android:color/white"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="10dp"
+            android:layout_toStartOf="@id/btn_next"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:foreground="?android:attr/selectableItemBackground" />
+    </RelativeLayout>
 
-
-    </LinearLayout>
 
 
 </RelativeLayout>
